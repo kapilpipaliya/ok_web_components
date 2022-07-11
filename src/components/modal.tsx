@@ -11,7 +11,7 @@ interface TailwindModalProps {
 }
 // https://tailwindui.com/components/application-ui/overlays/modals#component-e6087a40f754bcbc9443a805d7376218
 
-export const TailwindModal = (props: TailwindModalProps) => {
+export const Modal = (props: TailwindModalProps) => {
   const [isOpen, setIsOpen] = createSignal(props.open ?? false);
   const handleOpenModal = () => {
     setIsOpen(true);

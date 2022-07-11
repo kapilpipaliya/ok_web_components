@@ -13,9 +13,8 @@ export interface InputWithAddOnProps
 
 // https://tailwindui.com/components/application-ui/forms/input-groups#component-1ef4d534fa0cbcb38331bafa5c352ff8
 // https://tailwindcss.com/docs/hover-focus-and-other-states#form-states
-export const InputWithInlineLeadingAndTrailing = (
-  props: InputWithAddOnProps
-) => {
+// InputWithInlineLeadingAndTrailing
+export const TextInput = (props: InputWithAddOnProps) => {
   const [p, customProps] = splitProps(props, [
     "label",
     "prefix",
