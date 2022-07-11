@@ -12,14 +12,15 @@
   "license": "MIT",
   "devDependencies": {
     "tailwindcss": "^3.1.5",
-    "vite": "^2.9.9",
+    "vite": "^2.9.14",
     "vite-plugin-solid": "^2.2.6"
   },
   "dependencies": {
-    "@tanstack/solid-table": "^8.1.4",
+    "@tanstack/solid-table": "^8.2.3",
     "clsx": "^1.2.1",
     "duecss": "^0.26.0",
-    "solid-js": "^1.4.2",
-    "unocss": "^0.43.2"
+    "solid-heroicons": "^2.0.3",
+    "solid-js": "^1.4.7",
+    "unocss": "^0.44.0"
   }
 }
