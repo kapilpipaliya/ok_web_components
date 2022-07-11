@@ -1,3 +1,8 @@
+/**
+ * Reference:
+ */
+
+import { createSignal, For, Show } from "solid-js";
 import {
   Column,
   ColumnDef,
@@ -12,13 +17,14 @@ import {
   Table as SolidTable,
   VisibilityState,
 } from "@tanstack/solid-table";
+import { PersonProps } from "../../models/table";
+import { people } from "../../utils/exampleData";
 import clsx from "clsx";
-import { createSignal, For } from "solid-js";
-import { PersonProps } from "../models/table";
 
-interface TableProps {
+interface customTableProps {
   data: PersonProps[];
 }
+
 interface FilterProps {
   column: Column<any>;
   table: SolidTable<any>;
@@ -88,13 +94,8 @@ function Filter(props: FilterProps) {
     />
   );
 }
-// TODO : need to refactor this.
-/**
- * Table component with search, sort and select column features.
- * @param {props} - List of props. Accepts data as prop - List of peoples
- *
- */
-export const Table = (props: TableProps) => {
+
+export const CustomTable = (props: customTableProps) => {
   const [data, setData] = createSignal(props.data);
   const [columnOrder, setColumnOrder] = createSignal<ColumnOrderState>([]);
   const [sorting, setSorting] = createSignal<SortingState>([]);
@@ -104,7 +105,7 @@ export const Table = (props: TableProps) => {
   );
   const table = createSolidTable({
     columns: defaultColumn,
-    data: props.data,
+    data: people,
     state: {
       get columnOrder() {
         return columnOrder();
