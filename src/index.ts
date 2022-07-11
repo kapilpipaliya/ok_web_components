@@ -10,6 +10,7 @@ export { Modal } from "./components/modal";
 export { SideOver } from "./components/side_over";
 export { SimpleTable } from "./components/simple_table";
 export { Table } from "./components/table";
+export { JsonInput } from "./components/json_input";
 // utils
 export * from "./utils/styles";
 export * from "./utils/url";

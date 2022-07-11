@@ -33,6 +33,7 @@
     "@unocss/vite": "^0.44.0",
     "clsx": "^1.2.1",
     "duecss": "^0.26.0",
+    "jsoneditor": "^9.9.0",
     "solid-forms": "^0.4.3",
     "solid-heroicons": "^2.0.3",
     "solid-js": "^1.4.7",

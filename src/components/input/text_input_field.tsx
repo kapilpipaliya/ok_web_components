@@ -1,16 +1,14 @@
 import { JSX, Show, mergeProps, For, splitProps } from "solid-js";
-import { createFormControl, IFormControl } from "solid-forms";
+import { IFormControl } from "solid-forms";
 import { TextInput, TextInputProps } from "./core/text_input";
 
 export interface TextInputField
   extends TextInputProps,
     JSX.InputHTMLAttributes<HTMLInputElement> {
-  control?: IFormControl<string>;
+  control: IFormControl;
 }
 
-export const TextInputField = (props: TextInputField) => {
-  // here we provide a default form control in case the user doesn't supply one
-  props = mergeProps({ control: createFormControl(""), type: "text" }, props);
+export function TextInputField(props: TextInputField) {
   const [p, customProps] = splitProps(props, ["control"]);
   return (
     <div
@@ -22,10 +20,19 @@ export const TextInputField = (props: TextInputField) => {
       }}
     >
       <TextInput
-        value={p.control.value}
-        oninput={(e) => {
-          p.control.setValue(e.currentTarget.value);
-        }}
+        {...(props.type === "checkbox"
+          ? {
+              checked: p.control.value,
+              oninput: (e) => {
+                p.control.setValue(e.currentTarget.checked);
+              },
+            }
+          : {
+              value: p.control.value,
+              oninput: (e) => {
+                p.control.setValue(e.currentTarget.value);
+              },
+            })}
         onblur={() => p.control.markTouched(true)}
         required={p.control.isRequired}
         disabled={p.control.isDisabled}
@@ -39,4 +46,4 @@ export const TextInputField = (props: TextInputField) => {
       </Show>
     </div>
   );
-};
+}

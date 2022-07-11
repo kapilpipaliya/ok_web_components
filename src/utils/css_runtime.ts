@@ -43,4 +43,3 @@ export const init_uno_css_runtime = () =>
       presets: [presetUno(), presetDue()],
     },
   });
-console.log("hi");
