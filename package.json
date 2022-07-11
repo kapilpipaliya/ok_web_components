@@ -24,15 +24,16 @@
     "vite-plugin-solid": "^2.2.6"
   },
   "dependencies": {
+    "@amoutonbrady/solid-heroicons": "^0.8.0",
+    "@tanstack/solid-table": "^8.2.3",
     "@unocss/preset-icons": "^0.44.0",
     "@unocss/preset-mini": "^0.44.0",
     "@unocss/preset-uno": "^0.44.0",
     "@unocss/runtime": "^0.44.0",
     "@unocss/vite": "^0.44.0",
-    "@amoutonbrady/solid-heroicons": "^0.8.0",
-    "@tanstack/solid-table": "^8.2.3",
     "clsx": "^1.2.1",
     "duecss": "^0.26.0",
+    "solid-forms": "^0.4.3",
     "solid-heroicons": "^2.0.3",
     "solid-js": "^1.4.7",
     "unocss": "^0.44.0"
