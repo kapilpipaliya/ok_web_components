@@ -15,6 +15,7 @@ import {
 } from "@tanstack/solid-table";
 import clsx from "clsx";
 import { PersonProps } from "../models/table";
+import { people } from "../utils/exampleData";
 
 interface CustomTableProps {
   data: PersonProps[];

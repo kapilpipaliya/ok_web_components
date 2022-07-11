@@ -16,7 +16,9 @@
     "vite-plugin-solid": "^2.2.6"
   },
   "dependencies": {
+    "@amoutonbrady/solid-heroicons": "^0.8.0",
     "@tanstack/solid-table": "^8.2.3",
+    "@unocss/runtime": "^0.44.0",
     "clsx": "^1.2.1",
     "duecss": "^0.26.0",
     "solid-heroicons": "^2.0.3",

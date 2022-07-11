@@ -1,5 +1,5 @@
 import { createUniqueId, JSX, Show, splitProps } from "solid-js";
-import "./TrivalentSwitch.css";
+import "./tri_switch.css";
 
 interface TrivalentSwitchProps
   extends Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "value"> {

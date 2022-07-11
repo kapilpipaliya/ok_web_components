@@ -25,11 +25,11 @@ export const TextInput = (props: InputWithAddOnProps) => {
   const uniqueId = createUniqueId();
   return (
     <Field
-      label={props.label}
+      label={p.label}
       id={uniqueId}
-      help={props.help}
-      error={props.error}
-      required={props.required}
+      help={p.help}
+      error={p.error}
+      required={customProps.required}
     >
       <div class="relative rounded-md shadow-sm">
         <Show when={p.prefix}>
