@@ -9,3 +9,7 @@ export { Modal } from "./components/modal";
 export { SideOver } from "./components/side_over";
 export { SimpleTable } from "./components/simple_table";
 export { Table } from "./components/table";
+// utils
+export * from "./utils/styles";
+export * from "./utils/url";
+export { ServerEventsDispatcher } from "./utils/ws_events_dispatcher";
