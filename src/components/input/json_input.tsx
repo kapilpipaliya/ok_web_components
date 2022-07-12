@@ -18,7 +18,7 @@ import { createFormControl, IFormControl } from "solid-forms";
 import { unwrap } from "solid-js/store";
 
 interface Properties {
-  control?: IFormControl<{ [key: string]: any }>;
+  control: IFormControl<{ [key: string]: any }>;
   name?: string;
   type?: string;
   class?: string;
@@ -26,7 +26,7 @@ interface Properties {
 
 export const JsonInput = (props: Properties) => {
   // here we provide a default form control in case the user doesn't supply one
-  props = mergeProps({ control: createFormControl({}), type: "text" }, props);
+
   const [hasError, setHasError] = createSignal("");
   let jsonEditor: JSONEditor;
 
