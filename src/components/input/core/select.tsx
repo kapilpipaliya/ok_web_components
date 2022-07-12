@@ -45,7 +45,6 @@ export const Select = (args: SlimSelectProps) => {
 
   const [searchKeyword, setSearchKeyword] = createSignal({ searchKeyword: "" });
 
-  // perfect
   const toggleDisplay = () => {
     setDisplay((prev) => !prev);
 
@@ -63,7 +62,6 @@ export const Select = (args: SlimSelectProps) => {
     }
   };*/
 
-  // perfect
   const addCustomOption = (option: { text: string; value: string }) => {
     setOptions(
       "options",
@@ -107,7 +105,6 @@ export const Select = (args: SlimSelectProps) => {
     );
   };
 
-  // perfect
   const getSelectedValue = () => {
     const selectedOptions = getOptions.options.filter(
       (option) => option.selected === true
@@ -126,14 +123,12 @@ export const Select = (args: SlimSelectProps) => {
     }
   };
 
-  // perfect
   const triggerSelection = () => {
     if (args.setValueHandler) {
       return args.setValueHandler(getSelectedValue());
     }
   };
 
-  // perfect
   const clearFilter = () => {
     setOptions(
       "options",
@@ -143,7 +138,6 @@ export const Select = (args: SlimSelectProps) => {
     );
   };
 
-  // perfect
   const selectValue = (
     newOption: { text: string; value: string },
     event: MouseEvent
@@ -175,7 +169,6 @@ export const Select = (args: SlimSelectProps) => {
     triggerSelection();
   };
 
-  // perfect
   const deSelectValue = (
     newOption: { text: string; value: string },
     event: MouseEvent
@@ -191,26 +184,22 @@ export const Select = (args: SlimSelectProps) => {
     triggerSelection();
   };
 
-  // perfect
   const handleOptionClick = (event: MouseEvent) => {
     event.stopPropagation();
 
     toggleDisplay();
   };
 
-  // perfect
   const preventPropagate = (event: MouseEvent) => {
     event.stopPropagation();
   };
 
-  // perfect
   const handleKeyPress = (event: KeyboardEvent) => {
     if (event.code === "Escape") {
       setDisplay(false);
     }
   };
 
-  // perfect
   let slimOptions: HTMLDivElement;
   const closeOptions = (e) => {
     if (slimOptions) {
@@ -229,7 +218,6 @@ export const Select = (args: SlimSelectProps) => {
     }
   };
 
-  // perfect
   const removeSelectedOption = () => {
     setOptions(
       "options",
@@ -240,7 +228,6 @@ export const Select = (args: SlimSelectProps) => {
     );
   };
 
-  // perfect
   const clearSelection = (e: MouseEvent) => {
     setDisplay(false);
 
@@ -256,7 +243,6 @@ export const Select = (args: SlimSelectProps) => {
     triggerSelection();
   };
 
-  // perfect
   const handleKeyDown = (event: KeyboardEvent) => {
     if (args.handleKeyDown) {
       let value = getSelectedValue();
@@ -264,12 +250,10 @@ export const Select = (args: SlimSelectProps) => {
     }
   };
 
-  // perfect
   const setSearchKeywordOnChange = (event) => {
     setSearchKeyword({ searchKeyword: event.target.value || "" });
   };
 
-  // perfect
   const filterKeyword = (event: InputEvent) => {
     const keyword = (
       (event.target as HTMLInputElement).value || ""
@@ -283,7 +267,6 @@ export const Select = (args: SlimSelectProps) => {
     }));
   };
 
-  // perfect
   args.options?.forEach((option: SelectOption) => {
     addOption(option);
   });
