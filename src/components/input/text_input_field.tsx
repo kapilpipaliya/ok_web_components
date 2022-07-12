@@ -10,6 +10,31 @@ export interface TextInputField
 
 export function TextInputField(props: TextInputField) {
   const [p, customProps] = splitProps(props, ["control"]);
+
+  const Text = () => (
+    <TextInput
+      value={p.control.value}
+      oninput={(e) => {
+        p.control.setValue(e.currentTarget.value);
+      }}
+      onblur={() => p.control.markTouched(true)}
+      required={p.control.isRequired}
+      disabled={p.control.isDisabled}
+      {...customProps}
+    />
+  );
+  const Bool = () => (
+    <TextInput
+      checked={p.control.value}
+      oninput={(e) => {
+        p.control.setValue(e.currentTarget.checked);
+      }}
+      onblur={() => p.control.markTouched(true)}
+      required={p.control.isRequired}
+      disabled={p.control.isDisabled}
+      {...customProps}
+    />
+  );
   return (
     <div
       classList={{
@@ -19,25 +44,9 @@ export function TextInputField(props: TextInputField) {
         "is-disabled": p.control.isDisabled,
       }}
     >
-      <TextInput
-        {...(props.type === "checkbox"
-          ? {
-              checked: p.control.value,
-              oninput: (e) => {
-                p.control.setValue(e.currentTarget.checked);
-              },
-            }
-          : {
-              value: p.control.value,
-              oninput: (e) => {
-                p.control.setValue(e.currentTarget.value);
-              },
-            })}
-        onblur={() => p.control.markTouched(true)}
-        required={p.control.isRequired}
-        disabled={p.control.isDisabled}
-        {...customProps}
-      />
+      <Show when={props.type === "checkbox"} fallback={<Text />}>
+        <Bool />
+      </Show>
 
       <Show when={p.control.isTouched && !p.control.isValid}>
         <For each={Object.values(p.control.errors)}>

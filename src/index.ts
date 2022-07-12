@@ -11,6 +11,7 @@ export { SideOver } from "./components/side_over";
 export { SimpleTable } from "./components/simple_table";
 export { Table } from "./components/table";
 export { JsonInput } from "./components/json_input";
+export { Select } from "./components/input/core/select";
 // utils
 export * from "./utils/styles";
 export * from "./utils/url";

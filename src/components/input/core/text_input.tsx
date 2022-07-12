@@ -23,7 +23,6 @@ export const TextInput = (props: TextInputProps) => {
     "error",
   ]);
   const uniqueId = createUniqueId();
-  console.log({ ...props });
   return (
     <Field
       label={p.label}
