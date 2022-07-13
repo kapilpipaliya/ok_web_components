@@ -17,4 +17,3 @@ export * from "./utils/styles";
 export * from "./utils/url";
 export * from "./utils/exampleData";
 export { ServerEventsDispatcher } from "./utils/ws_events_dispatcher";
-export { init_uno_css_runtime } from "./utils/css_runtime";
