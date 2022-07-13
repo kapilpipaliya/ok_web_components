@@ -8,6 +8,8 @@ interface SideOverProps {
   children: JSX.Element;
   title: string;
 }
+// https://tailwindui.com/components/application-ui/overlays/slide-overs
+// With background overlay
 export const SideOver = (props: SideOverProps) => {
   const handleEscape = (e: KeyboardEvent) => {
     if (e.code === "Escape") {

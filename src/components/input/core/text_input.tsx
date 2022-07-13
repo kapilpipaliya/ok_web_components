@@ -41,10 +41,12 @@ export const TextInput = (props: TextInputProps) => {
           type="text"
           name={p.label}
           id={uniqueId}
-          class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm rounded-md
-          disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-          invalid:border-red-300 invalid:text-red-600
-          focus:invalid:border-red-500 focus:invalid:ring-red-500"
+          class="
+            form-control px-0 py-1.5 border border-solid border-gray-300 transition ease-in-out m-0
+            focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm rounded-md
+            disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+            invalid:border-red-300 invalid:text-red-600
+            focus:bg-white focus:outline-none focus:invalid:border-red-500 focus:invalid:ring-red-500"
           classList={{
             "pl-7": !!props.prefix,
             "pr-12": !!props.suffix,

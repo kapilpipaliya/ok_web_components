@@ -4,6 +4,7 @@ export { Field } from "./components/input/core/field";
 export { Fieldset } from "./components/input/core/field_set";
 export { TextArea } from "./components/input/core/text_area";
 export { TextInput } from "./components/input/core/text_input";
+export { Button } from "./components/button";
 export { TrivalentSwitch } from "./components/input/core/tri_switch";
 export { TextInputField } from "./components/input/text_input_field";
 export { Modal } from "./components/modal";

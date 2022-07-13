@@ -1,8 +1,11 @@
 import {
+  batch,
+  createEffect,
   For,
   JSX,
   JSXElement,
   Match,
+  on,
   onCleanup,
   onMount,
   Show,
@@ -24,6 +27,7 @@ export interface SlimSelectProps {
   id?: string;
   //   expectedOptionsHeightInPx?: number | undefined;
   options: SelectOption[];
+  value: string | number | Array<string | number>;
   multiSelect?: boolean;
   setValueHandler?: (value: SelectOption | SelectOption[]) => void;
   disabled?: boolean;
@@ -138,10 +142,7 @@ export const Select = (args: SlimSelectProps) => {
     );
   };
 
-  const selectValue = (
-    newOption: { text: string; value: string },
-    event: MouseEvent
-  ) => {
+  const selectValue = (newOption: Pick<SelectOption, "value">) => {
     if (args.multiSelect) {
       setOptions(
         "options",
@@ -155,7 +156,7 @@ export const Select = (args: SlimSelectProps) => {
         "options",
 
         produce((options: SelectOption[]) => {
-          options.map((option) => {
+          options.forEach((option) => {
             if (option.value === newOption.value) {
               option.selected = true;
             } else {
@@ -267,9 +268,30 @@ export const Select = (args: SlimSelectProps) => {
     }));
   };
 
-  args.options?.forEach((option: SelectOption) => {
-    addOption(option);
-  });
+  createEffect(
+    on(
+      () => args.options,
+      () =>
+        batch(() => {
+          setOptions("options", []);
+          args.options?.forEach((option: SelectOption) => {
+            addOption(option);
+          });
+        })
+    )
+  );
+  createEffect(
+    on(
+      () => args.value,
+      (value) => {
+        if (Array.isArray(value)) {
+          batch(() => value.forEach((v) => selectValue({ value: v })));
+        } else {
+          selectValue({ value });
+        }
+      }
+    )
+  );
 
   // Below, logic handles close on pressing escape key anywhere on the screen
   let listener;
