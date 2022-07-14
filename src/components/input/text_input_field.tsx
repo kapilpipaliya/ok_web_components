@@ -1,6 +1,8 @@
 import { JSX, Show, mergeProps, For, splitProps } from "solid-js";
 import { IFormControl } from "solid-forms";
 import { TextInput, TextInputProps } from "./core/text_input";
+import { Checkbox } from "./core/checkbox";
+
 
 export interface TextInputField
   extends TextInputProps,
@@ -24,7 +26,7 @@ export function TextInputField(props: TextInputField) {
     />
   );
   const Bool = () => (
-    <TextInput
+    <Checkbox
       checked={p.control.value}
       oninput={(e) => {
         p.control.setValue(e.currentTarget.checked);

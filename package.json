@@ -25,6 +25,8 @@
   },
   "dependencies": {
     "@amoutonbrady/solid-heroicons": "^0.8.0",
+    "@hope-ui/solid": "^0.6.2",
+    "@stitches/core": "^1.2.8",
     "@tanstack/solid-table": "^8.2.3",
     "@unocss/preset-icons": "^0.44.1",
     "@unocss/preset-mini": "^0.44.1",
@@ -37,6 +39,6 @@
     "solid-forms": "^0.4.3",
     "solid-heroicons": "^2.0.3",
     "solid-js": "^1.4.7",
-    "unocss": "^0.44.1"
+    "solid-transition-group": "0.0.10"
   }
 }
