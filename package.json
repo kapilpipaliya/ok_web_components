@@ -28,17 +28,13 @@
     "@hope-ui/solid": "^0.6.2",
     "@stitches/core": "^1.2.8",
     "@tanstack/solid-table": "^8.2.3",
-    "@unocss/preset-icons": "^0.44.1",
-    "@unocss/preset-mini": "^0.44.1",
-    "@unocss/preset-uno": "^0.44.1",
-    "@unocss/runtime": "^0.44.1",
-    "@unocss/vite": "^0.44.1",
     "clsx": "^1.2.1",
     "duecss": "^0.26.0",
     "jsoneditor": "^9.9.0",
     "solid-forms": "^0.4.3",
     "solid-heroicons": "^2.0.3",
     "solid-js": "^1.4.7",
-    "solid-transition-group": "0.0.10"
+    "solid-transition-group": "0.0.10",
+    "solid-styled-components": "^0.28.4"
   }
 }
