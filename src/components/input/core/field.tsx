@@ -1,4 +1,5 @@
-import { JSX, splitProps, createUniqueId, Show } from "solid-js";
+import { JSX, Show } from "solid-js";
+import { css } from "solid-styled-components";
 
 interface FieldProps {
   label: string;
@@ -14,19 +15,37 @@ export const Field = (props: FieldProps) => {
     <>
       <label
         for={props.id}
-        class="block text-sm font-medium text-gray-700 mb-1"
+        class={css`
+          //block text-sm font-medium text-gray-700 mb-1;
+        `}
       >
         <Show when={props.required}>
-          <span class="text-red-600">{"* "}</span>
+          <span
+            class={css`
+              //text-red-600"> ;
+            `}
+          ></span>
         </Show>
         {props.label}
       </label>
       {props.children}
       <Show when={props.help}>
-        <p class="mt-2 text-sm text-gray-500">{props.help}</p>
+        <p
+          class={css`
+            //mt-2 text-sm text-gray-500;
+          `}
+        >
+          {props.help}
+        </p>
       </Show>
       <Show when={props.error}>
-        <p class="mt-2 text-sm text-red-600">{props.error}</p>
+        <p
+          class={css`
+            //mt-2 text-sm text-red-600;
+          `}
+        >
+          {props.error}
+        </p>
       </Show>
     </>
   );

@@ -4,18 +4,15 @@ import "jsoneditor/dist/jsoneditor.css";
 // https://github.com/josdejong/jsoneditor/issues/1223
 import {
   createComputed,
-  createEffect,
   createSignal,
   For,
-  mergeProps,
   onCleanup,
   Show,
   untrack,
 } from "solid-js";
 // import { Label } from '../Label';
 // import { Field } from '../../form2';
-import { createFormControl, IFormControl } from "solid-forms";
-import { unwrap } from "solid-js/store";
+import { IFormControl } from "solid-forms";
 
 interface Properties {
   control: IFormControl<{ [key: string]: any }>;

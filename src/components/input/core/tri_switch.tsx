@@ -1,5 +1,6 @@
 import { createUniqueId, JSX, Show, splitProps } from "solid-js";
 import "./tri_switch.css";
+import { css } from "solid-styled-components";
 
 interface TrivalentSwitchProps
   extends Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "value"> {
@@ -34,14 +35,39 @@ export const TrivalentSwitch = (props: TrivalentSwitchProps) => {
   const uniqueId = createUniqueId();
   return (
     <>
-      <label class="cursor-pointer flex items-center justify-between mb-2">
-        <div class="text-sm">
-          <span class="font-medium text-gray-700">{p.label}</span>
-          <p id={`${uniqueId}-description`} class="text-gray-500">
+      <label
+        class={css`
+          //cursor-pointer flex items-center justify-between mb-2;
+        `}
+      >
+        <div
+          class={css`
+            //text-sm;
+          `}
+        >
+          <span
+            class={css`
+              //font-medium text-gray-700;
+            `}
+          >
+            {p.label}
+          </span>
+          <p
+            id={`${uniqueId}-description`}
+            class={css`
+              //text-gray-500;
+            `}
+          >
             {p.description}
           </p>
           <Show when={p.error}>
-            <p class="mt-2 text-sm text-red-600">{p.error}</p>
+            <p
+              class={css`
+                //mt-2 text-sm text-red-600;
+              `}
+            >
+              {p.error}
+            </p>
           </Show>
         </div>
         <input
@@ -50,7 +76,9 @@ export const TrivalentSwitch = (props: TrivalentSwitchProps) => {
           indeterminate={props.value === undefined}
           {...customProps}
           type="checkbox"
-          class="custom-toggle custom-toggle-accent"
+          class={css`
+            //custom-toggle custom-toggle-accent;
+          `}
           onclick={handleCheckboxClick}
         />
       </label>

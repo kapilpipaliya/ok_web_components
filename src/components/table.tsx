@@ -1,4 +1,5 @@
 import { createSignal, For } from "solid-js";
+import { css } from "solid-styled-components";
 import {
   Column,
   ColumnDef,
@@ -54,7 +55,11 @@ function Filter(props: FilterProps) {
   const columnFilterValue = props.column.getFilterValue();
 
   return typeof firstValue === "number" ? (
-    <div class="flex space-x-5xl">
+    <div
+      class={css`
+        //flex space-x-5xl;
+      `}
+    >
       <input
         type="number"
         value={(columnFilterValue as [number, number])?.[0] ?? ""}
@@ -65,7 +70,9 @@ function Filter(props: FilterProps) {
           ])
         }
         placeholder={`Min`}
-        class="w-24 border shadow rounded"
+        class={css`
+          //w-24 border shadow rounded;
+        `}
       />
       <input
         type="number"
@@ -77,7 +84,9 @@ function Filter(props: FilterProps) {
           ])
         }
         placeholder={`Max`}
-        class="w-24 border shadow rounded"
+        class={css`
+          //w-24 border shadow rounded;
+        `}
       />
     </div>
   ) : (
@@ -86,7 +95,9 @@ function Filter(props: FilterProps) {
       value={(columnFilterValue ?? "") as string}
       onChange={(e) => props.column.setFilterValue(e.currentTarget.value)}
       placeholder={`Search...`}
-      class="w-48 h-10 mt-3 mb-3 border shadow rounded"
+      class={css`
+        //w-48 h-10 mt-3 mb-3 border shadow rounded;
+      `}
     />
   );
 }
@@ -127,14 +138,42 @@ export const Table = (props: CustomTableProps) => {
 
   return (
     <>
-      <div class="px-4 sm:px-6 lg:px-8">
-        <div class="mt-8 flex flex-col">
-          <div class="my-2 -mx-4 sm:mx-6 lg:mx-8">
-            <div class="inline-block min-w-full py-2 align-middle">
-              <div class="shadow-sm ring-1 ring-black ring-opacity-5">
+      <div
+        class={css`
+          //px-4 sm:px-6 lg:px-8;
+        `}
+      >
+        <div
+          class={css`
+            //mt-8 flex flex-col;
+          `}
+        >
+          <div
+            class={css`
+              //my-2 -mx-4 sm:mx-6 lg:mx-8;
+            `}
+          >
+            <div
+              class={css`
+                //inline-block min-w-full py-2 align-middle;
+              `}
+            >
+              <div
+                class={css`
+                  //shadow-sm ring-1 ring-black ring-opacity-5;
+                `}
+              >
                 {/* Select Visible columns */}
-                <div class="inline-block border border-black shadow rounded">
-                  <div class="px-1 border-b border-black">
+                <div
+                  class={css`
+                    //inline-block border border-black shadow rounded;
+                  `}
+                >
+                  <div
+                    class={css`
+                      //px-1 border-b border-black;
+                    `}
+                  >
                     <label>
                       <input
                         checked={table.getIsAllColumnsVisible()}
@@ -146,7 +185,11 @@ export const Table = (props: CustomTableProps) => {
                   </div>
                   <For each={table.getAllLeafColumns()}>
                     {(column) => (
-                      <div class="px-1">
+                      <div
+                        class={css`
+                          //px-1;
+                        `}
+                      >
                         <label>
                           <input
                             checked={column.getIsVisible()}
@@ -160,10 +203,16 @@ export const Table = (props: CustomTableProps) => {
                   </For>
                 </div>
                 <table
-                  class="min-w-full border-separate"
+                  class={css`
+                    //min-w-full border-separate;
+                  `}
                   style={{ borderSpacing: 0 }}
                 >
-                  <thead class="bg-gray-50">
+                  <thead
+                    class={css`
+                      //bg-gray-50;
+                    `}
+                  >
                     <tr>
                       {/* at 0^th index we will have root header we can remove index and recursively call for child headers
                        * For more : https://tanstack.com/table/v8/docs/examples/solid/basic
@@ -173,7 +222,9 @@ export const Table = (props: CustomTableProps) => {
                           <th
                             colSpan={header.colSpan}
                             scope="col"
-                            class="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
+                            class={css`
+                              //sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8;
+                            `}
                           >
                             {header.isPlaceholder ? null : (
                               <div>
@@ -210,7 +261,11 @@ export const Table = (props: CustomTableProps) => {
                       </For>
                     </tr>
                   </thead>
-                  <tbody class="bg-white">
+                  <tbody
+                    class={css`
+                      //bg-white;
+                    `}
+                  >
                     <For
                       each={table.getRowModel().rows}
                       fallback={<div> No data found</div>}

@@ -1,19 +1,17 @@
 import {
-  batch,
-  createEffect,
+  createSignal,
   For,
   JSX,
   JSXElement,
   Match,
-  on,
   onCleanup,
   onMount,
   Show,
   Switch,
 } from "solid-js";
 import "./select.css";
+import { css } from "solid-styled-components";
 import { createStore, produce } from "solid-js/store";
-import { createSignal } from "solid-js";
 
 export type SelectOption = {
   text: string;
@@ -27,7 +25,6 @@ export interface SlimSelectProps {
   id?: string;
   //   expectedOptionsHeightInPx?: number | undefined;
   options: SelectOption[];
-  value: string | number | Array<string | number>;
   multiSelect?: boolean;
   setValueHandler?: (value: SelectOption | SelectOption[]) => void;
   disabled?: boolean;
@@ -41,6 +38,7 @@ export interface SlimSelectProps {
     value: SelectOption | SelectOption[]
   ) => void;
 }
+
 export const Select = (args: SlimSelectProps) => {
   const [getOptions, setOptions] = createStore({
     options: [] as SelectOption[],
@@ -49,6 +47,7 @@ export const Select = (args: SlimSelectProps) => {
 
   const [searchKeyword, setSearchKeyword] = createSignal({ searchKeyword: "" });
 
+  // perfect
   const toggleDisplay = () => {
     setDisplay((prev) => !prev);
 
@@ -66,6 +65,7 @@ export const Select = (args: SlimSelectProps) => {
     }
   };*/
 
+  // perfect
   const addCustomOption = (option: { text: string; value: string }) => {
     setOptions(
       "options",
@@ -109,6 +109,7 @@ export const Select = (args: SlimSelectProps) => {
     );
   };
 
+  // perfect
   const getSelectedValue = () => {
     const selectedOptions = getOptions.options.filter(
       (option) => option.selected === true
@@ -127,12 +128,14 @@ export const Select = (args: SlimSelectProps) => {
     }
   };
 
+  // perfect
   const triggerSelection = () => {
     if (args.setValueHandler) {
       return args.setValueHandler(getSelectedValue());
     }
   };
 
+  // perfect
   const clearFilter = () => {
     setOptions(
       "options",
@@ -142,7 +145,11 @@ export const Select = (args: SlimSelectProps) => {
     );
   };
 
-  const selectValue = (newOption: Pick<SelectOption, "value">) => {
+  // perfect
+  const selectValue = (
+    newOption: { text: string; value: string },
+    event: MouseEvent
+  ) => {
     if (args.multiSelect) {
       setOptions(
         "options",
@@ -156,7 +163,7 @@ export const Select = (args: SlimSelectProps) => {
         "options",
 
         produce((options: SelectOption[]) => {
-          options.forEach((option) => {
+          options.map((option) => {
             if (option.value === newOption.value) {
               option.selected = true;
             } else {
@@ -170,6 +177,7 @@ export const Select = (args: SlimSelectProps) => {
     triggerSelection();
   };
 
+  // perfect
   const deSelectValue = (
     newOption: { text: string; value: string },
     event: MouseEvent
@@ -185,22 +193,26 @@ export const Select = (args: SlimSelectProps) => {
     triggerSelection();
   };
 
+  // perfect
   const handleOptionClick = (event: MouseEvent) => {
     event.stopPropagation();
 
     toggleDisplay();
   };
 
+  // perfect
   const preventPropagate = (event: MouseEvent) => {
     event.stopPropagation();
   };
 
+  // perfect
   const handleKeyPress = (event: KeyboardEvent) => {
     if (event.code === "Escape") {
       setDisplay(false);
     }
   };
 
+  // perfect
   let slimOptions: HTMLDivElement;
   const closeOptions = (e) => {
     if (slimOptions) {
@@ -219,6 +231,7 @@ export const Select = (args: SlimSelectProps) => {
     }
   };
 
+  // perfect
   const removeSelectedOption = () => {
     setOptions(
       "options",
@@ -229,6 +242,7 @@ export const Select = (args: SlimSelectProps) => {
     );
   };
 
+  // perfect
   const clearSelection = (e: MouseEvent) => {
     setDisplay(false);
 
@@ -244,6 +258,7 @@ export const Select = (args: SlimSelectProps) => {
     triggerSelection();
   };
 
+  // perfect
   const handleKeyDown = (event: KeyboardEvent) => {
     if (args.handleKeyDown) {
       let value = getSelectedValue();
@@ -251,10 +266,12 @@ export const Select = (args: SlimSelectProps) => {
     }
   };
 
+  // perfect
   const setSearchKeywordOnChange = (event) => {
     setSearchKeyword({ searchKeyword: event.target.value || "" });
   };
 
+  // perfect
   const filterKeyword = (event: InputEvent) => {
     const keyword = (
       (event.target as HTMLInputElement).value || ""
@@ -268,30 +285,10 @@ export const Select = (args: SlimSelectProps) => {
     }));
   };
 
-  createEffect(
-    on(
-      () => args.options,
-      () =>
-        batch(() => {
-          setOptions("options", []);
-          args.options?.forEach((option: SelectOption) => {
-            addOption(option);
-          });
-        })
-    )
-  );
-  createEffect(
-    on(
-      () => args.value,
-      (value) => {
-        if (Array.isArray(value)) {
-          batch(() => value.forEach((v) => selectValue({ value: v })));
-        } else {
-          selectValue({ value });
-        }
-      }
-    )
-  );
+  // perfect
+  args.options?.forEach((option: SelectOption) => {
+    addOption(option);
+  });
 
   // Below, logic handles close on pressing escape key anywhere on the screen
   let listener;
@@ -314,7 +311,9 @@ export const Select = (args: SlimSelectProps) => {
       <div
         // @ts-ignore
         use:onClickOutSide={() => setDisplay(false)}
-        class="ss_main"
+        class={css`
+          //ss_main;
+        `}
         disabled={args.disabled}
         tabindex={0}
         onKeyDown={handleKeyDown}
@@ -326,14 +325,31 @@ export const Select = (args: SlimSelectProps) => {
             ss_disabled: args.disabled,
           }}
         >
-          <div class="ss_values" onkeyup={args.onKeyUp}>
+          <div
+            class={css`
+              //ss_values;
+            `}
+            onkeyup={args.onKeyUp}
+          >
             <For each={getOptions.options}>
               {(option) => (
                 <Show when={option.selected === true}>
-                  <div class="ss_value">
-                    <span class="ss_values_text">{option.text}</span>
+                  <div
+                    class={css`
+                      //ss_value;
+                    `}
+                  >
                     <span
-                      class="ss_value_delete"
+                      class={css`
+                        //ss_values_text;
+                      `}
+                    >
+                      {option.text}
+                    </span>
+                    <span
+                      class={css`
+                        //ss_value_delete;
+                      `}
                       onClick={[deSelectValue, option]}
                     >
                       x
@@ -343,7 +359,12 @@ export const Select = (args: SlimSelectProps) => {
               )}
             </For>
           </div>
-          <div class="ss_add" onclick={clearSelection}>
+          <div
+            class={css`
+              //ss_add;
+            `}
+            onclick={clearSelection}
+          >
             <span classList={{ ss_plus: true, ss_cross: true }}></span>
           </div>
         </div>
@@ -354,7 +375,11 @@ export const Select = (args: SlimSelectProps) => {
             classList={{ ss_content: true, ss_open: true }}
             onmouseout={closeOptions}
           >
-            <div class="ss_search">
+            <div
+              class={css`
+                //ss_search;
+              `}
+            >
               <input
                 type="search"
                 id="slim_select_search_box"
@@ -369,7 +394,9 @@ export const Select = (args: SlimSelectProps) => {
               />
               <Show when={args.addable}>
                 <div
-                  class="ss_addable"
+                  class={css`
+                    //ss_addable;
+                  `}
                   onClick={() => {
                     if (!args.multiSelect) {
                       removeSelectedOption();
@@ -391,7 +418,9 @@ export const Select = (args: SlimSelectProps) => {
                 >
                   <svg
                     aria-hidden="true"
-                    class="w-3 h-3 text-primary"
+                    class={css`
+                      //w-3 h-3 text-primary;
+                    `}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"
                   >
@@ -403,10 +432,18 @@ export const Select = (args: SlimSelectProps) => {
                 </div>
               </Show>
             </div>
-            <div class="ss_list" role="listbox">
+            <div
+              class={css`
+                //ss_list" role="listbox;
+              `}
+            >
               <For each={getOptions.options}>
                 {(option, i) => (
-                  <div class="ss_value">
+                  <div
+                    class={css`
+                      //ss_value;
+                    `}
+                  >
                     <div
                       classList={{
                         ss_option: true,

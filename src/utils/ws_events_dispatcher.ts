@@ -26,31 +26,21 @@ for $ prefix use always check if(mounted) first.
 type callBack = (d: any) => void;
 export type WSEvent = Array<number | string>;
 export type WsSingleEvent = [WSEvent, any];
-export class ServerEventsDispatcher {
-  private id_ = 0;
 
+export class ServerEventsDispatcher {
+  path: string;
+  req: {};
+  res: {};
+  callbacks: Map<string, Array<callBack>>;
+  isFirst: boolean;
+  firstCancelTimeout: number;
+  firstPayload: WsSingleEvent[];
+  conn?: WebSocket;
+  lm_handle: number;
+  statusChangeCallback: (status: boolean) => void;
+  private id_ = 0;
   // https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/onLine
   private isOnline = window.navigator.onLine;
-
-  path: string;
-
-  req: {};
-
-  res: {};
-
-  callbacks: Map<string, Array<callBack>>;
-
-  isFirst: boolean;
-
-  firstCancelTimeout: number;
-
-  firstPayload: WsSingleEvent[];
-
-  conn?: WebSocket;
-
-  lm_handle: number;
-
-  statusChangeCallback: (status: boolean) => void;
 
   constructor(
     path: string,
@@ -183,46 +173,6 @@ export class ServerEventsDispatcher {
     return this;
   }
 
-  private delay_send() {
-    if (this.firstPayload.length) {
-      // VM421 main.aaf1bd3bb…936a.bundle.js:5658 Uncaught DOMException: Failed to execute 'send' on 'WebSocket': Still in CONNECTING state.
-      this.conn && this.conn.send(JSON.stringify(this.firstPayload));
-      this.firstPayload = [];
-    }
-    this.isFirst = false;
-  }
-
-  private onopen(evt: Event) {
-    clearTimeout(this.lm_handle);
-    this.statusChangeCallback(true);
-    this.isFirst = true;
-    this.firstCancelTimeout = window.setTimeout(this.delay_send, 50);
-    this.dispatch(["open", "", 0], []);
-    this.heartbeat();
-  }
-
-  private onclose(ev: CloseEvent) {
-    clearTimeout(this.lm_handle);
-    this.statusChangeCallback(false); // this.dispatch(['close', '', 0], []);
-    const waitMs = 2000;
-    // console.log(`close ${ev.code}, trying to reconnect ${new Date().toISOString()}... (waiting ${waitMs}ms)`);
-    if (ev.code !== 1006 && ev.code !== 1001) {
-      console.log(ev);
-    }
-    setTimeout(() => {
-      if (this.isOnline) {
-        this.setupConnection();
-      }
-    }, waitMs);
-    // on reconnection all subscribtion needs to resubscribe.
-  }
-
-  private onerror(event: Event) {
-    console.warn("WebSocket error:", event);
-    // todo depend on error try to reconnect
-    this.dispatch(["error", "", 0], []);
-  }
-
   trigger(payload: WsSingleEvent[]) {
     const f = this.trigger;
     if (!this.conn) {
@@ -262,6 +212,46 @@ export class ServerEventsDispatcher {
         // code block
       }
     }
+  }
+
+  private delay_send() {
+    if (this.firstPayload.length) {
+      // VM421 main.aaf1bd3bb…936a.bundle.js:5658 Uncaught DOMException: Failed to execute 'send' on 'WebSocket': Still in CONNECTING state.
+      this.conn && this.conn.send(JSON.stringify(this.firstPayload));
+      this.firstPayload = [];
+    }
+    this.isFirst = false;
+  }
+
+  private onopen(evt: Event) {
+    clearTimeout(this.lm_handle);
+    this.statusChangeCallback(true);
+    this.isFirst = true;
+    this.firstCancelTimeout = window.setTimeout(this.delay_send, 50);
+    this.dispatch(["open", "", 0], []);
+    this.heartbeat();
+  }
+
+  private onclose(ev: CloseEvent) {
+    clearTimeout(this.lm_handle);
+    this.statusChangeCallback(false); // this.dispatch(['close', '', 0], []);
+    const waitMs = 2000;
+    // console.log(`close ${ev.code}, trying to reconnect ${new Date().toISOString()}... (waiting ${waitMs}ms)`);
+    if (ev.code !== 1006 && ev.code !== 1001) {
+      console.log(ev);
+    }
+    setTimeout(() => {
+      if (this.isOnline) {
+        this.setupConnection();
+      }
+    }, waitMs);
+    // on reconnection all subscribtion needs to resubscribe.
+  }
+
+  private onerror(event: Event) {
+    console.warn("WebSocket error:", event);
+    // todo depend on error try to reconnect
+    this.dispatch(["error", "", 0], []);
   }
 
   private stringHandle(data: [[[number, number, string], Array<{}>]]) {

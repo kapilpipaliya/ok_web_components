@@ -227,7 +227,6 @@ export const location = [
   },
 ];
 
-
 export const transactions = [
   {
     id: 1,

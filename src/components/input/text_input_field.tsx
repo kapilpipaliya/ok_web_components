@@ -1,4 +1,4 @@
-import { JSX, Show, mergeProps, For, splitProps } from "solid-js";
+import { For, JSX, Show, splitProps } from "solid-js";
 import { IFormControl } from "solid-forms";
 import { TextInput, TextInputProps } from "./core/text_input";
 import { Checkbox } from "./core/checkbox";
