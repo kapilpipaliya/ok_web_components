@@ -8,7 +8,6 @@ export interface CheckboxProps
   error?: string;
 }
 
-// https://tailwindui.com/components/application-ui/forms/checkboxes#component-f03fb959d6ba814eb987d39ae40961f0
 export const Checkbox = (props: CheckboxProps) => {
   const [p, customProps] = splitProps(props, ["label", "description", "error"]);
   const uniqueId = createUniqueId();

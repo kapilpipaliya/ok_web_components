@@ -1,8 +1,7 @@
-import {createUniqueId, JSX, Show, splitProps} from "solid-js";
-import {Field} from "./field";
-import {css} from "solid-styled-components";
+import { createUniqueId, JSX, Show, splitProps } from "solid-js";
+import { Field } from "./field";
+import { css } from "solid-styled-components";
 
-// https://tailwindui.com/components/application-ui/forms/input-groups#component-1a20b7fee66274173ad5ed756fabb335
 export interface TextInputProps
   extends JSX.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -12,9 +11,6 @@ export interface TextInputProps
   error?: string;
 }
 
-// https://tailwindui.com/components/application-ui/forms/input-groups#component-1ef4d534fa0cbcb38331bafa5c352ff8
-// https://tailwindcss.com/docs/hover-focus-and-other-states#form-states
-// InputWithInlineLeadingAndTrailing
 export const TextInput = (props: TextInputProps) => {
   const [p, customProps] = splitProps(props, [
     "label",
@@ -62,6 +58,16 @@ export const TextInput = (props: TextInputProps) => {
             //          disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
             //          invalid:border-red-300 invalid:text-red-600
             //          focus:invalid:border-red-500 focus:invalid:ring-red-500"
+
+            font-size: 18px;
+            padding: 10px;
+            margin: 10px;
+            background: papayawhip;
+            border: none;
+            border-radius: 3px;
+            ::placeholder {
+              color: palevioletred;
+            }
           `}
           classList={{
             "pl-7": !!props.prefix,
