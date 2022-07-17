@@ -44,7 +44,6 @@ export const TextInput = (props: TextInputProps) => {
                 //text-gray-500 sm:text-sm;
               `}
             >
-              {" "}
               {p.prefixElement}{" "}
             </span>
           </div>
@@ -53,21 +52,19 @@ export const TextInput = (props: TextInputProps) => {
           type="text"
           name={p.label}
           id={uniqueId}
+          //focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm rounded-md
+          //          disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+          //          invalid:border-red-300 invalid:text-red-600
+          //          focus:invalid:border-red-500 focus:invalid:ring-red-500"
           class={css`
-            //focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm rounded-md
-            //          disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-            //          invalid:border-red-300 invalid:text-red-600
-            //          focus:invalid:border-red-500 focus:invalid:ring-red-500"
-
             font-size: 18px;
-            padding: 10px;
-            margin: 10px;
-            background: papayawhip;
-            border: none;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
             border-radius: 3px;
-            ::placeholder {
-              color: palevioletred;
-            }
+            box-sizing: border-box;
           `}
           classList={{
             "pl-7": !!props.prefixElement,
