@@ -31,6 +31,7 @@ export const TextInput = (props: TextInputProps) => {
       <div
         class={css`
           //relative rounded-md shadow-sm;
+          display: flex;
         `}
       >
         <Show when={p.prefixElement}>
