@@ -39,6 +39,8 @@ export const TextArea = (props: TextAreaProps) => {
           class={css`
             //;
           `}
+          rows={5}
+          cols={20}
           {...customProps}
         />
       </div>

@@ -26,6 +26,7 @@
   "dependencies": {
     "@amoutonbrady/solid-heroicons": "^0.8.0",
     "@hope-ui/solid": "^0.6.2",
+    "@mobily/ts-belt": "^3.12.0",
     "@stitches/core": "^1.2.8",
     "@tanstack/solid-table": "^8.2.3",
     "clsx": "^1.2.1",
@@ -34,7 +35,7 @@
     "solid-forms": "^0.4.3",
     "solid-heroicons": "^2.0.3",
     "solid-js": "^1.4.7",
-    "solid-transition-group": "0.0.10",
-    "solid-styled-components": "^0.28.4"
+    "solid-styled-components": "^0.28.4",
+    "solid-transition-group": "0.0.10"
   }
 }
