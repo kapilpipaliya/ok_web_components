@@ -4,9 +4,9 @@ import { css } from "solid-styled-components";
 
 export interface TextInputProps
   extends JSX.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  prefix?: string;
-  suffix?: string;
+  label?: string;
+  prefixElement?: JSX.Element;
+  suffixElement?: JSX.Element;
   help?: string;
   error?: string;
 }
@@ -14,8 +14,8 @@ export interface TextInputProps
 export const TextInput = (props: TextInputProps) => {
   const [p, customProps] = splitProps(props, [
     "label",
-    "prefix",
-    "suffix",
+    "prefixElement",
+    "suffixElement",
     "help",
     "error",
   ]);
@@ -33,7 +33,7 @@ export const TextInput = (props: TextInputProps) => {
           //relative rounded-md shadow-sm;
         `}
       >
-        <Show when={p.prefix}>
+        <Show when={p.prefixElement}>
           <div
             class={css`
               //absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none;
@@ -45,7 +45,7 @@ export const TextInput = (props: TextInputProps) => {
               `}
             >
               {" "}
-              {p.prefix}{" "}
+              {p.prefixElement}{" "}
             </span>
           </div>
         </Show>
@@ -70,14 +70,14 @@ export const TextInput = (props: TextInputProps) => {
             }
           `}
           classList={{
-            "pl-7": !!props.prefix,
-            "pr-12": !!props.suffix,
+            "pl-7": !!props.prefixElement,
+            "pr-12": !!props.suffixElement,
             "border-gray-300": !props.error,
             "border-red-300": !!props.error,
           }}
           {...customProps}
         />
-        <Show when={p.suffix}>
+        <Show when={p.suffixElement}>
           <div
             class={css`
               //absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none;
@@ -88,7 +88,7 @@ export const TextInput = (props: TextInputProps) => {
                 //text-gray-500 sm:text-sm" id="price-currency;
               `}
             >
-              {p.suffix}
+              {p.suffixElement}
             </span>
           </div>
         </Show>

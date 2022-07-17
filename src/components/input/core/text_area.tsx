@@ -4,7 +4,7 @@ import { css } from "solid-styled-components";
 
 export interface TextAreaProps
   extends JSX.InputHTMLAttributes<HTMLTextAreaElement> {
-  label: string;
+  label?: string;
   prefix?: string;
   suffix?: string;
   help?: string;

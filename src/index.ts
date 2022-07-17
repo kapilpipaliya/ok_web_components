@@ -1,5 +1,3 @@
-
-
 export { Checkbox } from "./components/input/core/checkbox";
 export { Field } from "./components/input/core/field";
 export { Fieldset } from "./components/input/core/field_set";
@@ -12,6 +10,7 @@ export {BooleanInputField} from "./components/input/boolean_input_field";
 export { Table } from "./components/table";
 export { JsonInput } from "./components/input/json_input";
 export { Select } from "./components/input/core/select";
+export {GeneralInput} from "./components/input/general_input";
 // utils
 export * from "./utils/styles";
 export * from "./utils/enums";

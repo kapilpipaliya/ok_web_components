@@ -2,12 +2,13 @@ import { For, JSX, Show, splitProps } from "solid-js";
 import { IFormControl } from "solid-forms";
 import { TextInput, TextInputProps } from "./core/text_input";
 import { Checkbox } from "./core/checkbox";
+import {TextArea, TextAreaProps} from "./core/text_area";
 
-export interface TextInputField extends TextInputProps{
+export interface TextInputField extends TextAreaProps {
   control: IFormControl;
 }
 
-export function TextInputField(props: TextInputField) {
+export function TextAreaField(props: TextInputField) {
   const [p, customProps] = splitProps(props, ["control"]);
   return (
     <div
@@ -18,7 +19,7 @@ export function TextInputField(props: TextInputField) {
         "is-disabled": p.control.isDisabled,
       }}
     >
-      <TextInput
+      <TextArea
         value={p.control.value}
         oninput={(e) => {
           p.control.setValue(e.currentTarget.value);

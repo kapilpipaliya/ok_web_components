@@ -19,6 +19,7 @@ interface Properties {
   name?: string;
   type?: string;
   class?: string;
+  disabled?: boolean;
 }
 
 export const JsonInput = (props: Properties) => {
