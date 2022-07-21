@@ -1,5 +1,5 @@
 .ss_main {
-    position: relative;
+    /*position: relative;*/
     display: inline-block;
     user-select: none;
     color: #666;
@@ -245,8 +245,8 @@
 }
 
 .ss_content {
-    position: absolute;
-    width: 100%;
+    /*position: absolute;*/
+    /*width: 100%;*/
     margin: -1px 0 0 0;
     box-sizing: border-box;
     border: solid 1px #dcdee2;

@@ -14,7 +14,9 @@ import {
 } from "solid-js";
 import "./select.css";
 import { createStore, produce } from "solid-js/store";
+import usePopper from 'solid-popper';
 
+/* Select should not depend of fixed type of option value*/
 export type SelectOption = {
   text: string;
   value: string | number;
@@ -203,11 +205,16 @@ export const Select = (args: SlimSelectProps) => {
     }
   };
 
-  let slimOptions: HTMLDivElement;
+  const [anchor, setAnchor] = createSignal<HTMLElement>();
+  const [popper, setPopper] = createSignal<HTMLElement>();
+  usePopper(anchor, popper, {
+    placement: 'auto',
+  });
+
   const closeOptions = (e) => {
-    if (slimOptions) {
+    if (popper()) {
       const outCheck = 0;
-      const rect = slimOptions.getBoundingClientRect();
+      const rect = popper().getBoundingClientRect();
       if (
         !args.doNotCloseOnScrollOut &&
         (e.clientX - rect.left < outCheck ||
@@ -314,6 +321,7 @@ export const Select = (args: SlimSelectProps) => {
     onCleanup(() => document.body.removeEventListener("click", onClick));
   };
 
+
   return (
     <>
       <div
@@ -322,6 +330,7 @@ export const Select = (args: SlimSelectProps) => {
         class="ss_main"
         disabled={args.disabled}
         tabindex={0}
+        ref={setAnchor}
         onKeyDown={handleKeyDown}
         onClick={handleOptionClick}
       >
@@ -355,7 +364,7 @@ export const Select = (args: SlimSelectProps) => {
 
         <Show when={display() === true}>
           <div
-            ref={slimOptions}
+            ref={setPopper}
             classList={{ ss_content: true, ss_open: true }}
             onmouseout={closeOptions}
           >
