@@ -23,8 +23,8 @@ interface CustomTableProps {
 }
 
 interface FilterProps {
-  column: Column<any, any>;
-  table: SolidTable<any>;
+  column: Column<unknown, unknown>;
+  table: SolidTable<unknown>;
 }
 
 const defaultColumn: ColumnDef<PersonProps>[] = [

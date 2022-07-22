@@ -25,16 +25,19 @@
         "allowTemplateLiterals": true
       }
     ],
-    "import/no-extraneous-dependencies": [
-      "off",
-      { "devDependencies": false, "optionalDependencies": false, "peerDependencies": false }
-    ],
+    "import/no-extraneous-dependencies": ["off", { "devDependencies": false, "optionalDependencies": false, "peerDependencies": false }],
     "react/jsx-filename-extension": "off",
     "import/extensions": "off",
-    "@typescript-eslint/lines-between-class-members": [
-      "off",
-      "always",
-      { "exceptAfterSingleLine": true }
+    "@typescript-eslint/lines-between-class-members": ["off", "always", { "exceptAfterSingleLine": true }],
+    "@typescript-eslint/no-unused-vars": "off",  // TODO : Change this on development
+    "@typescript-eslint/ban-types": [
+      "warn",
+      {
+        "extendDefaults": true,
+        "types": {
+          "{}": false
+        }
+      }
     ]
   },
   "parserOptions": {

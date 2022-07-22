@@ -51,6 +51,34 @@ export const Select = (args: SlimSelectProps) => {
       });
     }
   };*/
+  // perfect
+  const getSelectedValue = () => {
+    const selectedOptions = getOptions.options.filter((option) => option.selected === true);
+    const value = selectedOptions.map((selectedOption) => {
+      return {
+        value: selectedOption.value,
+        text: selectedOption.text,
+      };
+    });
+
+    if (args.multiSelect === true) {
+      return value;
+    } else {
+      return value[0];
+    }
+  };
+  const clearFilter = () => {
+    setOptions(
+      "options",
+      produce((options: SelectOption[]) => options.forEach((option) => (option.hide = false)))
+    );
+  };
+  // perfect
+  const triggerSelection = () => {
+    if (args.setValueHandler) {
+      return args.setValueHandler(getSelectedValue());
+    }
+  };
 
   // perfect
   const addCustomOption = (option: { text: string; value: string }) => {
@@ -97,36 +125,6 @@ export const Select = (args: SlimSelectProps) => {
   };
 
   // perfect
-  const getSelectedValue = () => {
-    const selectedOptions = getOptions.options.filter((option) => option.selected === true);
-    const value = selectedOptions.map((selectedOption) => {
-      return {
-        value: selectedOption.value,
-        text: selectedOption.text,
-      };
-    });
-
-    if (args.multiSelect === true) {
-      return value;
-    } else {
-      return value[0];
-    }
-  };
-
-  // perfect
-  const triggerSelection = () => {
-    if (args.setValueHandler) {
-      return args.setValueHandler(getSelectedValue());
-    }
-  };
-
-  // perfect
-  const clearFilter = () => {
-    setOptions(
-      "options",
-      produce((options: SelectOption[]) => options.forEach((option) => (option.hide = false)))
-    );
-  };
 
   // perfect
   const selectValue = (newOption: { text: string; value: string }, event: MouseEvent) => {
@@ -286,8 +284,8 @@ export const Select = (args: SlimSelectProps) => {
       >
         <div
           classList={{
-            ss_multi_selected: true,
-            ss_disabled: args.disabled,
+            ssMultiSelected: true,
+            ssDisabled: args.disabled,
           }}
         >
           <div

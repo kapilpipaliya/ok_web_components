@@ -86,7 +86,7 @@ export enum ET {
   changePosition,
 }
 
-export const form_schema_evt = (id: string | number) => [ET[ET.get], "form_schema_get", id];
+export const formSchemaEvt = (id: string | number) => [ET[ET.get], "form_schema_get", id];
 // generate event from schema:
 export const schemaEvents = (schema: string) => {
   if (schema === "register") {
@@ -148,7 +148,7 @@ export type NewFormSchema = {
   formProps: FormOptions;
 };
 // export type IS_VISIBLE = { [id: string]: boolean };
-export type SORT_DIRECTION = { [id: string]: SortDirection };
+export type SortDirectionType = { [id: string]: SortDirection };
 export type GroupByARRAY = {
   showDropArea: true;
   showToggleButton: false;
@@ -166,7 +166,7 @@ export type TableOptionButtonLabels = {
   save?: string;
   cancel?: string;
 };
-export type TABLE_OPTIONS = {
+export type TableOptions = {
   showKeyRev?: boolean;
   add?: { l: TableOptionButtonLabels; pos: string; type: string };
   table?: { header: boolean; row: string };
@@ -182,11 +182,11 @@ export type TableSchemaObject = {
 };
 export type TableSchema = {
   columnSchema: { [id: string]: TableSchemaObject };
-  sort: SORT_DIRECTION;
+  sort: SortDirectionType;
   width: WIDTH;
   selectedColumns: IdsARRAY;
   allColumns: AllIdsLabelsObject;
-  tableProps: TABLE_OPTIONS;
+  tableProps: TableOptions;
 };
 
 export interface SingeResult {
@@ -318,47 +318,47 @@ export const makeTableDropArgs = () => {
     },
   };
 };
-export const ObjectMemberIsString = (args: {}, member: string) => {
-  return G.isObject(args) && args.hasOwnProperty(member) && G.isString(args[member]);
+export const objectMemberIsString = (args: {}, member: string) => {
+  return G.isObject(args) && Object.prototype.hasOwnProperty.call(args, member) && G.isString(args[member]);
 };
-export const ObjectMemberIsBool = (args: {}, member: string) => {
-  return G.isObject(args) && args.hasOwnProperty(member) && G.isBoolean(args[member]);
+export const objectMemberIsBool = (args: {}, member: string) => {
+  return G.isObject(args) && Object.prototype.hasOwnProperty.call(args, member) && G.isBoolean(args[member]);
 };
-export const ObjectMemberIsArray = (args: {}, member: string) => {
-  return G.isObject(args) && args.hasOwnProperty(member) && Array.isArray(args[member]);
+export const objectMemberIsArray = (args: {}, member: string) => {
+  return G.isObject(args) && Object.prototype.hasOwnProperty.call(args, member) && Array.isArray(args[member]);
 };
-export const ObjectMemberIsObject = (args: {}, member: string) => {
-  return G.isObject(args) && args.hasOwnProperty(member) && G.isObject(args[member]);
+export const objectMemberIsObject = (args: {}, member: string) => {
+  return G.isObject(args) && Object.prototype.hasOwnProperty.call(args, member) && G.isObject(args[member]);
 };
-export const ObjectMemberIsInteger = (args: {}, member: string) => {
-  return G.isObject(args) && args.hasOwnProperty(member) && G.isNumber(args[member]);
+export const objectMemberIsInteger = (args: {}, member: string) => {
+  return G.isObject(args) && Object.prototype.hasOwnProperty.call(args, member) && G.isNumber(args[member]);
 };
-export const ArrayPosIsString = (args: [], pos: number) => {
+export const arrayPosIsString = (args: [], pos: number) => {
   return Array.isArray(args) && args.length > pos && G.isString(args[pos]);
 };
-export const ArrayPosIsArray = (args: [], pos: number) => {
+export const arrayPosIsArray = (args: [], pos: number) => {
   return Array.isArray(args) && args.length > pos && Array.isArray(args[pos]);
 };
-export const ArrayPosIsInteger = (args: [], pos: number) => {
+export const arrayPosIsInteger = (args: [], pos: number) => {
   return Array.isArray(args) && args.length > pos && G.isNumber(args[pos]);
 };
-export const ArrayPosIsObject = (args: [], pos: number) => {
+export const arrayPosIsObject = (args: [], pos: number) => {
   return Array.isArray(args) && args.length > pos && G.isObject(args[pos]);
 };
-export const ArrayPosArrayIndexIsString = (args: [], pos: number, pos2: number) => {
-  return Array.isArray(args) && args.length > pos && ArrayPosIsString(args[pos], pos2);
+export const arrayPosArrayIndexIsString = (args: [], pos: number, pos2: number) => {
+  return Array.isArray(args) && args.length > pos && arrayPosIsString(args[pos], pos2);
 };
-export const ArrayPosObjectMemberIsBool = (args: [], pos: number, member: string) => {
-  return Array.isArray(args) && args.length > pos && ObjectMemberIsBool(args[pos], member);
+export const arrayPosObjectMemberIsBool = (args: [], pos: number, member: string) => {
+  return Array.isArray(args) && args.length > pos && objectMemberIsBool(args[pos], member);
 };
-export const ArrayPosObjectMemberIsInteger = (args: [], pos: number, member: string) => {
-  return Array.isArray(args) && args.length > pos && ObjectMemberIsInteger(args[pos], member);
+export const arrayPosObjectMemberIsInteger = (args: [], pos: number, member: string) => {
+  return Array.isArray(args) && args.length > pos && objectMemberIsInteger(args[pos], member);
 };
-export const ArrayPosObjectMemberIsString = (args: [], pos: number, member: string) => {
-  return Array.isArray(args) && args.length > pos && ObjectMemberIsString(args[pos], member);
+export const arrayPosObjectMemberIsString = (args: [], pos: number, member: string) => {
+  return Array.isArray(args) && args.length > pos && objectMemberIsString(args[pos], member);
 };
-export const ArrayPosObjectMemberIsArray = (args: [], pos: number, member: string) => {
-  return Array.isArray(args) && args.length > pos && ObjectMemberIsArray(args[pos], member);
+export const arrayPosObjectMemberIsArray = (args: [], pos: number, member: string) => {
+  return Array.isArray(args) && args.length > pos && objectMemberIsArray(args[pos], member);
 };
 
 export const isEmptyArray = (json: []) => {

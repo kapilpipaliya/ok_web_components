@@ -8,7 +8,7 @@ import { createComputed, createSignal, For, onCleanup, Show, untrack } from "sol
 import { IFormControl } from "solid-forms";
 
 interface Properties {
-  control: IFormControl<{ [key: string]: any }>;
+  control: IFormControl<{ [key: string]: unknown }>;
   name?: string;
   type?: string;
   class?: string;

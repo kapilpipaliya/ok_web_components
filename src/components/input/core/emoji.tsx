@@ -14,7 +14,7 @@ interface Properties {
   error?: string;
   placeholder?: string;
   label?: string;
-  props?: {};
+  props?: unknown;
   dom?: HTMLInputElement;
   class?: string;
   type: string;

@@ -61,10 +61,6 @@ interface Properties {
 // copied from: https://github.com/arnaudDerbey/svelte-dropzone/blob/master/dropzone.svelte
 export const DropZone = (props: Properties) => {
   let dropzoneElement: HTMLDivElement | undefined;
-  const handleNodeChange = (node: HTMLDivElement) => {
-    dropzoneElement = node;
-    createDropZone();
-  };
   const createDropZone = () => {
     if (dropzoneElement) {
       if (!props.options.previewTemplate) {
@@ -97,6 +93,10 @@ export const DropZone = (props: Properties) => {
         console.log(`Error: ${errorMessage}`);
       });
     }
+  };
+  const handleNodeChange = (node: HTMLDivElement) => {
+    dropzoneElement = node;
+    createDropZone();
   };
   return (
     <>

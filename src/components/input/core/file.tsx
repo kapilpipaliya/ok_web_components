@@ -36,6 +36,45 @@ export const File = (props: Properties) => {
 
   // File uploading method
   function UploadFile() {
+    function uploadFile(evt: ProgressEvent<EventTarget>) {
+      if (xhr.responseText) {
+        const data = JSON.parse(xhr.responseText);
+        if (!data.error) {
+          alert("Uploaded successfully!");
+          if (p.onchange) p.onchange(data.media);
+        } else {
+          setState({ error: `Upload failed! ${data.description}` });
+        }
+      } else {
+        setState({ error: `Upload failed: ${xhr.statusText}` });
+      }
+    }
+    function progressFunction(evt: ProgressEvent<EventTarget>) {
+      if (evt.lengthComputable) {
+        setProgressBar({ max: evt.total, value: evt.loaded });
+        setPercentageText(`${Math.round((evt.loaded / evt.total) * 100)}%`);
+      }
+      const nt = new Date().getTime();
+      const percentageTime = (nt - oTime) / 1000;
+      oTime = new Date().getTime();
+      const percentageLoad = evt.loaded - oLoaded;
+      oLoaded = evt.loaded;
+      let speed = percentageLoad / percentageTime;
+      const byteSpeed = speed;
+      let units = "b/s";
+      if (speed / 1024 > 1) {
+        speed /= 1024;
+        units = "k/s";
+      }
+      if (speed / 1024 > 1) {
+        speed /= 1024;
+        units = "M/s";
+      }
+      const restTime = ((evt.total - evt.loaded) / byteSpeed).toFixed(1);
+      setSpeedText(`,Speed: ${speed.toFixed(1)}${units}, the remaining time: ${restTime}s`);
+      if (byteSpeed === 0) setSpeedText("Upload cancelled");
+    }
+
     if (props.dom && props.dom.files) {
       const fileObj = props.dom.files[0]; // js get file object
       const url = "/api/upload";
@@ -60,47 +99,8 @@ export const File = (props: Properties) => {
     }
   }
 
-  function uploadFile(evt: ProgressEvent<EventTarget>) {
-    if (xhr.responseText) {
-      const data = JSON.parse(xhr.responseText);
-      if (!data.error) {
-        alert("Uploaded successfully!");
-        if (p.onchange) p.onchange(data.media);
-      } else {
-        setState({ error: `Upload failed! ${data.description}` });
-      }
-    } else {
-      setState({ error: `Upload failed: ${xhr.statusText}` });
-    }
-  }
-
   function cancelUploadFile() {
     xhr.abort();
-  }
-  function progressFunction(evt: ProgressEvent<EventTarget>) {
-    if (evt.lengthComputable) {
-      setProgressBar({ max: evt.total, value: evt.loaded });
-      setPercentageText(`${Math.round((evt.loaded / evt.total) * 100)}%`);
-    }
-    const nt = new Date().getTime();
-    const percentageTime = (nt - oTime) / 1000;
-    oTime = new Date().getTime();
-    const percentageLoad = evt.loaded - oLoaded;
-    oLoaded = evt.loaded;
-    let speed = percentageLoad / percentageTime;
-    const byteSpeed = speed;
-    let units = "b/s";
-    if (speed / 1024 > 1) {
-      speed /= 1024;
-      units = "k/s";
-    }
-    if (speed / 1024 > 1) {
-      speed /= 1024;
-      units = "M/s";
-    }
-    const restTime = ((evt.total - evt.loaded) / byteSpeed).toFixed(1);
-    setSpeedText(`,Speed: ${speed.toFixed(1)}${units}, the remaining time: ${restTime}s`);
-    if (byteSpeed === 0) setSpeedText("Upload cancelled");
   }
 
   return (

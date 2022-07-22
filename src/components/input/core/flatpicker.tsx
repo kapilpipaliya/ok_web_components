@@ -7,7 +7,7 @@ import "flatpickr/dist/flatpickr.min.css";
 
 import { Label } from "./label";
 
-type callbackPropTypes = (instance: Instance) => void;
+type CallbackPropTypes = (instance: Instance) => void;
 
 interface Properties {
   options?: { wrap?: boolean };
@@ -19,8 +19,8 @@ interface Properties {
   onReady?: Hook | Hook[];
   onValueUpdate?: Hook | Hook[];
   onDayCreate?: Hook | Hook[];
-  onCreate?: callbackPropTypes;
-  onDestroy?: callbackPropTypes;
+  onCreate?: CallbackPropTypes;
+  onDestroy?: CallbackPropTypes;
   value: DateOption | DateOption[];
   children?: HTMLElement;
   className?: string;
@@ -35,11 +35,21 @@ interface Properties {
 export const DateTimePicker = (props: Properties) => {
   //const hooks = ['onChange', 'onOpen', 'onClose', 'onMonthChange', 'onYearChange', 'onReady', 'onValueUpdate', 'onDayCreate'];
   //const callbacks = ['onCreate', 'onDestroy'];
+  let flatpickrNode: HTMLElement | HTMLInputElement | null;
+  let flatpickrInst: Instance;
+  const destroyFlatpickrInstance = () => {
+    if (flatpickrInst) {
+      const { onDestroy } = props;
+      if (onDestroy) onDestroy(flatpickrInst);
+      flatpickrInst.destroy();
+      flatpickrNode = null;
+    }
+  };
+
   onCleanup(() => {
     destroyFlatpickrInstance();
   });
-  let flatpickrNode: HTMLElement | HTMLInputElement | null;
-  let flatpickrInst: Instance;
+
   const createFlatpickrInstance = () => {
     if (flatpickrNode) {
       const optionsNew: Partial<BaseOptions> = {
@@ -61,7 +71,7 @@ export const DateTimePicker = (props: Properties) => {
 
       flatpickrInst = flatpickr(flatpickrNode, optionsNew);
 
-      if (props.hasOwnProperty("value")) {
+      if (Object.prototype.hasOwnProperty.call(props, "value")) {
         flatpickrInst.setDate(props.value, false, props.dateFormat);
       }
       const { onCreate } = props;
@@ -74,6 +84,7 @@ export const DateTimePicker = (props: Properties) => {
     }
   });
   createEffect(() => {
+    // TODO : Fix below line. It's not working.
     props.onChange, props.onOpen, props.onClose, props.onMonthChange, props.onYearChange, props.onReady, props.onValueUpdate, props.onDayCreate;
     if (flatpickrNode) {
       const optionsNew: Partial<BaseOptions> = {
@@ -99,15 +110,6 @@ export const DateTimePicker = (props: Properties) => {
       }
     }
   });
-
-  const destroyFlatpickrInstance = () => {
-    if (flatpickrInst) {
-      const { onDestroy } = props;
-      if (onDestroy) onDestroy(flatpickrInst);
-      flatpickrInst.destroy();
-      flatpickrNode = null;
-    }
-  };
 
   const handleNodeChange = (node: HTMLElement) => {
     flatpickrNode = node;

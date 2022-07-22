@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-boolean-value, jsx-a11y/label-has-for */
+// /* eslint react/jsx-boolean-value:0, jsx-a11y/label-has-for:0 */
 import { createMemo, JSX, mergeProps, splitProps } from "solid-js";
 import clsx from "clsx";
 

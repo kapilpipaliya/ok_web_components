@@ -18,8 +18,8 @@ interface Properties {
 }
 
 export const ChatInput = (props: Properties) => {
-  const typing_event = [...props.field.options.typing_event];
-  typing_event.push(Ws.uid);
+  const typingEvent = [...props.field.options.typing_event];
+  typingEvent.push(Ws.uid);
 
   const [editing, setEditing] = createSignal(false);
   const [typing, setTyping] = createSignal(false);
@@ -27,7 +27,7 @@ export const ChatInput = (props: Properties) => {
   const [composing, setComposing] = createSignal(false);
 
   const sendTypingEvent = throttle(() => {
-    Ws.trigger([[typing_event, { ...props.field.container().state.options.optionsState.fetchConfig }]]);
+    Ws.trigger([[typingEvent, { ...props.field.container().state.options.optionsState.fetchConfig }]]);
   }, 400);
   const handleKeyDown = (e) => {
     const arrowKeys = {
