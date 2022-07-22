@@ -42,11 +42,7 @@ export class ServerEventsDispatcher {
   // https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/onLine
   private isOnline = window.navigator.onLine;
 
-  constructor(
-    path: string,
-    statusChangeCallback: (status: boolean) => void,
-    isProd: boolean = false
-  ) {
+  constructor(path: string, statusChangeCallback: (status: boolean) => void, isProd = false) {
     this.path = path;
 
     this.callbacks = new Map<string, Array<callBack>>();
@@ -126,13 +122,8 @@ export class ServerEventsDispatcher {
   }
 
   bind(event: WSEvent, callback: callBack, handleMultiple = 0, data = []) {
-    this.callbacks[JSON.stringify(event)] =
-      this.callbacks[JSON.stringify(event)] ?? [];
-    this.callbacks[JSON.stringify(event)].push([
-      handleMultiple,
-      callback,
-      data,
-    ]); // 0 means unsubscribe using first time
+    this.callbacks[JSON.stringify(event)] = this.callbacks[JSON.stringify(event)] ?? [];
+    this.callbacks[JSON.stringify(event)].push([handleMultiple, callback, data]); // 0 means unsubscribe using first time
     return this;
   }
 

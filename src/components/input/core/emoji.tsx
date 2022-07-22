@@ -2,7 +2,7 @@
 
 // react: https://github.com/joeattardi/emoji-picker
 // svelte: https://github.com/joeattardi/svelte-emoji-selector
-import { JSX } from 'solid-js';
+import { JSX } from "solid-js";
 import { Label } from "./label";
 
 interface Properties {
@@ -24,13 +24,13 @@ interface Properties {
 export const Emoji = (props: Properties) => {
   return (
     <>
-      <Label name={props.label || ''} />
+      <Label name={props.label || ""} />
       <input
-        name={props.label || ''}
+        name={props.label || ""}
         class={props.class}
         type={props.type}
         required={props.required}
-        autocomplete={'false'}
+        autocomplete={"false"}
         disabled={props.disabled}
         placeholder={props.placeholder}
         value={props.value}

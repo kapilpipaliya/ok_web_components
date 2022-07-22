@@ -3,10 +3,7 @@ import { IFormControl } from "solid-forms";
 import { TextInput, TextInputProps } from "./core/text_input";
 import { Checkbox } from "./core/checkbox";
 
-
-export interface BooleanInputFieldProps
-  extends TextInputProps,
-    JSX.InputHTMLAttributes<HTMLInputElement> {
+export interface BooleanInputFieldProps extends TextInputProps, JSX.InputHTMLAttributes<HTMLInputElement> {
   control: IFormControl;
 }
 
@@ -34,9 +31,7 @@ export function BooleanInputField(props: BooleanInputFieldProps) {
       />
 
       <Show when={p.control.isTouched && !p.control.isValid}>
-        <For each={Object.values(p.control.errors)}>
-          {(errorMsg: string) => <small>{errorMsg}</small>}
-        </For>
+        <For each={Object.values(p.control.errors)}>{(errorMsg: string) => <small>{errorMsg}</small>}</For>
       </Show>
     </div>
   );

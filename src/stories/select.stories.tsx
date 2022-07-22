@@ -2,7 +2,7 @@ export default { title: "Application/Select" };
 import { Select } from "../components/input/core/select";
 
 export const SelectTest = () => {
-  let args = {
+  const args = {
     options: [
       { text: "<b>sample</b>", value: "sample" },
       { text: "sample2", value: "sample2" },

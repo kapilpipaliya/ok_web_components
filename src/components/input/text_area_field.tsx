@@ -2,7 +2,7 @@ import { For, JSX, Show, splitProps } from "solid-js";
 import { IFormControl } from "solid-forms";
 import { TextInput, TextInputProps } from "./core/text_input";
 import { Checkbox } from "./core/checkbox";
-import {TextArea, TextAreaProps} from "./core/text_area";
+import { TextArea, TextAreaProps } from "./core/text_area";
 
 export interface TextInputField extends TextAreaProps {
   control: IFormControl;
@@ -31,9 +31,7 @@ export function TextAreaField(props: TextInputField) {
       />
 
       <Show when={p.control.isTouched && !p.control.isValid}>
-        <For each={Object.values(p.control.errors)}>
-          {(errorMsg: string) => <small>{errorMsg}</small>}
-        </For>
+        <For each={Object.values(p.control.errors)}>{(errorMsg: string) => <small>{errorMsg}</small>}</For>
       </Show>
     </div>
   );

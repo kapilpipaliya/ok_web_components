@@ -1,15 +1,5 @@
 // * This data is for testing purpose. Will be replaced by data coming from Web socket.
-import {
-  clock,
-  cog,
-  creditCard,
-  documentReport,
-  home,
-  questionMarkCircle,
-  scale,
-  shieldCheck,
-  userGroup,
-} from "@amoutonbrady/solid-heroicons/outline";
+import { clock, cog, creditCard, documentReport, home, questionMarkCircle, scale, shieldCheck, userGroup } from "@amoutonbrady/solid-heroicons/outline";
 import { statusStyles } from "./styles";
 
 export const primaryNavigation = [

@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-boolean-value, jsx-a11y/label-has-for */
-import {createMemo, JSX, mergeProps, splitProps} from "solid-js";
+import { createMemo, JSX, mergeProps, splitProps } from "solid-js";
 import clsx from "clsx";
 
 interface Properties {
@@ -37,23 +37,9 @@ const defaultProps = {
 };
 export const Fieldset = (props: Properties) => {
   props = mergeProps({}, defaultProps, props);
-  const [p, customProps] = splitProps(props, [
-    "children",
-    "help",
-    "legend",
-    "legendAttrs",
-    "isLegendHidden",
-    "required",
-    "class",
-  ]);
-  const fieldsetClasses = createMemo(() =>
-    clsx(["fieldset", { "fieldset-required": props.required }], p.class)
-  );
-  const legendClasses = createMemo(() => [
-    "legend",
-    props.legendAttrs.class,
-    { "legend-visually-hidden": props.isLegendHidden },
-  ]);
+  const [p, customProps] = splitProps(props, ["children", "help", "legend", "legendAttrs", "isLegendHidden", "required", "class"]);
+  const fieldsetClasses = createMemo(() => clsx(["fieldset", { "fieldset-required": props.required }], p.class));
+  const legendClasses = createMemo(() => ["legend", props.legendAttrs.class, { "legend-visually-hidden": props.isLegendHidden }]);
 
   return (
     <fieldset {...customProps} class={fieldsetClasses()}>

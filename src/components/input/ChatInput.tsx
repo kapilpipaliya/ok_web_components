@@ -1,7 +1,7 @@
-import { createSignal, JSX } from 'solid-js';
-import { throttle, debounce } from 'lodash';
-import { TextareaField } from '../../UI/core/form-textarea/src/TextareaField';
-import { Ws } from '../../utils/ws_events_dispatcher';
+import { createSignal, JSX } from "solid-js";
+import { throttle, debounce } from "lodash";
+import { TextareaField } from "../../UI/core/form-textarea/src/TextareaField";
+import { Ws } from "../../utils/ws_events_dispatcher";
 
 interface Properties {
   disabled?: boolean;
@@ -29,7 +29,7 @@ export const ChatInput = (props: Properties) => {
   const sendTypingEvent = throttle(() => {
     Ws.trigger([[typing_event, { ...props.field.container().state.options.optionsState.fetchConfig }]]);
   }, 400);
-  const handleKeyDown = e => {
+  const handleKeyDown = (e) => {
     const arrowKeys = {
       37: true, // left
       38: true, // up
@@ -40,7 +40,7 @@ export const ChatInput = (props: Properties) => {
     if (e.which === 13 && !e.shiftKey) {
       // this.sendChat();
       e.preventDefault();
-    } else if (e.which === 38 && props.field.value === '') {
+    } else if (e.which === 38 && props.field.value === "") {
       // const prev = this._previousMessage();
       // if (prev) {
       //   setEditing(true);
@@ -77,7 +77,7 @@ export const ChatInput = (props: Properties) => {
     <>
       <TextareaField
         inputId={props.field.id}
-        label={props.field.label || ''}
+        label={props.field.label || ""}
         value={props.field.value as string}
         onChange={props.onChange}
         onBlur={props.field.onBlur}

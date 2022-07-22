@@ -86,11 +86,7 @@ export enum ET {
   changePosition,
 }
 
-export const form_schema_evt = (id: string | number) => [
-  ET[ET.get],
-  "form_schema_get",
-  id,
-];
+export const form_schema_evt = (id: string | number) => [ET[ET.get], "form_schema_get", id];
 // generate event from schema:
 export const schemaEvents = (schema: string) => {
   if (schema === "register") {
@@ -323,31 +319,19 @@ export const makeTableDropArgs = () => {
   };
 };
 export const ObjectMemberIsString = (args: {}, member: string) => {
-  return (
-    G.isObject(args) && args.hasOwnProperty(member) && G.isString(args[member])
-  );
+  return G.isObject(args) && args.hasOwnProperty(member) && G.isString(args[member]);
 };
 export const ObjectMemberIsBool = (args: {}, member: string) => {
-  return (
-    G.isObject(args) && args.hasOwnProperty(member) && G.isBoolean(args[member])
-  );
+  return G.isObject(args) && args.hasOwnProperty(member) && G.isBoolean(args[member]);
 };
 export const ObjectMemberIsArray = (args: {}, member: string) => {
-  return (
-    G.isObject(args) &&
-    args.hasOwnProperty(member) &&
-    Array.isArray(args[member])
-  );
+  return G.isObject(args) && args.hasOwnProperty(member) && Array.isArray(args[member]);
 };
 export const ObjectMemberIsObject = (args: {}, member: string) => {
-  return (
-    G.isObject(args) && args.hasOwnProperty(member) && G.isObject(args[member])
-  );
+  return G.isObject(args) && args.hasOwnProperty(member) && G.isObject(args[member]);
 };
 export const ObjectMemberIsInteger = (args: {}, member: string) => {
-  return (
-    G.isObject(args) && args.hasOwnProperty(member) && G.isNumber(args[member])
-  );
+  return G.isObject(args) && args.hasOwnProperty(member) && G.isNumber(args[member]);
 };
 export const ArrayPosIsString = (args: [], pos: number) => {
   return Array.isArray(args) && args.length > pos && G.isString(args[pos]);
@@ -361,60 +345,20 @@ export const ArrayPosIsInteger = (args: [], pos: number) => {
 export const ArrayPosIsObject = (args: [], pos: number) => {
   return Array.isArray(args) && args.length > pos && G.isObject(args[pos]);
 };
-export const ArrayPosArrayIndexIsString = (
-  args: [],
-  pos: number,
-  pos2: number
-) => {
-  return (
-    Array.isArray(args) &&
-    args.length > pos &&
-    ArrayPosIsString(args[pos], pos2)
-  );
+export const ArrayPosArrayIndexIsString = (args: [], pos: number, pos2: number) => {
+  return Array.isArray(args) && args.length > pos && ArrayPosIsString(args[pos], pos2);
 };
-export const ArrayPosObjectMemberIsBool = (
-  args: [],
-  pos: number,
-  member: string
-) => {
-  return (
-    Array.isArray(args) &&
-    args.length > pos &&
-    ObjectMemberIsBool(args[pos], member)
-  );
+export const ArrayPosObjectMemberIsBool = (args: [], pos: number, member: string) => {
+  return Array.isArray(args) && args.length > pos && ObjectMemberIsBool(args[pos], member);
 };
-export const ArrayPosObjectMemberIsInteger = (
-  args: [],
-  pos: number,
-  member: string
-) => {
-  return (
-    Array.isArray(args) &&
-    args.length > pos &&
-    ObjectMemberIsInteger(args[pos], member)
-  );
+export const ArrayPosObjectMemberIsInteger = (args: [], pos: number, member: string) => {
+  return Array.isArray(args) && args.length > pos && ObjectMemberIsInteger(args[pos], member);
 };
-export const ArrayPosObjectMemberIsString = (
-  args: [],
-  pos: number,
-  member: string
-) => {
-  return (
-    Array.isArray(args) &&
-    args.length > pos &&
-    ObjectMemberIsString(args[pos], member)
-  );
+export const ArrayPosObjectMemberIsString = (args: [], pos: number, member: string) => {
+  return Array.isArray(args) && args.length > pos && ObjectMemberIsString(args[pos], member);
 };
-export const ArrayPosObjectMemberIsArray = (
-  args: [],
-  pos: number,
-  member: string
-) => {
-  return (
-    Array.isArray(args) &&
-    args.length > pos &&
-    ObjectMemberIsArray(args[pos], member)
-  );
+export const ArrayPosObjectMemberIsArray = (args: [], pos: number, member: string) => {
+  return Array.isArray(args) && args.length > pos && ObjectMemberIsArray(args[pos], member);
 };
 
 export const isEmptyArray = (json: []) => {
@@ -426,18 +370,15 @@ export const isEmptyObject = (json: {}) => {
 export const isNonEmptyObject = (json: {}) => {
   return G.isObject(json) && D.isNotEmpty(json);
 };
-export const isFunction = (obj: any): obj is Function =>
-  typeof obj === "function";
-export const isObject = (obj: any): obj is Object =>
-  obj !== null && typeof obj === "object";
+export const isFunction = (obj: any): obj is Function => typeof obj === "function";
+export const isObject = (obj: any): obj is Object => obj !== null && typeof obj === "object";
 // export const isInteger = (obj: any): boolean => String(Math.floor(Number(obj))) === obj;
 // export const isString = (obj: any): obj is string => Object.prototype.toString.call(obj) === '[object String]';
 // eslint-disable-next-line no-self-compare
 // export const isNaN = (obj: any): boolean => obj !== obj;
 /** @private Does a JSX component have exactly 0 children? */
 export const isEmptyChildren = (children: any): boolean => !!children; // I assume if its not children then its no elements
-export const isPromise = (value: any): value is PromiseLike<any> =>
-  isObject(value) && isFunction(value.then);
+export const isPromise = (value: any): value is PromiseLike<any> => isObject(value) && isFunction(value.then);
 /*
 const Result = daggy.taggedSum('Result', {
   Success: ['items'],
@@ -450,11 +391,7 @@ const Result = daggy.taggedSum('Result', {
   })
 } */
 
-export const isEr = (
-  d: FailOrSuccessResult,
-  state: Store<{ er: string }>,
-  setState: SetStoreFunction<{ er: string }>
-) => {
+export const isEr = (d: FailOrSuccessResult, state: Store<{ er: string }>, setState: SetStoreFunction<{ er: string }>) => {
   if (!G.isObject(d)) {
     setState({ er: "Invalid result shape, result must be object" });
     return true;
