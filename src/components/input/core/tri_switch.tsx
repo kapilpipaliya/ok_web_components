@@ -2,8 +2,7 @@ import { createUniqueId, JSX, Show, splitProps } from "solid-js";
 import "./tri_switch.css";
 import { css } from "solid-styled-components";
 
-interface TrivalentSwitchProps
-  extends Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "value"> {
+interface TrivalentSwitchProps extends Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "value"> {
   value?: boolean;
   setValue?: (value: boolean | undefined) => void;
   label: string;
@@ -26,12 +25,7 @@ export const TrivalentSwitch = (props: TrivalentSwitchProps) => {
     }
   };
 
-  const [p, customProps] = splitProps(props, [
-    "label",
-    "description",
-    "value",
-    "error",
-  ]);
+  const [p, customProps] = splitProps(props, ["label", "description", "value", "error"]);
   const uniqueId = createUniqueId();
   return (
     <>

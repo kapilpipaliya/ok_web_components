@@ -2,8 +2,7 @@ import { createUniqueId, JSX, splitProps } from "solid-js";
 import { Field } from "./field";
 import { css } from "solid-styled-components";
 
-export interface TextAreaProps
-  extends JSX.InputHTMLAttributes<HTMLTextAreaElement> {
+export interface TextAreaProps extends JSX.InputHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   prefix?: string;
   suffix?: string;
@@ -12,22 +11,10 @@ export interface TextAreaProps
 }
 
 export const TextArea = (props: TextAreaProps) => {
-  const [p, customProps] = splitProps(props, [
-    "label",
-    "prefix",
-    "suffix",
-    "help",
-    "error",
-  ]);
+  const [p, customProps] = splitProps(props, ["label", "prefix", "suffix", "help", "error"]);
   const uniqueId = createUniqueId();
   return (
-    <Field
-      label={props.label}
-      id={uniqueId}
-      help={props.help}
-      error={props.error}
-      required={props.required}
-    >
+    <Field label={props.label} id={uniqueId} help={props.help} error={props.error} required={props.required}>
       <div
         class={css`
           //;

@@ -38,10 +38,7 @@ export interface SlimSelectProps {
   configOption?: { showOptionsBelow?: boolean };
   onKeyUp?: JSX.EventHandlerUnion<HTMLElement, KeyboardEvent>;
   customOptionValueValidator?: (value: string) => string;
-  handleKeyDown?: (
-    event: KeyboardEvent,
-    value: SelectOption | SelectOption[]
-  ) => void;
+  handleKeyDown?: (event: KeyboardEvent, value: SelectOption | SelectOption[]) => void;
 }
 
 export const Select = (args: SlimSelectProps) => {
@@ -68,6 +65,34 @@ export const Select = (args: SlimSelectProps) => {
       });
     }
   };*/
+  // perfect
+  const getSelectedValue = () => {
+    const selectedOptions = getOptions.options.filter((option) => option.selected === true);
+    const value = selectedOptions.map((selectedOption) => {
+      return {
+        value: selectedOption.value,
+        text: selectedOption.text,
+      };
+    });
+
+    if (args.multiSelect === true) {
+      return value;
+    } else {
+      return value[0];
+    }
+  };
+  const clearFilter = () => {
+    setOptions(
+      "options",
+      produce((options: SelectOption[]) => options.forEach((option) => (option.hide = false)))
+    );
+  };
+  // perfect
+  const triggerSelection = () => {
+    if (args.setValueHandler) {
+      return args.setValueHandler(getSelectedValue());
+    }
+  };
 
   const addCustomOption = (option: { text: string; value: string }) => {
     setOptions(
@@ -112,6 +137,7 @@ export const Select = (args: SlimSelectProps) => {
     );
   };
 
+
   const getSelectedValue = () => {
     const selectedOptions = getOptions.options.filter(
       (option) => option.selected === true
@@ -146,6 +172,7 @@ export const Select = (args: SlimSelectProps) => {
   };
 
   const selectValue = (newOption: Pick<SelectOption, "value">) => {
+
     if (args.multiSelect) {
       setOptions(
         "options",
@@ -174,10 +201,8 @@ export const Select = (args: SlimSelectProps) => {
     }
   };
 
-  const deSelectValue = (
-    newOption: { text: string; value: string },
-    event: MouseEvent
-  ) => {
+  const deSelectValue = (newOption: { text: string; value: string }, event: MouseEvent) => {
+
     setOptions(
       "options",
 
@@ -217,10 +242,7 @@ export const Select = (args: SlimSelectProps) => {
       const rect = popper().getBoundingClientRect();
       if (
         !args.doNotCloseOnScrollOut &&
-        (e.clientX - rect.left < outCheck ||
-          e.clientY - rect.top < outCheck ||
-          rect.right - e.clientX < outCheck ||
-          rect.bottom - e.clientY < outCheck)
+        (e.clientX - rect.left < outCheck || e.clientY - rect.top < outCheck || rect.right - e.clientX < outCheck || rect.bottom - e.clientY < outCheck)
       ) {
         setOptions("options", {}, (option) => ({ hide: false }));
         setDisplay(false);
@@ -232,9 +254,7 @@ export const Select = (args: SlimSelectProps) => {
     setOptions(
       "options",
 
-      produce((options: SelectOption[]) =>
-        options.forEach((option) => (option.selected = false))
-      )
+      produce((options: SelectOption[]) => options.forEach((option) => (option.selected = false)))
     );
   };
 
@@ -244,9 +264,7 @@ export const Select = (args: SlimSelectProps) => {
     setOptions(
       "options",
 
-      produce((options: SelectOption[]) =>
-        options.forEach((option) => (option.selected = false))
-      )
+      produce((options: SelectOption[]) => options.forEach((option) => (option.selected = false)))
     );
 
     e.stopPropagation();
@@ -255,7 +273,7 @@ export const Select = (args: SlimSelectProps) => {
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (args.handleKeyDown) {
-      let value = getSelectedValue();
+      const value = getSelectedValue();
       args.handleKeyDown(event, value);
     }
   };
@@ -265,15 +283,10 @@ export const Select = (args: SlimSelectProps) => {
   };
 
   const filterKeyword = (event: InputEvent) => {
-    const keyword = (
-      (event.target as HTMLInputElement).value || ""
-    ).toLowerCase();
+    const keyword = ((event.target as HTMLInputElement).value || "").toLowerCase();
 
     setOptions("options", {}, (option) => ({
-      hide: !(
-        (option.text || "").toLowerCase().includes(keyword) ||
-        (`${option.value}` || "").toLowerCase().includes(keyword)
-      ),
+      hide: !((option.text || "").toLowerCase().includes(keyword) || (`${option.value}` || "").toLowerCase().includes(keyword)),
     }));
   };
 
@@ -336,8 +349,8 @@ export const Select = (args: SlimSelectProps) => {
       >
         <div
           classList={{
-            ss_multi_selected: true,
-            ss_disabled: args.disabled,
+            ssMultiSelected: true,
+            ssDisabled: args.disabled,
           }}
         >
           <div class="ss_values" onkeyup={args.onKeyUp}>

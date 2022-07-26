@@ -3,11 +3,11 @@ import { IFormControl } from "solid-forms";
 import { TextInput, TextInputProps } from "./core/text_input";
 import { Checkbox } from "./core/checkbox";
 
-export interface TextInputField extends TextInputProps{
+export interface TextInputFieldProps extends TextInputProps {
   control: IFormControl;
 }
 
-export function TextInputField(props: TextInputField) {
+export function TextInputField(props: TextInputFieldProps) {
   const [p, customProps] = splitProps(props, ["control"]);
   return (
     <div
@@ -30,9 +30,7 @@ export function TextInputField(props: TextInputField) {
       />
 
       <Show when={p.control.isTouched && !p.control.isValid}>
-        <For each={Object.values(p.control.errors)}>
-          {(errorMsg: string) => <small>{errorMsg}</small>}
-        </For>
+        <For each={Object.values(p.control.errors)}>{(errorMsg: string) => <small>{errorMsg}</small>}</For>
       </Show>
     </div>
   );

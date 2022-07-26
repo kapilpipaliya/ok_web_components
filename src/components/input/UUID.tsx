@@ -1,5 +1,5 @@
-import { JSX, createEffect } from 'solid-js';
-import { fetchUUID, getLocalUUID } from '../../../utils/serverFunctions';
+import { JSX, createEffect } from "solid-js";
+import { fetchUUID, getLocalUUID } from "../../../utils/serverFunctions";
 interface UUIDProps {
   value: string;
   onChange: (value: string) => void;
@@ -10,9 +10,9 @@ export const UUIDInput = (props: UUIDProps) => {
   createEffect(() => {
     if (!props.value) {
       if (props.isLocal) {
-        getLocalUUID().then(d => setUUID(d));
+        getLocalUUID().then((d) => setUUID(d));
       } else {
-        fetchUUID().then(d => setUUID(d.uuid)); // always new uuid
+        fetchUUID().then((d) => setUUID(d.uuid)); // always new uuid
       }
     }
   });

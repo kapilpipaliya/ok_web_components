@@ -1,13 +1,13 @@
 import { JSX, splitProps, createUniqueId, Show } from "solid-js";
 
-export interface ButtonProps
-    extends JSX.InputHTMLAttributes<HTMLButtonElement> {
-    text: string;
-    color: "primary" | "secondary";
-    class?: string;
+export interface ButtonProps extends JSX.InputHTMLAttributes<HTMLButtonElement> {
+  text: string;
+  color: "primary" | "secondary";
+  class?: string;
 }
 
 export const Button = (props: ButtonProps) => {
+
     const [p, customProps] = splitProps(props, [
         "text",
         "onclick",
@@ -37,4 +37,3 @@ export const Button = (props: ButtonProps) => {
         </button>
     );
 };
-

@@ -8,9 +8,7 @@ export default {
   },
 } as Meta;
 
-const Template: Story<Button.Props> = (args: Button.Props) => (
-  <Button {...args} />
-);
+const Template: Story<Button.Props> = (args: Button.Props) => <Button {...args} />;
 
 export const OneButton = Template.bind({});
 OneButton.args = { count: 1 };
