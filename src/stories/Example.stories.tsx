@@ -149,7 +149,16 @@ export const Meters=()=>{
   return  <Meter class="sb-meter" min={0} max={100} value={40}>Success Message</Meter>
 
 }
+export const Buttons=()=>{
 
+  return  <>
+  <Button variant="primary">Primary Button</Button>
+  <Button variant="secondary">Secondary Button</Button>
+  <Button variant="link">Link Button</Button>
+  <Button variant="icon">Icon Button</Button>
+  </>
+
+}
 export const CheckBoxs=()=>{
 
   return  <Checkbox >Success Message</Checkbox>
