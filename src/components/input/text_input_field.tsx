@@ -1,7 +1,6 @@
 import { For, JSX, Show, splitProps } from "solid-js";
 import { IFormControl } from "solid-forms";
 import { TextInput, TextInputProps } from "./core/text_input";
-import { Checkbox } from "./core/checkbox";
 
 export interface TextInputFieldProps extends TextInputProps {
   control: IFormControl;
@@ -25,7 +24,7 @@ export function TextInputField(props: TextInputFieldProps) {
         }}
         onblur={() => p.control.markTouched(true)}
         required={p.control.isRequired}
-        disabled={p.control.isDisabled}
+        disabled={p.control.isDisabled || p.control.isReadonly}
         {...customProps}
       />
 

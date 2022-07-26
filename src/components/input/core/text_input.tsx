@@ -53,6 +53,7 @@ export const TextInput = (props: TextInputProps) => {
             border: 1px solid #ccc;
             border-radius: 3px;
             box-sizing: border-box;
+            width: 100%;
           `}
           classList={{
             "pl-7": !!props.prefixElement,
