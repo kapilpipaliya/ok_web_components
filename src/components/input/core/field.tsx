@@ -12,7 +12,10 @@ interface FieldProps {
 
 export const Field = (props: FieldProps) => {
   return (
-    <>
+    <div class={css`
+      display: flex;
+      flex-direction: column;
+    `}>
       <label
         for={props.id}
         class={css`
@@ -47,6 +50,6 @@ export const Field = (props: FieldProps) => {
           {props.error}
         </p>
       </Show>
-    </>
+    </div>
   );
 };

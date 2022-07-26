@@ -113,10 +113,10 @@ export const GeneralInput = (props: Properties) => {
         {/*  {...(props.control.options ?? {})}*/}
         {/*/>*/}
       </Match>
-      <Match when={props.type === "jsonEditor"}>
+      <Match when={props.type === "json_editor"}>
         <JsonInput control={props.control} disabled={props.disabled} />
       </Match>
-      <Match when={props.type === "flatPicker"}>
+      <Match when={props.type === "flat_picker"}>
         {/*<DateTimePicker*/}
         {/*  inputId={props.control.id}*/}
         {/*  label={props.control.label}*/}
