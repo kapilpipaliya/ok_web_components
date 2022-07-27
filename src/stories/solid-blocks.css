@@ -1,0 +1,24 @@
+/* .sb-accordion>p{
+    padding:12px;
+    background-color:rgba(245, 245, 245, 0.589)
+
+} */
+.sb-accordion-header{
+ padding:14px;   
+}
+.sb-accordion-header:nth-child(n+2){
+    border-top: 1px solid gray!important;  
+   }
+/* .sb-accordion-header:first-child{
+    border: none!important;  
+   } */
+.sb-accordion-header::after{
+    -webkit-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -ms-transition: all 0.5s ease-out;
+  transition: all 0.2s ease-out!important;
+}
+.sb-accordion-header:focus {
+    /* border: 1px solid; */
+    box-shadow: rgb(0 174 239) 0px 0px 2px 2px
+}
