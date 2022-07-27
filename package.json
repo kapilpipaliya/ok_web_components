@@ -9,7 +9,11 @@
     "build": "vite build",
     "serve": "vite preview",
     "storybook": "start-storybook -p 6007",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "lint:check": "eslint . --ext .ts --ext .tsx",
+    "lint:fix": "eslint . --ext .ts --ext .tsx --fix",
+    "prettier:check": "prettier --check 'src/**/*'",
+    "prettier:fix": "prettier --config .prettierrc 'src/**/*' --write"
   },
   "license": "MIT",
   "devDependencies": {
@@ -20,6 +24,12 @@
     "@storybook/builder-vite": "^0.1.41",
     "@storybook/html": "^6.5.9",
     "@storybook/testing-library": "0.0.13",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
+    "eslint": "^8.20.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "vite": "^2.9.14",
     "vite-plugin-solid": "^2.2.6"
   },

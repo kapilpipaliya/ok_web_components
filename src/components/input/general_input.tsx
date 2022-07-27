@@ -1,9 +1,9 @@
-import { Match, Switch } from 'solid-js';
-import {IFormControl} from "solid-forms";
-import {TextInputField} from "./text_input_field";
-import {BooleanInputField} from "./boolean_input_field";
-import {TextAreaField} from "./text_area_field";
-import {JsonInput} from "./json_input";
+import { Match, Switch } from "solid-js";
+import { IFormControl } from "solid-forms";
+import { TextInputField } from "./text_input_field";
+import { BooleanInputField } from "./boolean_input_field";
+import { TextAreaField } from "./text_area_field";
+import { JsonInput } from "./json_input";
 
 interface Properties {
   control: IFormControl;
@@ -22,38 +22,36 @@ export const GeneralInput = (props: Properties) => {
   return (
     <Switch fallback={<div>Unknown Component type: {props.type}</div>}>
       <Match when={props.type === "color"}>
-        <TextInputField control={props.control} type={"color"}/>
+        <TextInputField control={props.control} type={"color"} />
       </Match>
       <Match when={props.type === "email"}>
-        <TextInputField control={props.control} type={"color"}/>
+        <TextInputField control={props.control} type={"color"} />
       </Match>
       <Match when={props.type === "number" || props.type === "serial"}>
-        <TextInputField control={props.control} type={"number"}/>
+        <TextInputField control={props.control} type={"number"} />
       </Match>
       <Match when={props.type === "password"}>
-        <TextInputField control={props.control} type={"password"}/>
+        <TextInputField control={props.control} type={"password"} />
       </Match>
       <Match when={props.type === "range"}>
-        <TextInputField control={props.control} type={"range"}/>
+        <TextInputField control={props.control} type={"range"} />
       </Match>
       <Match when={props.type === "search"}>
-        <TextInputField control={props.control} type={"search"}/>
+        <TextInputField control={props.control} type={"search"} />
       </Match>
       <Match when={props.type === "text"}>
-        <TextInputField control={props.control} type={"text"}/>
+        <TextInputField control={props.control} type={"text"} />
       </Match>
       <Match when={props.type === "checkbox"}>
-        <BooleanInputField control={props.control}/>
+        <BooleanInputField control={props.control} />
       </Match>
       <Match when={props.type === "radio"}>
-        <TextInputField control={props.control} type={"radio"}/>
+        <TextInputField control={props.control} type={"radio"} />
       </Match>
       <Match when={props.type === "textarea" || props.type === "codemirror"}>
-        <TextAreaField control={props.control} type={"text"}/>
+        <TextAreaField control={props.control} type={"text"} />
       </Match>
-      <Match when={props.type === "chatInput"}>
-        {/*<ChatInput control={props.control} onChange={e => props.onChange(e.target.value)} />*/}
-      </Match>
+      <Match when={props.type === "chatInput"}>{/*<ChatInput control={props.control} onChange={e => props.onChange(e.target.value)} />*/}</Match>
       <Match when={props.type === "select"}>
         {/*<SingleSelect*/}
         {/*  inputId={props.control.id}*/}
@@ -69,9 +67,7 @@ export const GeneralInput = (props: Properties) => {
         {/*  {...(props.control.options ?? {})}*/}
         {/*/>*/}
       </Match>
-      <Match when={props.type === "file"}>
-        {/*<File control={props.control}  />*/}
-      </Match>
+      <Match when={props.type === "file"}>{/*<File control={props.control}  />*/}</Match>
       <Match when={props.type === "text_array"}>
         {/*<ArrayInput*/}
         {/*  inputId={props.field.id}*/}
@@ -139,12 +135,8 @@ export const GeneralInput = (props: Properties) => {
       <Match when={props.type === "uuid"}>
         {/*<UUIDInput value={props.control.value} onChange={props.onChange} onBlur={props.control.onBlur} onFocus={props.control.onFocus} {...(props.control.options ?? {})} />*/}
       </Match>
-      <Match when={props.type === "subdomain"}>
-        {/*<SubDomain value={props.control.value} onChange={props.onChange} {...(props.control.options ?? {})} />*/}
-      </Match>
-      <Match when={props.type === "url"}>
-          {/*<TextAreaField control={props.control} type={"text"} prefix={"https://"} suffix={props.control.options?.domain ?? ''}/>*/}
-      </Match>
+      <Match when={props.type === "subdomain"}>{/*<SubDomain value={props.control.value} onChange={props.onChange} {...(props.control.options ?? {})} />*/}</Match>
+      <Match when={props.type === "url"}>{/*<TextAreaField control={props.control} type={"text"} prefix={"https://"} suffix={props.control.options?.domain ?? ''}/>*/}</Match>
     </Switch>
   );
 };

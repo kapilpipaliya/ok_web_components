@@ -2,20 +2,13 @@ import JSONEditor, { JSONEditorOptions } from "jsoneditor";
 import "jsoneditor/dist/jsoneditor.css";
 // TODO: move to new beta version of jsonEditor:
 // https://github.com/josdejong/jsoneditor/issues/1223
-import {
-  createComputed,
-  createSignal,
-  For,
-  onCleanup,
-  Show,
-  untrack,
-} from "solid-js";
+import { createComputed, createSignal, For, onCleanup, Show, untrack } from "solid-js";
 // import { Label } from '../Label';
 // import { Field } from '../../form2';
 import { IFormControl } from "solid-forms";
 
 interface Properties {
-  control: IFormControl<{ [key: string]: any }>;
+  control: IFormControl<{ [key: string]: unknown }>;
   name?: string;
   type?: string;
   class?: string;
@@ -64,16 +57,11 @@ export const JsonInput = (props: Properties) => {
   return (
     <>
       {/* <Label name={props.label || ''} /> */}
-      <div
-        ref={createEditor}
-        style="width: 600px; height: 400px; display: inline-block;"
-      />
+      <div ref={createEditor} style="width: 600px; height: 400px; display: inline-block;" />
       <span>{hasError()}</span>
 
       <Show when={props.control.isTouched && !props.control.isValid}>
-        <For each={Object.values(props.control.errors)}>
-          {(errorMsg: string) => <small>{errorMsg}</small>}
-        </For>
+        <For each={Object.values(props.control.errors)}>{(errorMsg: string) => <small>{errorMsg}</small>}</For>
       </Show>
     </>
   );

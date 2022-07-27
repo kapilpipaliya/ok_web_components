@@ -1,7 +1,7 @@
-import { createComputed, For, Show } from 'solid-js';
-import { createStore, produce } from 'solid-js/store';
-import { Label } from './Label';
-import {focusLastInput} from "../../../utils/dom_utils";
+import { createComputed, For, Show } from "solid-js";
+import { createStore, produce } from "solid-js/store";
+import { Label } from "./Label";
+import { focusLastInput } from "../../../utils/dom_utils";
 
 interface Properties {
   disabled?: boolean;
@@ -20,7 +20,7 @@ interface Properties {
 }
 
 export const ArrayInput = (props: Properties) => {
-  let tableElement: HTMLTableElement | undefined = undefined;
+  const tableElement: HTMLTableElement | undefined = undefined;
 
   const [state, setState] = createStore({ value: [] as string[] });
 
@@ -30,7 +30,7 @@ export const ArrayInput = (props: Properties) => {
 
   const handleAdd = () => {
     if (!props.disabled) {
-      setState('value', state.value.length, '');
+      setState("value", state.value.length, "");
       setTimeout(() => focusLastInput(tableElement), 50);
     }
   };
@@ -49,19 +49,19 @@ export const ArrayInput = (props: Properties) => {
 
   const onChange = (i: number) => (e: Event & { currentTarget: HTMLInputElement; target: Element }) => {
     setState(
-      'value',
-      produce<string[]>(l => {
+      "value",
+      produce<string[]>((l) => {
         l[i] = (e.target as HTMLInputElement).value;
-      }),
+      })
     );
     if (props.onChange) props.onChange(state.value);
   };
 
   return (
     <>
-      <Label name={props.label || ''} />
+      <Label name={props.label || ""} />
 
-      <table ref={tableElement} class={'permissions'}>
+      <table ref={tableElement} class={"permissions"}>
         <tbody>
           <For each={state.value ?? []}>
             {(v, i) => (

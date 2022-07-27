@@ -23,37 +23,33 @@ for $ prefix use always check if(mounted) first.
 // A WebSocket JavaScript library https://sarus.anephenix.com
 // https://github.com/anephenix/sarus
 // API: https://www.w3.org/TR/websockets/
-type callBack = (d: any) => void;
+type CallBack = (d: unknown) => void;
 export type WSEvent = Array<number | string>;
-export type WsSingleEvent = [WSEvent, any];
+export type WsSingleEvent = [WSEvent, unknown];
 
 export class ServerEventsDispatcher {
   path: string;
   req: {};
   res: {};
-  callbacks: Map<string, Array<callBack>>;
+  callbacks: Map<string, Array<CallBack>>;
   isFirst: boolean;
   firstCancelTimeout: number;
   firstPayload: WsSingleEvent[];
   conn?: WebSocket;
-  lm_handle: number;
+  lmHandle: number;
   statusChangeCallback: (status: boolean) => void;
-  private id_ = 0;
+  private id = 0;
   // https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/onLine
   private isOnline = window.navigator.onLine;
 
-  constructor(
-    path: string,
-    statusChangeCallback: (status: boolean) => void,
-    isProd: boolean = false
-  ) {
+  constructor(path: string, statusChangeCallback: (status: boolean) => void, isProd = false) {
     this.path = path;
 
-    this.callbacks = new Map<string, Array<callBack>>();
+    this.callbacks = new Map<string, Array<CallBack>>();
     this.isFirst = false;
     this.firstCancelTimeout = 0;
     this.firstPayload = [];
-    this.lm_handle = 0;
+    this.lmHandle = 0;
     this.statusChangeCallback = statusChangeCallback;
 
     this.bind = this.bind.bind(this);
@@ -61,7 +57,7 @@ export class ServerEventsDispatcher {
     this.bindT = this.bindT.bind(this);
     // this.bind_F = this.bind_F.bind(this)
     this.unbind = this.unbind.bind(this);
-    this.unbind_ = this.unbind_.bind(this);
+    this.unbindEvent = this.unbindEvent.bind(this);
     this.trigger = this.trigger.bind(this);
     // this.triggerFile = this.triggerFile.bind(this)
     this.onmessage = this.onmessage.bind(this);
@@ -71,7 +67,7 @@ export class ServerEventsDispatcher {
     this.dispatch = this.dispatch.bind(this);
     this.batchBind = this.batchBind.bind(this);
     this.batchBindT = this.batchBindT.bind(this);
-    this.delay_send = this.delay_send.bind(this);
+    this.delaySend = this.delaySend.bind(this);
     this.heartbeat = this.heartbeat.bind(this);
 
     if (isProd) {
@@ -91,7 +87,7 @@ export class ServerEventsDispatcher {
   }
 
   get uid() {
-    return ++this.id_;
+    return ++this.id;
   }
 
   setupConnection() {
@@ -113,7 +109,7 @@ export class ServerEventsDispatcher {
   heartbeat() {
     // console.log("heartbeat send");
     // this.trigger(['heartbeat', Date.now()]);
-    this.lm_handle = window.setTimeout(this.heartbeat, 30 * 1000);
+    this.lmHandle = window.setTimeout(this.heartbeat, 30 * 1000);
   }
 
   destroy() {
@@ -125,18 +121,13 @@ export class ServerEventsDispatcher {
     }
   }
 
-  bind(event: WSEvent, callback: callBack, handleMultiple = 0, data = []) {
-    this.callbacks[JSON.stringify(event)] =
-      this.callbacks[JSON.stringify(event)] ?? [];
-    this.callbacks[JSON.stringify(event)].push([
-      handleMultiple,
-      callback,
-      data,
-    ]); // 0 means unsubscribe using first time
+  bind(event: WSEvent, callback: CallBack, handleMultiple = 0, data = []) {
+    this.callbacks[JSON.stringify(event)] = this.callbacks[JSON.stringify(event)] ?? [];
+    this.callbacks[JSON.stringify(event)].push([handleMultiple, callback, data]); // 0 means unsubscribe using first time
     return this;
   }
 
-  batchBind(events: Array<[WSEvent, callBack, any]> = []) {
+  batchBind(events: Array<[WSEvent, CallBack, any]> = []) {
     const payload = [];
     for (let i = 0; i < events.length; i++) {
       const e = events[i];
@@ -146,19 +137,19 @@ export class ServerEventsDispatcher {
     return payload;
   }
 
-  batchBindT(events: Array<[WSEvent, callBack, any]> = []) {
+  batchBindT(events: Array<[WSEvent, CallBack, any]> = []) {
     const payload = this.batchBind(events);
     this.trigger(payload);
     return this;
   }
 
-  bind$(event: WSEvent, callback: callBack, handleMultiple = 0, data = []) {
+  bind$(event: WSEvent, callback: CallBack, handleMultiple = 0, data = []) {
     this.unbind(event);
     this.bind(event, callback, handleMultiple, data);
     return () => this.unbind(event);
   }
 
-  bindT(event: WSEvent, callback: callBack, data, handleMultiple = 0) {
+  bindT(event: WSEvent, callback: CallBack, data, handleMultiple = 0) {
     this.bind$(event, callback, handleMultiple, data);
     this.trigger([[event, data]]);
     return () => this.unbind(event);
@@ -168,8 +159,8 @@ export class ServerEventsDispatcher {
     this.callbacks[JSON.stringify(event)] = [];
   }
 
-  unbind_(event_names: Array<WSEvent> = []) {
-    event_names.map((event) => this.unbind(event));
+  unbindEvent(eventNames: Array<WSEvent> = []) {
+    eventNames.map((event) => this.unbind(event));
     return this;
   }
 
@@ -193,7 +184,7 @@ export class ServerEventsDispatcher {
               this.firstPayload.push(payload[i]);
             }
             clearTimeout(this.firstCancelTimeout);
-            this.firstCancelTimeout = window.setTimeout(this.delay_send, 50);
+            this.firstCancelTimeout = window.setTimeout(this.delaySend, 50);
           } else {
             this.conn.send(JSON.stringify(payload)); // <= send JSON data to socket server
           }
@@ -214,7 +205,7 @@ export class ServerEventsDispatcher {
     }
   }
 
-  private delay_send() {
+  private delaySend() {
     if (this.firstPayload.length) {
       // VM421 main.aaf1bd3bb…936a.bundle.js:5658 Uncaught DOMException: Failed to execute 'send' on 'WebSocket': Still in CONNECTING state.
       this.conn && this.conn.send(JSON.stringify(this.firstPayload));
@@ -224,16 +215,16 @@ export class ServerEventsDispatcher {
   }
 
   private onopen(evt: Event) {
-    clearTimeout(this.lm_handle);
+    clearTimeout(this.lmHandle);
     this.statusChangeCallback(true);
     this.isFirst = true;
-    this.firstCancelTimeout = window.setTimeout(this.delay_send, 50);
+    this.firstCancelTimeout = window.setTimeout(this.delaySend, 50);
     this.dispatch(["open", "", 0], []);
     this.heartbeat();
   }
 
   private onclose(ev: CloseEvent) {
-    clearTimeout(this.lm_handle);
+    clearTimeout(this.lmHandle);
     this.statusChangeCallback(false); // this.dispatch(['close', '', 0], []);
     const waitMs = 2000;
     // console.log(`close ${ev.code}, trying to reconnect ${new Date().toISOString()}... (waiting ${waitMs}ms)`);

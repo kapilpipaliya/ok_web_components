@@ -1,8 +1,7 @@
 import { createUniqueId, JSX, Show, splitProps } from "solid-js";
 import { css } from "solid-styled-components";
 
-export interface CheckboxProps
-  extends JSX.InputHTMLAttributes<HTMLInputElement> {
+export interface CheckboxProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   description?: string;
   error?: string;

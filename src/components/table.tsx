@@ -23,8 +23,8 @@ interface CustomTableProps {
 }
 
 interface FilterProps {
-  column: Column<any, any>;
-  table: SolidTable<any>;
+  column: Column<unknown, unknown>;
+  table: SolidTable<unknown>;
 }
 
 const defaultColumn: ColumnDef<PersonProps>[] = [
@@ -48,9 +48,7 @@ const defaultColumn: ColumnDef<PersonProps>[] = [
 ];
 
 function Filter(props: FilterProps) {
-  const firstValue = props.table
-    .getPreFilteredRowModel()
-    .flatRows[0]?.getValue(props.column.id);
+  const firstValue = props.table.getPreFilteredRowModel().flatRows[0]?.getValue(props.column.id);
 
   const columnFilterValue = props.column.getFilterValue();
 
@@ -63,13 +61,8 @@ function Filter(props: FilterProps) {
       <input
         type="number"
         value={(columnFilterValue as [number, number])?.[0] ?? ""}
-        onChange={(e) =>
-          props.column.setFilterValue((old: [number, number]) => [
-            e.currentTarget.value,
-            old?.[1],
-          ])
-        }
-        placeholder={`Min`}
+        onChange={(e) => props.column.setFilterValue((old: [number, number]) => [e.currentTarget.value, old?.[1]])}
+        placeholder={"Min"}
         class={css`
           //w-24 border shadow rounded;
         `}
@@ -77,13 +70,8 @@ function Filter(props: FilterProps) {
       <input
         type="number"
         value={(columnFilterValue as [number, number])?.[1] ?? ""}
-        onChange={(e) =>
-          props.column.setFilterValue((old: [number, number]) => [
-            old?.[0],
-            e.currentTarget.value,
-          ])
-        }
-        placeholder={`Max`}
+        onChange={(e) => props.column.setFilterValue((old: [number, number]) => [old?.[0], e.currentTarget.value])}
+        placeholder={"Max"}
         class={css`
           //w-24 border shadow rounded;
         `}
@@ -94,7 +82,7 @@ function Filter(props: FilterProps) {
       type="text"
       value={(columnFilterValue ?? "") as string}
       onChange={(e) => props.column.setFilterValue(e.currentTarget.value)}
-      placeholder={`Search...`}
+      placeholder={"Search..."}
       class={css`
         //w-48 h-10 mt-3 mb-3 border shadow rounded;
       `}
@@ -107,9 +95,7 @@ export const Table = (props: CustomTableProps) => {
   const [columnOrder, setColumnOrder] = createSignal<ColumnOrderState>([]);
   const [sorting, setSorting] = createSignal<SortingState>([]);
 
-  const [columnVisibility, setColumnVisibility] = createSignal<VisibilityState>(
-    {}
-  );
+  const [columnVisibility, setColumnVisibility] = createSignal<VisibilityState>({});
   const table = createSolidTable({
     columns: defaultColumn,
     data: people,
@@ -175,11 +161,7 @@ export const Table = (props: CustomTableProps) => {
                     `}
                   >
                     <label>
-                      <input
-                        checked={table.getIsAllColumnsVisible()}
-                        onChange={table.getToggleAllColumnsVisibilityHandler()}
-                        type="checkbox"
-                      />
+                      <input checked={table.getIsAllColumnsVisible()} onChange={table.getToggleAllColumnsVisibilityHandler()} type="checkbox" />
                       Toggle All
                     </label>
                   </div>
@@ -191,12 +173,7 @@ export const Table = (props: CustomTableProps) => {
                         `}
                       >
                         <label>
-                          <input
-                            checked={column.getIsVisible()}
-                            onChange={column.getToggleVisibilityHandler()}
-                            type="checkbox"
-                          />{" "}
-                          {column.id}
+                          <input checked={column.getIsVisible()} onChange={column.getToggleVisibilityHandler()} type="checkbox" /> {column.id}
                         </label>
                       </div>
                     )}
@@ -228,30 +205,16 @@ export const Table = (props: CustomTableProps) => {
                           >
                             {header.isPlaceholder ? null : (
                               <div>
-                                <div
-                                  class={
-                                    header.column.getCanSort()
-                                      ? "cursor-pointer select-none"
-                                      : undefined
-                                  }
-                                  onClick={header.column.getToggleSortingHandler()}
-                                >
-                                  {flexRender(
-                                    header.column.columnDef.header,
-                                    header.getContext()
-                                  )}
+                                <div class={header.column.getCanSort() ? "cursor-pointer select-none" : undefined} onClick={header.column.getToggleSortingHandler()}>
+                                  {flexRender(header.column.columnDef.header, header.getContext())}
                                   {{
                                     asc: " 🔼",
                                     desc: " 🔽",
-                                  }[header.column.getIsSorted() as string] ??
-                                    null}
+                                  }[header.column.getIsSorted() as string] ?? null}
                                 </div>
                                 {header.column.getCanFilter() ? (
                                   <div>
-                                    <Filter
-                                      column={header.column}
-                                      table={table}
-                                    />
+                                    <Filter column={header.column} table={table} />
                                   </div>
                                 ) : null}
                               </div>
@@ -266,20 +229,12 @@ export const Table = (props: CustomTableProps) => {
                       //bg-white;
                     `}
                   >
-                    <For
-                      each={table.getRowModel().rows}
-                      fallback={<div> No data found</div>}
-                    >
+                    <For each={table.getRowModel().rows} fallback={<div> No data found</div>}>
                       {(row) => (
                         <tr>
                           <For each={row.getVisibleCells()}>
                             {(cell) => (
-                              <td
-                                class={clsx(
-                                  true ? "border-b border-gray-200" : "",
-                                  "whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8"
-                                )}
-                              >
+                              <td class={clsx(true ? "border-b border-gray-200" : "", "whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8")}>
                                 {cell.getValue()}
                               </td>
                             )}

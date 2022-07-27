@@ -2,8 +2,7 @@ import { createUniqueId, JSX, Show, splitProps } from "solid-js";
 import { Field } from "./field";
 import { css } from "solid-styled-components";
 
-export interface TextInputProps
-  extends JSX.InputHTMLAttributes<HTMLInputElement> {
+export interface TextInputProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   prefixElement?: JSX.Element;
   suffixElement?: JSX.Element;
@@ -12,22 +11,10 @@ export interface TextInputProps
 }
 
 export const TextInput = (props: TextInputProps) => {
-  const [p, customProps] = splitProps(props, [
-    "label",
-    "prefixElement",
-    "suffixElement",
-    "help",
-    "error",
-  ]);
+  const [p, customProps] = splitProps(props, ["label", "prefixElement", "suffixElement", "help", "error"]);
   const uniqueId = createUniqueId();
   return (
-    <Field
-      label={p.label}
-      id={uniqueId}
-      help={p.help}
-      error={p.error}
-      required={customProps.required}
-    >
+    <Field label={p.label} id={uniqueId} help={p.help} error={p.error} required={customProps.required}>
       <div
         class={css`
           //relative rounded-md shadow-sm;
@@ -66,6 +53,7 @@ export const TextInput = (props: TextInputProps) => {
             border: 1px solid #ccc;
             border-radius: 3px;
             box-sizing: border-box;
+            width: 100%;
           `}
           classList={{
             "pl-7": !!props.prefixElement,
