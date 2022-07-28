@@ -66,6 +66,47 @@ border-bottom:1px solid lightgray ;
 transition: all 0.2s ease-out!important;
 
 `;
+
+const Box = styled('div')`
+width: 170px;
+    height: 200px;
+padding: 16px;
+cursor:pointer;
+border-radius:8px ;
+background-color: #dfdfdf14;
+    box-shadow: rgb(213 213 213) 0px 0px 2px 2px;
+    text-align: center;
+    position: relative;
+.button{
+position:absolute ;
+bottom: 8px;
+    box-shadow: 0px 0px 3px 1px #dfdfdf14;
+    padding: 5px 29px;
+    border-radius: 6px;
+    border: none;
+    left: 12px;
+}
+
+`;
+
+const HorizentalBox = styled('div')`
+width: 400px;
+    height: 200px;
+cursor:pointer;
+border-radius:5px ;
+background-color: #dfdfdf14;
+    box-shadow: rgb(213 213 213) 0px 0px 2px 2px;
+    text-align: center;
+    position: relative;
+    display: flex;
+
+.col-1{
+  width: 140px;
+  background-color:gray ;
+  border-radius: 5px 0px 0px 5px;
+}
+
+`;
 export const Accordions = () => {
 
 
@@ -104,6 +145,22 @@ export const Avatars = () => {
   return <Avatar >
     <img src={Img1} alt="Img1" aria-expanded="boolean" width={23} />
   </Avatar>
+}
+
+export const Boxs = () => {
+
+  return <div class={css`display:flex; justify-content:space-evenly;`}>
+    <Box >
+      <img src={Img1} alt="Img1" aria-expanded="boolean" width={50} />
+      <button class="button">Primary Button</button>
+
+    </Box>
+    <HorizentalBox >
+      <div class="col-1"></div>
+      <div class="col-2"></div>
+
+    </HorizentalBox>
+  </div>
 }
 export const AvatarGroups = () => {
 
