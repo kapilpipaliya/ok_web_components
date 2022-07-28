@@ -137,40 +137,6 @@ export const Select = (args: SlimSelectProps) => {
     );
   };
 
-
-  const getSelectedValue = () => {
-    const selectedOptions = getOptions.options.filter(
-      (option) => option.selected === true
-    );
-    let value = selectedOptions.map((selectedOption) => {
-      return {
-        value: selectedOption.value,
-        text: selectedOption.text,
-      };
-    });
-
-    if (args.multiSelect === true) {
-      return value;
-    } else {
-      return value[0];
-    }
-  };
-
-  const triggerSelection = () => {
-    if (args.setValueHandler) {
-      return args.setValueHandler(getSelectedValue());
-    }
-  };
-
-  const clearFilter = () => {
-    setOptions(
-      "options",
-      produce((options: SelectOption[]) =>
-        options.forEach((option) => (option.hide = false))
-      )
-    );
-  };
-
   const selectValue = (newOption: Pick<SelectOption, "value">) => {
 
     if (args.multiSelect) {
