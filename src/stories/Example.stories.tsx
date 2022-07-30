@@ -153,7 +153,7 @@ export const Macaron = () => {
 
 
   return <>
-    <StyledButton color="accent" size="small" rounded>
+    <StyledButton color="accent" size="small" rounded={true}>
       Click me!
     </StyledButton>
   </>
