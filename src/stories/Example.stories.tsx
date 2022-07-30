@@ -36,6 +36,8 @@ import { createSignal } from "solid-js";
 
 import { css, styled } from "solid-styled-components";
 
+
+
 const BarStyle = css`
 padding:2px ;
 background-color:rgba(245, 245, 245, 0.589);
@@ -55,6 +57,46 @@ background-color:rgba(245, 245, 245, 0.589);
 import Img1 from '../../asserts/img1.svg'
 import Img2 from '../../asserts/img2.svg'
 // import './solid-blocks.css'
+
+import { styled as macaronSolid } from '@macaron-css/solid';
+
+const StyledButton = macaronSolid('button', {
+  base: {
+    borderRadius: 6,
+  },
+  variants: {
+    color: {
+      neutral: { background: 'whitesmoke' },
+      brand: { background: 'blueviolet' },
+      accent: { background: 'slateblue' },
+    },
+    size: {
+      small: { padding: 12 },
+      medium: { padding: 16 },
+      large: { padding: 24 },
+    },
+    rounded: {
+      true: { borderRadius: 999 },
+    },
+  },
+  compoundVariants: [
+    {
+      variants: {
+        color: 'neutral',
+        size: 'large',
+      },
+      style: {
+        background: 'ghostwhite',
+      },
+    },
+  ],
+
+  defaultVariants: {
+    color: 'accent',
+    size: 'medium',
+  },
+});
+
 const HeaderAccordion = styled('summary')`
 padding: 16px;
 cursor:pointer;
@@ -107,6 +149,15 @@ background-color: #dfdfdf14;
 }
 
 `;
+export const Macaron = () => {
+
+
+  return <>
+    <StyledButton color="accent" size="small" rounded>
+      Click me!
+    </StyledButton>
+  </>
+}
 export const Accordions = () => {
 
 

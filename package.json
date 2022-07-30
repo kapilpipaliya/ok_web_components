@@ -36,6 +36,9 @@
   "dependencies": {
     "@amoutonbrady/solid-heroicons": "^0.8.0",
     "@hope-ui/solid": "^0.6.2",
+    "@macaron-css/core": "^0.1.6",
+    "@macaron-css/solid": "^0.1.8",
+    "@macaron-css/vite": "^0.1.9",
     "@mobily/ts-belt": "^3.12.0",
     "@popperjs/core": "^2.11.5",
     "@stitches/core": "^1.2.8",
