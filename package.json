@@ -43,6 +43,7 @@
     "clsx": "^1.2.1",
     "duecss": "^0.26.0",
     "jsoneditor": "^9.9.0",
+    "prop-types": "^15.8.1",
     "solid-blocks": "^0.0.1",
     "solid-forms": "^0.4.3",
     "solid-heroicons": "^2.0.3",
