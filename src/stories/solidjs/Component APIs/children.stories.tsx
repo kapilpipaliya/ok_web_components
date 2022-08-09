@@ -1,5 +1,5 @@
-import { JSX, createEffect, createRoot, createSignal, onCleanup } from 'solid-js';
+import { JSX, createEffect, createRoot, createSignal, onCleanup } from "solid-js";
 
 export default {
-  title: 'SolidJs/Component APIs/children',
+  title: "SolidJs/Component APIs/children",
 };

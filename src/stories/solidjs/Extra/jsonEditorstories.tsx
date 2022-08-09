@@ -1,21 +1,21 @@
-import { JSX, For } from 'solid-js';
-import { createStore } from 'solid-js/store';
-import JSONEditor, { JSONEditorOptions } from 'jsoneditor';
-import 'jsoneditor/dist/jsoneditor.css';
+import { JSX, For } from "solid-js";
+import { createStore } from "solid-js/store";
+import JSONEditor, { JSONEditorOptions } from "jsoneditor";
+import "jsoneditor/dist/jsoneditor.css";
 
-export default { title: 'SolidJs/Extra/JsonEditor' };
+export default { title: "SolidJs/Extra/JsonEditor" };
 
 export const JsonEditorRyansolid1 = () => {
-  const createEditor = el => new JSONEditor(el, {}, '');
+  const createEditor = (el) => new JSONEditor(el, {}, "");
   return <div ref={createEditor} />;
 };
 export const JsonEditorRyansolidOptions = () => {
   let jsoneditor;
   const options: JSONEditorOptions = {
-    mode: 'code',
-    modes: ['code', 'tree'],
+    mode: "code",
+    modes: ["code", "tree"],
   };
-  const createEditor = el => new JSONEditor(el, options, '');
+  const createEditor = (el) => new JSONEditor(el, options, "");
   return (
     <div>
       <div ref={createEditor} />
@@ -23,13 +23,13 @@ export const JsonEditorRyansolidOptions = () => {
   );
 };
 export const JsonEditorRyansolid2 = () => {
-  return <div ref={el => new JSONEditor(el, {}, '')} />;
+  return <div ref={(el) => new JSONEditor(el, {}, "")} />;
 };
 
 // I like this better:
 export const JsonEditorTrusktrLike = () => {
   const el = <div />;
-  new JSONEditor(el, {}, '');
+  new JSONEditor(el, {}, "");
   return el;
 };
 // And here is another way, in case the element is nested inside other elements:
@@ -42,13 +42,13 @@ export const JsonEditorTrusktrNested = () => {
       </div>
     </menu>
   );
-  new JSONEditor(el, {}, '');
+  new JSONEditor(el, {}, "");
   return menu;
 };
 
 // And just to circle back to the original function approach that Ryan mentioned, but with nested elements:
 export const JsonEditorTrusktrNested2 = () => {
-  const createEditor = el => new JSONEditor(el, {}, '');
+  const createEditor = (el) => new JSONEditor(el, {}, "");
   return (
     <menu>
       <div>
@@ -74,7 +74,7 @@ export const JsonEditorTrusktrNested3 = () => {
       <div>{(el = <div />)}</div>
     </menu>
   );
-  new JSONEditor(el, {}, '');
+  new JSONEditor(el, {}, "");
   return menu;
 };
 // or
@@ -85,7 +85,7 @@ export const JsonEditorTrusktrNested4 = () => {
       <div>{el}</div>
     </menu>
   );
-  new JSONEditor(el, {}, '');
+  new JSONEditor(el, {}, "");
   return menu;
 };
 
@@ -93,13 +93,13 @@ export const JsonEditorTrusktrNested4 = () => {
 
 // For that matter, you can even do the following for example, just to give you an idea:
 export const JsonEditorTrusktrNested5 = () => {
-  const el = document.createElement('div'); // not even using Solid JSX here.
+  const el = document.createElement("div"); // not even using Solid JSX here.
   const menu = (
     <menu>
       <div>{el}</div>
     </menu>
   );
-  new JSONEditor(el, {}, '');
+  new JSONEditor(el, {}, "");
   return menu;
 };
 // Because it's just DOM! It is way better than all the vdom JSX libs like React, Preact, etc (in my opinion).
@@ -109,7 +109,7 @@ export const JsonEditorTrusktrNested5 = () => {
 export const HtmlBase = (props: {}) => {
   let el;
   const comp = <div>{(el = <div />)}</div>;
-  el.insertAdjacentHTML('afterend', '<b>hello world</b>');
+  el.insertAdjacentHTML("afterend", "<b>hello world</b>");
   return comp;
 };
 /* Not work:
@@ -127,10 +127,10 @@ export const HtmlBase = (props: {}) => {
 */
 export const HtmlBase2 = (props: { value: string }) => {
   const el: Element = <div />;
-  el.innerHTML = '<b>hello world</b>';
+  el.innerHTML = "<b>hello world</b>";
   return el;
 };
 export const ElementWithCss = () => {
-  const createEditor = el => (el.style.color = 'purple');
+  const createEditor = (el) => (el.style.color = "purple");
   return <div ref={createEditor}>example</div>;
 };

@@ -1,7 +1,7 @@
-import { JSX, createContext, createSignal, Switch, useContext } from 'solid-js';
-import { createStore, produce, reconcile } from 'solid-js/store';
+import { JSX, createContext, createSignal, Switch, useContext } from "solid-js";
+import { createStore, produce, reconcile } from "solid-js/store";
 
-export default { title: 'SolidJs/Component APIs/createContext' };
+export default { title: "SolidJs/Component APIs/createContext" };
 
 const CounterContext = createContext([{ count: 0 }, {}]);
 
@@ -11,10 +11,10 @@ function CounterProvider(props) {
     state,
     {
       increment() {
-        setState('count', c => c + 1);
+        setState("count", (c) => c + 1);
       },
       decrement() {
-        setState('count', c => c - 1);
+        setState("count", (c) => c - 1);
       },
     },
   ];
@@ -113,7 +113,7 @@ export const ReadWriteStore = () => {
 
 // ===deep nested context test===
 
-const projectStore = createContext('global');
+const projectStore = createContext("global");
 const DeepAnother = () => {
   return <>{useContext(projectStore)}</>;
 };
@@ -143,22 +143,22 @@ export const DeepNestedContextTest = () => {
     </projectStore.Provider>
   );
 };
-const member_settings = createContext(createSignal({ email: 'k43@o-k.tech' }));
+const member_settings = createContext(createSignal({ email: "k43@o-k.tech" }));
 export const GlobalMemberStoreTest = () => {
   const [getMemberSeting, setMemberSeting] = useContext(member_settings);
   return (
     <div>
       <div>{getMemberSeting().email}</div>
-      <button onClick={() => setMemberSeting({ email: 'new' })}>Change</button>
+      <button onClick={() => setMemberSeting({ email: "new" })}>Change</button>
     </div>
   );
 };
-const [getMemberSeting, setMemberSeting] = createSignal({ email: 'k43@o-k.tech' });
+const [getMemberSeting, setMemberSeting] = createSignal({ email: "k43@o-k.tech" });
 export const GlobalDirectStoreTest = () => {
   return (
     <div>
       <div>{getMemberSeting().email}</div>
-      <button onClick={() => setMemberSeting({ email: 'new' })}>Change</button>
+      <button onClick={() => setMemberSeting({ email: "new" })}>Change</button>
     </div>
   );
 };

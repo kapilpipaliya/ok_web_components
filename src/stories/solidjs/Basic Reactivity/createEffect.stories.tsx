@@ -1,11 +1,11 @@
-import clsx from 'clsx';
-import { JSX, createEffect, createRoot, createSignal, onCleanup } from 'solid-js';
-import { createStore } from 'solid-js/store';
+import clsx from "clsx";
+import { JSX, createEffect, createRoot, createSignal, onCleanup } from "solid-js";
+import { createStore } from "solid-js/store";
 
 export default {
-  title: 'SolidJs/Basic Reactivity/createEffect',
+  title: "SolidJs/Basic Reactivity/createEffect",
 };
-export const UseEffectExample = props => {
+export const UseEffectExample = (props) => {
   const [state, setState] = createStore({ count: 0 });
 
   const timer = setInterval(() => {
@@ -26,16 +26,16 @@ export const UseEffectExample = props => {
 // createFlipState https://codesandbox.io/s/createflipstate-f2m14
 // createAnimation https://codesandbox.io/s/useanimation-l6dy0
 export const CreateEffectTrackTest = () => {
-  const [state, setState] = createStore({ show: false, work: 'none' });
+  const [state, setState] = createStore({ show: false, work: "none" });
   const Toogle = () => setState({ show: !state.show });
   createEffect(() => {
     if (state.show) {
-      console.log('testt..');
-      setState({ work: 'true' });
+      console.log("testt..");
+      setState({ work: "true" });
     }
   });
   return (
-    <div class={clsx({ 'foo-bar': state.show })}>
+    <div class={clsx({ "foo-bar": state.show })}>
       {state.work}
       hello<button onClick={Toogle}>Toogle1</button>
     </div>
@@ -67,7 +67,7 @@ export const PropsChangeAndCreateEffect = (props: { n: number }) => {
 };
 
 export const CreateEffectInitialValue = (props: { content: number }) => {
-  createEffect(v => {
+  createEffect((v) => {
     console.log(v);
   }, 10);
 
@@ -112,9 +112,9 @@ export const DynamicCreateEffect2 = () => {
   const Toggle = () => setState({ show: !state.show });
 
   // https://discord.com/channels/722131463138705510/722349143024205824/745091936850804816
-  const createTemporaryEffect = f => {
+  const createTemporaryEffect = (f) => {
     let stop;
-    createRoot(dispose => {
+    createRoot((dispose) => {
       stop = dispose;
       createEffect(f);
     });

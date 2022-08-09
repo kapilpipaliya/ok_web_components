@@ -1,6 +1,5 @@
 // * This data is for testing purpose. Will be replaced by data coming from Web socket.
 import { clock, cog, creditCard, documentReport, home, questionMarkCircle, scale, shieldCheck, userGroup } from "@amoutonbrady/solid-heroicons/outline";
-import { statusStyles } from "./styles";
 
 export const primaryNavigation = [
   { name: "Home", href: "#", icon: home, current: true },
@@ -224,7 +223,7 @@ export const transactions = [
     href: "#",
     amount: "$20,000",
     currency: "USD",
-    status: "success" as keyof typeof statusStyles,
+    status: "success",
     date: "July 11, 2020",
     datetime: "2020-07-11",
   },

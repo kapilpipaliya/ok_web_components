@@ -1,9 +1,8 @@
-import { JSX, Component, createEffect, createMemo, createSignal, For, Match, onCleanup, Show, Switch } from 'solid-js';
-import { createStore, reconcile } from 'solid-js/store';
-
+import { JSX, Component, createEffect, createMemo, createSignal, For, Match, onCleanup, Show, Switch } from "solid-js";
+import { createStore, reconcile } from "solid-js/store";
 
 export default {
-  title: 'SolidJs/Control Flow/Examples',
+  title: "SolidJs/Control Flow/Examples",
 };
 
 export function Counter() {
@@ -28,7 +27,7 @@ export function Counter() {
   );
 }
 
-export const State1 = props => {
+export const State1 = (props) => {
   const [state, setState] = createStore({ count: 0 });
   const timer = setInterval(() => {
     setState({ count: state.count + 1 });
@@ -48,7 +47,7 @@ From there you can store much richer things in the Context.. like createStore ob
 Let me see.. createSignal the most basic reactive primitive. It can store any sort of value including simple primitives like numbers or strings. It comes back as a tuple where the first argument is a getter function, and the 2nd is a setter. In concept they are similar to ref in Vue and observables in MobX. A createStore object is made up of many of these. We should move to #help perhaps.(edited)
 puresoul06/17/2020
 thank you so much... */
-export const StateArrayNotWork = props => {
+export const StateArrayNotWork = (props) => {
   const [state, setState] = createStore([]);
   const timer = setInterval(() => {
     state.push(3);
@@ -62,7 +61,7 @@ export const StateArrayNotWork = props => {
   return <div>{JSON.stringify(state)}</div>;
 };
 
-export const StateArrayWork = props => {
+export const StateArrayWork = (props) => {
   const [state, setState] = createStore({ list: [1] as number[] });
   const timer = setInterval(() => {
     state.list.push(3);
@@ -76,7 +75,7 @@ export const StateArrayWork = props => {
   return <div>{JSON.stringify(state.list)}</div>;
 };
 
-export const StateArrayWorkSignal = props => {
+export const StateArrayWorkSignal = (props) => {
   const [getState, setState] = createSignal([]);
   const timer = setInterval(() => {
     getState().push(3);
@@ -89,14 +88,14 @@ export const StateArrayWorkSignal = props => {
 
   return <div>{JSON.stringify(getState())}</div>;
 };
-export const MyComp = props => {
+export const MyComp = (props) => {
   return <div>{props.item}</div>;
 };
 
-export const ForLoop = props => {
+export const ForLoop = (props) => {
   return (
     <div>
-      {' '}
+      {" "}
       <For each={[1, 2, 3]} fallback={<div>Loading Form Loop...</div>}>
         {(item, i) => (
           <>
@@ -108,7 +107,7 @@ export const ForLoop = props => {
   );
 };
 
-export const ForLoop2 = props => {
+export const ForLoop2 = (props) => {
   const [getState, setState] = createSignal([]);
   const timer = setInterval(() => {
     getState().push(3);
@@ -121,7 +120,7 @@ export const ForLoop2 = props => {
 
   return (
     <div>
-      {' '}
+      {" "}
       <For each={getState()} fallback={<div>Loading Form Loop...</div>}>
         {(item, i) => (
           <>
@@ -133,7 +132,7 @@ export const ForLoop2 = props => {
   );
 };
 
-export const ForLoop3 = props => {
+export const ForLoop3 = (props) => {
   const [state, setState] = createStore({ list: [], a: 19 });
   const timer = setInterval(() => {
     setState({ list: [1, 2, 3] });
@@ -145,7 +144,7 @@ export const ForLoop3 = props => {
 
   return (
     <div>
-      {' '}
+      {" "}
       <For each={state.list} fallback={<div>Loading Form Loop...</div>}>
         {(item, i) => (
           <>
@@ -158,11 +157,11 @@ export const ForLoop3 = props => {
   );
 };
 
-export const ForLoop4 = props => {
+export const ForLoop4 = (props) => {
   const [state, setState] = createStore({ list: [1, 2, 3] });
   return (
     <div>
-      {' '}
+      {" "}
       <For each={state.list} fallback={<div>Loading Form Loop...</div>}>
         {(item, i) => <div>{state.list[i()]}</div>}
       </For>
@@ -170,7 +169,7 @@ export const ForLoop4 = props => {
   );
 };
 
-export const ObjectStateTest = props => {
+export const ObjectStateTest = (props) => {
   const [state, setState] = createStore({ a: { b: 1, c: 2 } });
   return (
     <div>
@@ -185,7 +184,7 @@ function RefComp(props) {
   return <div ref={props.ref} />;
 }
 
-export const RefCallBackExample = props => {
+export const RefCallBackExample = (props) => {
   let myDiv;
   setTimeout(() => console.log(myDiv));
   return <RefComp ref={myDiv} />;
@@ -199,17 +198,17 @@ function RefHtmlComp(props: { content: string }) {
   /* const t = document.createElement('template');
   t.innerHTML = '<b>hello</b>';
   return t.content; */
-  const t = document.createElement('template');
+  const t = document.createElement("template");
   return () => {
     t.innerHTML = props.content;
     return [...t.content.childNodes];
   };
 }
 
-export const HtmlExample = props => {
-  const [state, setState] = createStore({ content: '<b>Hello World</b>' });
+export const HtmlExample = (props) => {
+  const [state, setState] = createStore({ content: "<b>Hello World</b>" });
   const onChange = () => {
-    setState({ content: '<b>Hello New World</b>' });
+    setState({ content: "<b>Hello New World</b>" });
   };
   return (
     <ul>
@@ -226,13 +225,13 @@ export const HtmlExample = props => {
 //= ==Suspense=====
 
 // Boolean coherence=====
-export const BooleanCoherence = props => {
+export const BooleanCoherence = (props) => {
   const [state, setState] = createStore({ run: false });
   const onChange = () => setState({ run: !state.run });
 
   return (
     <div>
-      {state.run ? 'True' : 'False'}
+      {state.run ? "True" : "False"}
       {state.run && <p>Hello World</p>}
       <Show when={state.run}>
         <p>Hello World</p>
@@ -246,19 +245,19 @@ export const StyleTestButton = (props: {}) => {
 };
 
 //= =======
-export const ClassNameExamples = props => {
+export const ClassNameExamples = (props) => {
   const [state, setState] = createStore({ run: false });
   const onChange = () => setState({ run: !state.run });
 
   return (
-    <div class="tree-row" classList={{ 'active-row': state.run }}>
+    <div class="tree-row" classList={{ "active-row": state.run }}>
       <button onClick={onChange}>Change</button>
     </div>
   );
 };
 //------------
 const RenderRenderFn = (props: { render: Component }) => {
-  return props.render({ foo: 'Bar' });
+  return props.render({ foo: "Bar" });
 };
 export const RenderPropExample = () => {
   const renderSampleText = (p: { foo: string }) => (
@@ -269,12 +268,12 @@ export const RenderPropExample = () => {
   return <RenderRenderFn render={renderSampleText} />;
 };
 //= =memo example
-export const MemoExample = props => {
-  const [state, setState] = createStore({ text: '' });
+export const MemoExample = (props) => {
+  const [state, setState] = createStore({ text: "" });
   const onChange = () => setState({ text: `${state.text}new` });
 
   const b = createMemo(() => {
-    console.log('calculating');
+    console.log("calculating");
     return `${state.text}My New Addition`;
   });
   return (
@@ -286,36 +285,39 @@ export const MemoExample = props => {
   );
 };
 export const simplifyConditionUsingFunction = () => {
-  const [state, setState] = createStore({ logo: 'tiny' });
+  const [state, setState] = createStore({ logo: "tiny" });
   function getText() {
-    let text = 'Logo';
-    if (state.logo === 'tiny') {
-      text = 'L';
-    } else if (state.logo === 'small') {
-      text = 'Log';
+    let text = "Logo";
+    if (state.logo === "tiny") {
+      text = "L";
+    } else if (state.logo === "small") {
+      text = "Log";
     }
     return text;
   }
 
-  const Toggle = () => setState({ logo: state.logo ? '' : 'small' });
+  const Toggle = () => setState({ logo: state.logo ? "" : "small" });
   return (
     <div>
-      {getText()} <button type="button" onClick={Toggle} >Toggle</button>
+      {getText()}{" "}
+      <button type="button" onClick={Toggle}>
+        Toggle
+      </button>
     </div>
   );
 };
 
-export const MemoDependancyExample = props => {
-  const [state, setState] = createStore({ text: '', text2: '' });
+export const MemoDependancyExample = (props) => {
+  const [state, setState] = createStore({ text: "", text2: "" });
   const onChange = () => setState({ text: `${state.text}new` });
   const onChange2 = () => setState({ text2: `${state.text2}new` });
 
   const b = createMemo(() => {
-    console.log('calculating1');
+    console.log("calculating1");
     return `${state.text}My New Addition`;
   });
   const b2 = createMemo(() => {
-    console.log('calculating2');
+    console.log("calculating2");
     return state.text2 + b(); // cool calling b() here also not call above function two times!
   });
   return (

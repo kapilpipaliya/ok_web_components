@@ -1,8 +1,8 @@
-import { JSX, onCleanup, Switch, Match, Suspense, useTransition } from 'solid-js';
-import { createStore, reconcile } from 'solid-js/store';
+import { JSX, onCleanup, Switch, Match, Suspense, useTransition } from "solid-js";
+import { createStore, reconcile } from "solid-js/store";
 
 export default {
-  title: 'SolidJs/Control Flow/Suspense',
+  title: "SolidJs/Control Flow/Suspense",
 };
 
 export const Transition = () => {
@@ -35,7 +35,7 @@ export const Transition = () => {
 export const Transition2 = () => {
   const [state, setState] = createStore({ tab: 0 });
   const [pending, start] = useTransition({ timeoutMs: 1200 });
-  const updateTab = index => () => start(() => setState('tab', index));
+  const updateTab = (index) => () => start(() => setState("tab", index));
 
   return (
     <>

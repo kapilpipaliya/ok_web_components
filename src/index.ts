@@ -12,7 +12,6 @@ export { JsonInput } from "./components/input/json_input";
 export { Select } from "./components/input/core/select";
 export { GeneralInput } from "./components/input/general_input";
 // utils
-export * from "./utils/styles";
 export * from "./utils/enums";
 export * from "./utils/url";
 export * from "./utils/exampleData";

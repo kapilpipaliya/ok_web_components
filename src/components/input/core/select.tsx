@@ -1,20 +1,7 @@
-import {
-  batch,
-  createEffect,
-  createSignal,
-  For,
-  JSX,
-  JSXElement,
-  Match,
-  on,
-  onCleanup,
-  onMount,
-  Show,
-  Switch,
-} from "solid-js";
+import { batch, createEffect, createSignal, For, JSX, JSXElement, Match, on, onCleanup, onMount, Show, Switch } from "solid-js";
 import "./select.css";
 import { createStore, produce } from "solid-js/store";
-import usePopper from 'solid-popper';
+import usePopper from "solid-popper";
 
 /* Select should not depend of fixed type of option value*/
 export type SelectOption = {
@@ -138,7 +125,6 @@ export const Select = (args: SlimSelectProps) => {
   };
 
   const selectValue = (newOption: Pick<SelectOption, "value">) => {
-
     if (args.multiSelect) {
       setOptions(
         "options",
@@ -168,7 +154,6 @@ export const Select = (args: SlimSelectProps) => {
   };
 
   const deSelectValue = (newOption: { text: string; value: string }, event: MouseEvent) => {
-
     setOptions(
       "options",
 
@@ -199,7 +184,7 @@ export const Select = (args: SlimSelectProps) => {
   const [anchor, setAnchor] = createSignal<HTMLElement>();
   const [popper, setPopper] = createSignal<HTMLElement>();
   usePopper(anchor, popper, {
-    placement: 'auto',
+    placement: "auto",
   });
 
   const closeOptions = (e) => {
@@ -300,7 +285,6 @@ export const Select = (args: SlimSelectProps) => {
     onCleanup(() => document.body.removeEventListener("click", onClick));
   };
 
-
   return (
     <>
       <div
@@ -325,10 +309,7 @@ export const Select = (args: SlimSelectProps) => {
                 <Show when={option.selected === true}>
                   <div class="ss_value">
                     <span class="ss_values_text">{option.text}</span>
-                    <span
-                      class="ss_value_delete"
-                      onClick={[deSelectValue, option]}
-                    >
+                    <span class="ss_value_delete" onClick={[deSelectValue, option]}>
                       x
                     </span>
                   </div>
@@ -342,11 +323,7 @@ export const Select = (args: SlimSelectProps) => {
         </div>
 
         <Show when={display() === true}>
-          <div
-            ref={setPopper}
-            classList={{ ss_content: true, ss_open: true }}
-            onmouseout={closeOptions}
-          >
+          <div ref={setPopper} classList={{ ss_content: true, ss_open: true }} onmouseout={closeOptions}>
             <div class="ss_search">
               <input
                 type="search"
@@ -382,12 +359,7 @@ export const Select = (args: SlimSelectProps) => {
                     }
                   }}
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="w-3 h-3 text-primary"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 448 512"
-                  >
+                  <svg aria-hidden="true" class="w-3 h-3 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                     <path
                       fill="currentColor"
                       d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"

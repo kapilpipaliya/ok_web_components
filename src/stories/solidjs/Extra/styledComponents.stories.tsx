@@ -1,13 +1,13 @@
-import { JSX, createSignal } from 'solid-js';
-import { createStore, reconcile } from 'solid-js/store';
-import { styled } from 'solid-styled-components';
-import { css } from 'goober';
+import { JSX, createSignal } from "solid-js";
+import { createStore, reconcile } from "solid-js/store";
+import { styled } from "solid-styled-components";
+import { css } from "goober";
 
 export default {
-  title: 'SolidJs/Extra/Styled',
+  title: "SolidJs/Extra/Styled",
 };
 
-const Div = styled('div')`
+const Div = styled("div")`
   color: red;
   font-size: 32px;
   padding: 5px;
@@ -17,15 +17,15 @@ const Div = styled('div')`
 
 const StyledDiv = styled(Div)`
   background-color: lightblue;
-  font-weight: ${props => (props.bold ? 'bold' : 100)};
+  font-weight: ${(props) => (props.bold ? "bold" : 100)};
 `;
 
 // https://codesandbox.io/s/solid-styled-components-yv2t1?file=/index.js:0-663
 export const StyledExample = () => {
-  const [state, setState] = createStore({ name: 'Solid', bold: true });
+  const [state, setState] = createStore({ name: "Solid", bold: true });
 
   return (
-    <StyledDiv onClick={() => setState('bold', b => !b)} bold={state.bold}>
+    <StyledDiv onClick={() => setState("bold", (b) => !b)} bold={state.bold}>
       Hello {state.name}
     </StyledDiv>
   );
@@ -37,12 +37,12 @@ function Button() {
   return (
     <>
       <button class="button" onClick={() => login(!isLoggedIn())}>
-        {isLoggedIn() ? 'Log Out' : 'Log In'}
+        {isLoggedIn() ? "Log Out" : "Log In"}
       </button>
       <style jsx dynamic>
         {`
           .button {
-            background-color: ${isLoggedIn() ? 'blue' : 'green'};
+            background-color: ${isLoggedIn() ? "blue" : "green"};
             color: white;
             padding: 20px;
             margin: 10px;
@@ -77,7 +77,7 @@ const BtnClassName = css`
 export const ClassNameExample = () => <button class={BtnClassName}>click</button>;
 // Different ways of customizing css
 // Passing props to css tagged templates
-const CustomButton = props => (
+const CustomButton = (props) => (
   <button
     class={css`
       border-radius: ${props.size}px;
@@ -88,25 +88,25 @@ const CustomButton = props => (
 );
 export const CustomButtonExample = () => <CustomButton size={20}>click</CustomButton>;
 // Using css with JSON/Object
-const BtnClassName2 = props =>
+const BtnClassName2 = (props) =>
   css({
     background: props.color,
     borderRadius: `${props.radius}px`,
   });
 // Notice: using css with object can reduce your bundle size.
-export const CSSWrapperExampleObject = () => <button class={BtnClassName2({ radius: 20, color: 'green' })}>click</button>;
+export const CSSWrapperExampleObject = () => <button class={BtnClassName2({ radius: 20, color: "green" })}>click</button>;
 export const CSSWrapperExampleObject2 = () => {
   const [size, setSize] = createSignal(20);
   return (
     <div>
-      <button class={BtnClassName2({ radius: size(), color: 'green' })}>click</button>
+      <button class={BtnClassName2({ radius: size(), color: "green" })}>click</button>
       <button onClick={() => setSize(size() + 1)}>Increase</button>
     </div>
   );
 };
 
 // We also can declare the styles at the top of the file by wrapping css into a function that we call to get the className.
-const BtnClassName3 = props => css`
+const BtnClassName3 = (props) => css`
   border-radius: ${props.size}px;
 `;
 
