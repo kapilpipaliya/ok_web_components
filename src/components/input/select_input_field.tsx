@@ -1,6 +1,7 @@
 import { createEffect, createSignal, For, JSX, Show, splitProps } from "solid-js";
-import { IFormControl } from "solid-forms";
+import { createFormControl} from "solid-forms";
 import { createAsyncOptions, Select } from "@thisbeyond/solid-select";
+import './select.css'
 
 interface Option {
   [key: string]: any;
@@ -10,13 +11,14 @@ interface Option {
 
 type SelectParams = Parameters<typeof Select>[0];
 
-export interface SelectInputFieldProps extends SelectParams {
-  control: IFormControl;
+export interface SelectInputFieldProps extends Omit<SelectParams, 'options'> {
+  control: ReturnType<typeof createFormControl>;
   fetchOptions: (inputValue: string) => Promise<any[]>;
+  valueKey: string;
 }
 
 export function SelectInputField(props: SelectInputFieldProps) {
-  const [p, customProps] = splitProps(props, ["control", "fetchOptions"]);
+  const [p, customProps] = splitProps(props, ["control", "fetchOptions", "valueKey"]);
 
   const selectOptionProps = createAsyncOptions(p.fetchOptions);
 
@@ -58,7 +60,7 @@ export function SelectInputField(props: SelectInputFieldProps) {
             return optionOrValue["properties"]["id"];
           } else {
             if (optionOrValue) {
-              return normalizedAttributeSelectOptions()[optionOrValue]["properties"]["id"];
+              return normalizedAttributeSelectOptions()[optionOrValue]["properties"][p.valueKey];
             } else {
               return optionOrValue;
             }
@@ -69,7 +71,6 @@ export function SelectInputField(props: SelectInputFieldProps) {
       <Show when={p.control.isTouched && !p.control.isValid}>
         <For each={Object.values(p.control.errors)}>{(errorMsg: string) => <small>{errorMsg}</small>}</For>
       </Show>
-      {JSON.stringify(selectOptionProps.options)}
     </div>
   );
 }

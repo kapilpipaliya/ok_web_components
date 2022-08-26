@@ -1,5 +1,5 @@
 import { batch, createEffect, createSignal, For, JSX, JSXElement, Match, on, onCleanup, onMount, Show, Switch } from "solid-js";
-import "./select.css";
+import "./slimselect.css";
 import { createStore, produce } from "solid-js/store";
 import usePopper from "solid-popper";
 
