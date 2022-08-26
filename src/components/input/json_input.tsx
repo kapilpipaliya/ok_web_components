@@ -28,6 +28,7 @@ export const JsonInput = (props: Properties) => {
       try {
         const value = jsonEditor.get();
         untrack(() => {
+          // reconcile not working here:
           props.control.setValue(value);
         });
 
@@ -39,16 +40,17 @@ export const JsonInput = (props: Properties) => {
   };
 
   const createEditor = (el: HTMLDivElement) => {
-    jsonEditor = new JSONEditor(el, options, props.control.value);
+    jsonEditor = new JSONEditor(el, options, props.control.value || {});
   };
   /* let updatePropsValue = true;
    createComputed(() => {
     // reset editor focus when editor value change
     if (typeof props.field.value === 'object' && jsonEditor && updatePropsValue) jsonEditor.set(props.field.value);
   }); */
-  createComputed(() => {
-    if (props.control.value && jsonEditor) jsonEditor.set(props.control.value);
-  });
+  // Temporary commenting this:
+  //createComputed(() => {
+    // if (props.control.value && jsonEditor) jsonEditor.set(props.control.value);
+  //});
 
   onCleanup(() => {
     if (jsonEditor) jsonEditor.destroy();
