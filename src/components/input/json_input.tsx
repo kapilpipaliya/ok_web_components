@@ -10,7 +10,6 @@ import { IFormControl } from "solid-forms";
 interface Properties {
   control: IFormControl<{ [key: string]: unknown }>;
   name?: string;
-  type?: string;
   class?: string;
   disabled?: boolean;
 }
