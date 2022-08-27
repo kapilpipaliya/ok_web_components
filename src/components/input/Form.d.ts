@@ -23,6 +23,7 @@ export interface TableField extends BaseField {
   edge?: string;
   attributes: FieldAttribute[];
   defaultValue: "undefined" | 'default';
+  data: {properties: {}}[]; // Edges[]
 }
 export type FieldAttribute = BaseField | SelectField | TableField
 
@@ -31,4 +32,6 @@ export interface FormMetaData {
   title: string;
   attributes: FieldAttribute[];
   save: ["vertex", string] | ['edge', string, (result: any[])=> Id, (result: any[], row: object)=> Id];
+  data: (idMap: Map<string, string>) => any
+  idFn?: (idMap: Map<string, string>)=>Id;
 }

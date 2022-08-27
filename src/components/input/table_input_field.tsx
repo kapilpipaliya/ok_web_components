@@ -10,11 +10,13 @@ import { css } from "solid-styled-components";
 import { getDefaultValue } from "../../utils/form";
 import { SelectInputField } from "./select_input_field";
 import { FieldAttribute, SelectField, TableField } from "./Form";
+import {klona} from "klona";
 
 export interface TableInputFieldProps {
   control: ReturnType<typeof createFormArray>;
   attributes: FieldAttribute[];
   defaultValue: "undefined" | "default";
+  data: any[]
 }
 
 export function TableInputField(props: TableInputFieldProps) {
@@ -52,6 +54,18 @@ export function TableInputField(props: TableInputFieldProps) {
       setSortedKeys((prev) => [...prev, groupControl.controls._id.value]);
     });
   });
+
+  if(props.data){
+    const clonedData = props.data.map(att=> newRow(klona(att.properties), att.id))
+        // batch not work here:
+        runWithOwner(owner, () => {
+          clonedData.forEach((attribute) => {
+            props.control.push(attribute)
+          });
+        })
+        setSortedKeys((props.control.controls as ReadonlyArray<IFormGroup>).map((a) => a.controls._id.value));
+
+  }
 
   // Todo dont allow duplicate value in the select field
   const SortableRow = (p: { metaId: string }) => {
@@ -196,7 +210,7 @@ export function TableInputField(props: TableInputFieldProps) {
           // Cannot mutate a Store directly
           // props.control.controls.splice(toIndex, 0, ...props.control.controls.splice(fromIndex, 1));
           updatedItems.forEach((_id, index) => {
-            const control = props.control.controls.find((control) => control.controls._id.value === _id);
+            const control = (props.control.controls  as ReadonlyArray<IFormGroup>).find((control) => control.controls._id.value === _id);
             control.controls.pos.setValue(index + 1);
           });
         });
