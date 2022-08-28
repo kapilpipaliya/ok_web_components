@@ -60,7 +60,7 @@ export function SelectInputField(props: SelectInputFieldProps) {
             return optionOrValue["properties"]["id"];
           } else {
             if (optionOrValue) {
-              return normalizedAttributeSelectOptions()[optionOrValue]["properties"][p.valueKey];
+              return normalizedAttributeSelectOptions()[optionOrValue]?.["properties"]?.[p.valueKey];
             } else {
               return optionOrValue;
             }
