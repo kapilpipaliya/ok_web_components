@@ -32,6 +32,6 @@ export interface FormMetaData {
   title: string;
   attributes: FieldAttribute[];
   save: ["vertex", string] | ['edge', string, ((results: {[key: string]: any}, formValue: object)=> Id) | undefined, ((results: {[key: string]: any}, formValue: object)=> Id) | undefined];
-  data: (idMap: Map<string, string>) => any
+  data?: (idMap: Map<string, string>) => any
   idFn?: (idMap: Map<string, string>)=>Id;
 }

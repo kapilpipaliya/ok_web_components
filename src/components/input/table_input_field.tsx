@@ -184,7 +184,7 @@ export function TableInputField(props: TableInputFieldProps) {
             )}
           </For>
           <td>
-            <button onclick={(_) => props.control.removeControl(control())}>x</button>
+            <button type="button" onclick={(_) => props.control.removeControl(control())}>x</button>
           </td>
         </tr>
       </Show>

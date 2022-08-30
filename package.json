@@ -25,9 +25,9 @@
     "@storybook/client-api": "^6.5.10",
     "@storybook/html": "^6.5.10",
     "@storybook/testing-library": "0.0.13",
-    "@typescript-eslint/eslint-plugin": "^5.35.1",
-    "@typescript-eslint/parser": "^5.35.1",
-    "eslint": "^8.22.0",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
+    "eslint": "^8.23.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -38,7 +38,7 @@
     "@amoutonbrady/solid-heroicons": "^0.8.0",
     "@mobily/ts-belt": "^3.13.1",
     "@popperjs/core": "^2.11.6",
-    "@solid-primitives/scheduled": "^1.0.0",
+    "@solid-primitives/scheduled": "^1.0.1",
     "@tanstack/solid-table": "^8.5.11",
     "@thisbeyond/solid-dnd": "^0.6.1",
     "@thisbeyond/solid-select": "^0.12.0",
@@ -47,10 +47,10 @@
     "klona": "^2.0.5",
     "solid-blocks": "^0.0.1",
     "solid-forms": "^0.4.6",
-    "solid-heroicons": "^2.0.3",
-    "solid-js": "^1.5.1",
+    "solid-heroicons": "^3.0.1",
+    "solid-js": "^1.5.2",
     "solid-popper": "^0.2.1",
     "solid-styled-components": "^0.28.4",
-    "solid-transition-group": "0.0.10"
+    "solid-transition-group": "0.0.11"
   }
 }
