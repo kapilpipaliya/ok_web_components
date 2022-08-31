@@ -17,6 +17,7 @@ export interface TableInputFieldProps {
   attributes: FieldAttribute[];
   defaultValue: "undefined" | "default";
   data: any[]
+  defaultValueFn: (control: IFormGroup, key: string)=>string;
 }
 
 export function TableInputField(props: TableInputFieldProps) {
@@ -106,7 +107,7 @@ export function TableInputField(props: TableInputFieldProps) {
                             display: flex;
                           `}
                         >
-                          {/*{normalizedAttributeSelectOptions()?.[control().controls.attribute.value]?.["properties"]?.[meta.key]}*/}
+                          {props.defaultValueFn?.(control(), meta.key)}
                           <Show
                             when={control().controls[meta.key].value === undefined}
                             fallback={
@@ -142,6 +143,7 @@ export function TableInputField(props: TableInputFieldProps) {
                         display: flex;
                       `}
                     >
+                      {props.defaultValueFn?.(control(), meta.key)}
                       <SelectInputField
                         control={control().controls[meta.key] as IFormControl}
                         valueKey={(meta as SelectField).valueKey}
@@ -160,7 +162,7 @@ export function TableInputField(props: TableInputFieldProps) {
                         display: flex;
                       `}
                     >
-                      {/*{normalizedAttributeSlectOptions()?.[control().controls.attribute.value]?.["properties"]?.[meta.key] ? "true" : "false"}*/}
+                      {props.defaultValueFn?.(control(), meta.key)}
                       <Show
                         when={control().controls[meta.key].value === undefined}
                         fallback={

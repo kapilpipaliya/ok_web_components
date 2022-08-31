@@ -1,4 +1,9 @@
-import {createFormArray, createFormControl, IFormControlOptions} from "solid-forms";
+import {
+  createFormArray,
+  createFormControl,
+  IFormControlOptions,
+  IFormGroup
+} from "solid-forms";
 
 // Id is used as string because its used as object keys.
 export type Id = string;
@@ -24,6 +29,7 @@ export interface TableField extends BaseField {
   attributes: FieldAttribute[];
   defaultValue: "undefined" | 'default';
   data: {properties: {}}[]; // Edges[]
+  defaultValueFn: (control: IFormGroup, key: string)=>string;
 }
 export type FieldAttribute = BaseField | SelectField | TableField
 
