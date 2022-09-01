@@ -11,6 +11,7 @@ import { getDefaultValue } from "../../utils/form";
 import { SelectInputField } from "./select_input_field";
 import { FieldAttribute, SelectField, TableField } from "./Form";
 import {klona} from "klona";
+import { toTitle } from "case-switcher-js";
 
 export interface TableInputFieldProps {
   control: ReturnType<typeof createFormArray>;
@@ -255,7 +256,7 @@ export function TableInputField(props: TableInputFieldProps) {
                 <For each={props.attributes}>
                   {(attribute) => (
                     <Show when={!attribute.hidden}>
-                      <th>{attribute.label || attribute.key}</th>
+                      <th>{toTitle(attribute.label || attribute.key)}</th>
                     </Show>
                   )}
                 </For>
