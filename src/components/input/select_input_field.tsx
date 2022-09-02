@@ -1,7 +1,8 @@
-import { createEffect, createSignal, For, JSX, Show, splitProps } from "solid-js";
-import { createFormControl} from "solid-forms";
+import {createEffect, createSignal, createUniqueId, For, JSX, Show, splitProps} from "solid-js";
+import { createFormControl } from "solid-forms";
 import { createAsyncOptions, Select } from "@thisbeyond/solid-select";
-import './select.css'
+import "./select.css";
+import { Value } from "@thisbeyond/solid-select/dist/types/create-select";
 
 interface Option {
   [key: string]: any;
@@ -11,7 +12,7 @@ interface Option {
 
 type SelectParams = Parameters<typeof Select>[0];
 
-export interface SelectInputFieldProps extends Omit<SelectParams, 'options'> {
+export interface SelectInputFieldProps extends Omit<SelectParams, "options"> {
   control: ReturnType<typeof createFormControl>;
   fetchOptions: (inputValue: string) => Promise<any[]>;
   valueKey: string;
@@ -36,6 +37,17 @@ export function SelectInputField(props: SelectInputFieldProps) {
     }
   });
 
+  const initialValue = p.control.value;
+  let runOnce = false;
+  // solid-select has bug that call onChange when we set initialValue
+  const onChange = (value: Value) => {
+    if (!runOnce && value === initialValue) {
+      runOnce = true;
+    } else {
+      p.control.setValue(value);
+    }
+  };
+
   return (
     <div
       classList={{
@@ -48,7 +60,9 @@ export function SelectInputField(props: SelectInputFieldProps) {
       <Select
         {...selectOptionProps}
         initialValue={p.control.value}
-        onChange={(value) => p.control.setValue(value)}
+        onChange={onChange}
+        // hack to Re-fetch Options
+        onFocus={()=>selectOptionProps.onInput(createUniqueId())}
         onBlur={() => p.control.markTouched(true)}
         disabled={p.control.isDisabled || p.control.isReadonly}
         optionToValue={(option: Option) => {

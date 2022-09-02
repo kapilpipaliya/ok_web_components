@@ -15,13 +15,14 @@ interface BaseField {
   hidden?: boolean;
   editable?: boolean;
   default?: (control: ReturnType<typeof createFormControl> | ReturnType<typeof createFormArray>, id?: Id) => any;
-  options?: IFormControlOptions
+  options?: IFormControlOptions;
+  onchange?: (form: IFormGroup, value: Id)=>void
 }
 
 export interface SelectField extends BaseField {
   collection: string;
   valueKey: string;
-  fetchOptions: (inputValue: string) => Promise<any[]>;
+  fetchOptions: (formGroup: IFormGroup, inputValue: string) => Promise<any[]>;
 }
 export interface TableField extends BaseField {
   collection?: string;

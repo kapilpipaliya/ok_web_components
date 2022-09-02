@@ -16,7 +16,6 @@ interface Properties {
 
 export const JsonInput = (props: Properties) => {
   // here we provide a default form control in case the user doesn't supply one
-
   const [hasError, setHasError] = createSignal("");
   let jsonEditor: JSONEditor;
 
