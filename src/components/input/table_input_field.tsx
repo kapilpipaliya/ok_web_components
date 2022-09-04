@@ -9,7 +9,7 @@ import { closestCenter, createSortable, DragDropProvider, DragDropSensors, DragE
 import { css } from "solid-styled-components";
 import { getDefaultValue } from "../../utils/form";
 import { SelectInputField } from "./select_input_field";
-import {FieldAttribute, Id, SelectField, TableField} from "./Form";
+import {FieldAttribute, Id, SelectField, TableField, FormToIdMap} from "./Form";
 import {klona} from "klona";
 import { toTitle } from "case-switcher-js";
 
@@ -20,12 +20,12 @@ export interface TableInputFieldProps {
   data: any[]
   defaultValueFn: (control: IFormGroup, key: string)=>string;
   // all forms options:
-  formToIdMap: Map<string, Id>;
+  formToIdMap: FormToIdMap;
   formValues: IFormGroup;
 }
 
 export function TableInputField(props: TableInputFieldProps) {
-  const [p, customProps] = splitProps(props, ["control", "attributes", "defaultValue"]);
+  const [p, customProps] = splitProps(props, ["control", "attributes", "defaultValue", "formToIdMap", "formValues"]);
 
   const [sortedIds, setSortedKeys] = createSignal([]);
 
@@ -38,7 +38,7 @@ export function TableInputField(props: TableInputFieldProps) {
           acc[meta.key] = createFormArray([]);
         } else {
           if (meta.default) {
-            acc[meta.key] = createFormControl(obj?.[meta.key] ?? meta.default(p.control, id), meta.options);
+            acc[meta.key] = createFormControl(obj?.[meta.key] ?? meta.default(p.formToIdMap, p.formValues, p.control, id), meta.options);
           } else if (p.defaultValue === "undefined") {
             acc[meta.key] = createFormControl(obj?.[meta.key], meta.options);
           } else if (p.defaultValue === "default") {
