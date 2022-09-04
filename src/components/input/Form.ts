@@ -22,7 +22,7 @@ interface BaseField {
 export interface SelectField extends BaseField {
   collection: string;
   valueKey: string;
-  fetchOptions: (formGroup: IFormGroup, inputValue: string) => Promise<any[]>;
+  fetchOptions: (formToIdMap: Map<string, string>, formValues: IFormGroup, formGroup: IFormGroup, inputValue: string) => Promise<any[]>;
 }
 export interface TableField extends BaseField {
   collection?: string;
@@ -31,6 +31,7 @@ export interface TableField extends BaseField {
   defaultValue: "undefined" | 'default';
   data: {properties: {}}[]; // Edges[]
   defaultValueFn: (control: IFormGroup, key: string)=>string;
+  save: (results: {[key: string]: any}, tableData: any[]) => any;
 }
 export type FieldAttribute = BaseField | SelectField | TableField
 
@@ -38,7 +39,10 @@ export interface FormMetaData {
   id: Id;
   title: string;
   attributes: FieldAttribute[];
-  save: ["vertex", string] | ['edge', string, ((results: {[key: string]: any}, formValue: object)=> Id) | undefined, ((results: {[key: string]: any}, formValue: object)=> Id) | undefined];
+  save: ["vertex", string]
+      | ['edge', string, ((results: {[key: string]: any}, formValue: object)=> Id) | undefined, ((results: {[key: string]: any}, formValue: object)=> Id) | undefined]
+      // if start and end function are not provided than it will not save anything
+      | ['edge', string]
   data?: (idMap: Map<string, string>) => any
   idFn?: (idMap: Map<string, string>)=>Id;
 }

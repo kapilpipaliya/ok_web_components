@@ -9,7 +9,7 @@ import { closestCenter, createSortable, DragDropProvider, DragDropSensors, DragE
 import { css } from "solid-styled-components";
 import { getDefaultValue } from "../../utils/form";
 import { SelectInputField } from "./select_input_field";
-import { FieldAttribute, SelectField, TableField } from "./Form";
+import {FieldAttribute, Id, SelectField, TableField} from "./Form";
 import {klona} from "klona";
 import { toTitle } from "case-switcher-js";
 
@@ -19,6 +19,9 @@ export interface TableInputFieldProps {
   defaultValue: "undefined" | "default";
   data: any[]
   defaultValueFn: (control: IFormGroup, key: string)=>string;
+  // all forms options:
+  formToIdMap: Map<string, Id>;
+  formValues: IFormGroup;
 }
 
 export function TableInputField(props: TableInputFieldProps) {
@@ -148,7 +151,7 @@ export function TableInputField(props: TableInputFieldProps) {
                       <SelectInputField
                         control={control().controls[meta.key] as IFormControl}
                         valueKey={(meta as SelectField).valueKey}
-                        fetchOptions={(meta as SelectField).fetchOptions}
+                        fetchOptions={async (inputValue: string) => (meta as SelectField).fetchOptions(props.formToIdMap, props.formValues, control(), inputValue)}
                       />
                       <button type="button" onclick={() => clearSelectControl(meta.key)}>
                         x
