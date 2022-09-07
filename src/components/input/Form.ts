@@ -26,17 +26,22 @@ export interface SelectField extends BaseField {
   valueKey: string;
   fetchOptions: (formToIdMap: FormToIdMap, formValues: IFormGroup, formGroup: IFormGroup, inputValue: string) => Promise<any[]>;
 }
+
+export interface TableFieldAttributeBase {
+  noOverWrite?: boolean;
+}
+export type TableFieldAttributes = (BaseField & TableFieldAttributeBase) | (SelectField & TableFieldAttributeBase) | (TableField & TableFieldAttributeBase)
 export interface TableField extends BaseField {
   collection?: string;
   edge?: string;
-  attributes: FieldAttribute[];
+  attributes: TableFieldAttributes[];
   defaultValue: "undefined" | 'default';
   data: {properties: {}}[]; // Edges[]
   defaultValueFn: (control: IFormGroup, key: string)=>string;
   save: (results: FormToIdMap, tableData: any[]) => any;
+
 }
 export type FieldAttribute = BaseField | SelectField | TableField
-
 
 export interface FormMetaData {
   id: Id;

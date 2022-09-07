@@ -9,33 +9,50 @@ import { closestCenter, createSortable, DragDropProvider, DragDropSensors, DragE
 import { css } from "solid-styled-components";
 import { getDefaultValue } from "../../utils/form";
 import { SelectInputField } from "./select_input_field";
-import {FieldAttribute, Id, SelectField, TableField, FormToIdMap} from "./Form";
-import {klona} from "klona";
+import {FieldAttribute, Id, SelectField, TableField, FormToIdMap, TableFieldAttributes} from "./Form";
+import { klona } from "klona";
 import { toTitle } from "case-switcher-js";
 
 export interface TableInputFieldProps {
   control: ReturnType<typeof createFormArray>;
   attributes: FieldAttribute[];
   defaultValue: "undefined" | "default";
-  data: any[]
-  defaultValueFn: (control: IFormGroup, key: string)=>string;
+  data: any[];
+  defaultValueFn: (control: IFormGroup, key: string) => string;
   // all forms options:
   formToIdMap: FormToIdMap;
   formValues: IFormGroup;
 }
 
 function OverWriteableCell(props: {
-  meta: FieldAttribute;
-  defaultValueFn: (control: IFormGroup, key: string)=>string;
+  meta: TableFieldAttributes;
+  defaultValueFn: (control: IFormGroup, key: string) => string;
   control: IFormGroup;
   onClearOverWriteClick: () => void;
   onOverwriteClick: () => void;
-  children?: JSX.Element
+  children?: JSX.Element;
 }) {
   return (
-    <Show
-      when={props.meta.options?.disabled}
-      fallback={
+    <Switch>
+      <Match when={props.meta.options?.disabled}>
+        <td
+          class={css`
+            max-width: 100px;
+          `}
+        >
+          {props.children}
+        </td>
+      </Match>
+      <Match when={props.meta.noOverWrite}>
+        <td
+          class={css`
+            max-width: 100px;
+          `}
+        >
+          {props.children}
+        </td>
+      </Match>
+      <Match when={props.meta.key}>
         <td>
           <div
             class={css`
@@ -49,28 +66,20 @@ function OverWriteableCell(props: {
               fallback={
                 <>
                   {props.children}
-                  <button type="button" onclick={props.onClearOverWriteClick}>
+                  <button type="button" onClick={props.onClearOverWriteClick}>
                     x
                   </button>
                 </>
               }
             >
-              <button type="button" onclick={props.onOverwriteClick}>
+              <button type="button" onClick={props.onOverwriteClick}>
                 O
               </button>
             </Show>
           </div>
         </td>
-      }
-    >
-      <td
-        class={css`
-          max-width: 100px;
-        `}
-      >
-        <TextInputField label="" control={props.control.controls[props.meta.key] as IFormControl} />
-      </td>
-    </Show>
+      </Match>
+    </Switch>
   );
 }
 
@@ -150,21 +159,39 @@ export function TableInputField(props: TableInputFieldProps) {
                   <></>
                 </Match>
                 <Match when={meta.type === "string"}>
-                  <OverWriteableCell meta={meta} defaultValueFn={props.defaultValueFn} control={control()} onClearOverWriteClick={() => clearControl(meta.key)} onOverwriteClick={() => setValue(meta.key, "")} >
+                  <OverWriteableCell
+                    meta={meta}
+                    defaultValueFn={props.defaultValueFn}
+                    control={control()}
+                    onClearOverWriteClick={() => clearControl(meta.key)}
+                    onOverwriteClick={() => setValue(meta.key, "")}
+                  >
                     <TextInputField label="" control={control().controls[meta.key] as IFormControl} type={"text"} />
                   </OverWriteableCell>
                 </Match>
                 <Match when={meta.type === "select"}>
-                  <OverWriteableCell meta={meta} defaultValueFn={props.defaultValueFn} control={control()} onClearOverWriteClick={() => clearControl(meta.key)} onOverwriteClick={() => clearSelectControl(meta.key)} >
+                  <OverWriteableCell
+                    meta={meta}
+                    defaultValueFn={props.defaultValueFn}
+                    control={control()}
+                    onClearOverWriteClick={() => clearControl(meta.key)}
+                    onOverwriteClick={() => clearSelectControl(meta.key)}
+                  >
                     <SelectInputField
-                        control={control().controls[meta.key] as IFormControl}
-                        valueKey={(meta as SelectField).valueKey}
-                        fetchOptions={async (inputValue: string) => (meta as SelectField).fetchOptions(props.formToIdMap, props.formValues, control(), inputValue)}
+                      control={control().controls[meta.key] as IFormControl}
+                      valueKey={(meta as SelectField).valueKey}
+                      fetchOptions={async (inputValue: string) => (meta as SelectField).fetchOptions(props.formToIdMap, props.formValues, control(), inputValue)}
                     />
                   </OverWriteableCell>
                 </Match>
                 <Match when={meta.type === "boolean"}>
-                  <OverWriteableCell meta={meta} defaultValueFn={props.defaultValueFn} control={control()} onClearOverWriteClick={() => clearControl(meta.key)} onOverwriteClick={() => setValue(meta.key, false)} >
+                  <OverWriteableCell
+                    meta={meta}
+                    defaultValueFn={props.defaultValueFn}
+                    control={control()}
+                    onClearOverWriteClick={() => clearControl(meta.key)}
+                    onOverwriteClick={() => setValue(meta.key, false)}
+                  >
                     <BooleanInputField label="" control={control().controls[meta.key] as IFormControl} />
                   </OverWriteableCell>
                 </Match>
