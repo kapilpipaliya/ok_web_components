@@ -1,4 +1,4 @@
-import { batch, createEffect, createMemo, createSignal, createUniqueId, For, getOwner, runWithOwner, Show, splitProps, Switch, Match } from "solid-js";
+import { JSX, batch, createEffect, createMemo, createSignal, createUniqueId, For, getOwner, runWithOwner, Show, splitProps, Switch, Match } from "solid-js";
 import { TextInput } from "./core/text_input";
 import { BooleanInputField } from "./boolean_input_field";
 import { Button } from "../button";
@@ -22,6 +22,56 @@ export interface TableInputFieldProps {
   // all forms options:
   formToIdMap: FormToIdMap;
   formValues: IFormGroup;
+}
+
+function OverWriteableCell(props: {
+  meta: FieldAttribute;
+  defaultValueFn: (control: IFormGroup, key: string)=>string;
+  control: IFormGroup;
+  onClearOverWriteClick: () => void;
+  onOverwriteClick: () => void;
+  children?: JSX.Element
+}) {
+  return (
+    <Show
+      when={props.meta.options?.disabled}
+      fallback={
+        <td>
+          <div
+            class={css`
+              max-width: 100px;
+              display: flex;
+            `}
+          >
+            {props.defaultValueFn?.(props.control, props.meta.key)}
+            <Show
+              when={props.control.controls[props.meta.key].value === undefined}
+              fallback={
+                <>
+                  {props.children}
+                  <button type="button" onclick={props.onClearOverWriteClick}>
+                    x
+                  </button>
+                </>
+              }
+            >
+              <button type="button" onclick={props.onOverwriteClick}>
+                O
+              </button>
+            </Show>
+          </div>
+        </td>
+      }
+    >
+      <td
+        class={css`
+          max-width: 100px;
+        `}
+      >
+        <TextInputField label="" control={props.control.controls[props.meta.key] as IFormControl} />
+      </td>
+    </Show>
+  );
 }
 
 export function TableInputField(props: TableInputFieldProps) {
@@ -60,16 +110,15 @@ export function TableInputField(props: TableInputFieldProps) {
     });
   });
 
-  if(props.data){
-    const clonedData = props.data.map(att=> newRow(klona(att.properties), att.id))
-        // batch not work here:
-        runWithOwner(owner, () => {
-          clonedData.forEach((attribute) => {
-            props.control.push(attribute)
-          });
-        })
-        setSortedKeys((props.control.controls as ReadonlyArray<IFormGroup>).map((a) => a.controls._id.value));
-
+  if (props.data) {
+    const clonedData = props.data.map((att) => newRow(klona(att.properties), att.id));
+    // batch not work here:
+    runWithOwner(owner, () => {
+      clonedData.forEach((attribute) => {
+        props.control.push(attribute);
+      });
+    });
+    setSortedKeys((props.control.controls as ReadonlyArray<IFormGroup>).map((a) => a.controls._id.value));
   }
 
   // Todo dont allow duplicate value in the select field
@@ -101,96 +150,34 @@ export function TableInputField(props: TableInputFieldProps) {
                   <></>
                 </Match>
                 <Match when={meta.type === "string"}>
-                  <Show
-                    when={meta.options?.disabled}
-                    fallback={
-                      <td>
-                        <div
-                          class={css`
-                            max-width: 100px;
-                            display: flex;
-                          `}
-                        >
-                          {props.defaultValueFn?.(control(), meta.key)}
-                          <Show
-                            when={control().controls[meta.key].value === undefined}
-                            fallback={
-                              <>
-                                <TextInputField label="" control={control().controls[meta.key] as IFormControl} type={"text"} />
-                                <button type="button" onclick={() => clearControl(meta.key)}>
-                                  x
-                                </button>
-                              </>
-                            }
-                          >
-                            <button type="button" onclick={() => setValue(meta.key, "")}>
-                              O
-                            </button>
-                          </Show>
-                        </div>
-                      </td>
-                    }
-                  >
-                    <td
-                      class={css`
-                        max-width: 100px;
-                      `}
-                    >
-                      <TextInputField label="" control={control().controls[meta.key] as IFormControl} />
-                    </td>
-                  </Show>
+                  <OverWriteableCell meta={meta} defaultValueFn={props.defaultValueFn} control={control()} onClearOverWriteClick={() => clearControl(meta.key)} onOverwriteClick={() => setValue(meta.key, "")} >
+                    <TextInputField label="" control={control().controls[meta.key] as IFormControl} type={"text"} />
+                  </OverWriteableCell>
                 </Match>
                 <Match when={meta.type === "select"}>
-                  <td>
-                    <div
-                      class={css`
-                        display: flex;
-                      `}
-                    >
-                      {props.defaultValueFn?.(control(), meta.key)}
-                      <SelectInputField
+                  <OverWriteableCell meta={meta} defaultValueFn={props.defaultValueFn} control={control()} onClearOverWriteClick={() => clearControl(meta.key)} onOverwriteClick={() => clearSelectControl(meta.key)} >
+                    <SelectInputField
                         control={control().controls[meta.key] as IFormControl}
                         valueKey={(meta as SelectField).valueKey}
                         fetchOptions={async (inputValue: string) => (meta as SelectField).fetchOptions(props.formToIdMap, props.formValues, control(), inputValue)}
-                      />
-                      <button type="button" onclick={() => clearSelectControl(meta.key)}>
-                        x
-                      </button>
-                    </div>
-                  </td>
+                    />
+                  </OverWriteableCell>
                 </Match>
                 <Match when={meta.type === "boolean"}>
-                  <td>
-                    <div
-                      class={css`
-                        display: flex;
-                      `}
-                    >
-                      {props.defaultValueFn?.(control(), meta.key)}
-                      <Show
-                        when={control().controls[meta.key].value === undefined}
-                        fallback={
-                          <>
-                            <BooleanInputField label="" control={control().controls[meta.key] as IFormControl} />
-                            <button type="button" onclick={() => clearControl(meta.key)}>
-                              x
-                            </button>
-                          </>
-                        }
-                      >
-                        <button type="button" onclick={() => setValue(meta.key, false)}>
-                          O
-                        </button>
-                      </Show>
-                    </div>
-                  </td>
+                  <OverWriteableCell meta={meta} defaultValueFn={props.defaultValueFn} control={control()} onClearOverWriteClick={() => clearControl(meta.key)} onOverwriteClick={() => setValue(meta.key, false)} >
+                    <BooleanInputField label="" control={control().controls[meta.key] as IFormControl} />
+                  </OverWriteableCell>
                 </Match>
-                <Match when={meta.type === "object"}><td>TODO</td></Match>
+                <Match when={meta.type === "object"}>
+                  <td>TODO</td>
+                </Match>
               </Switch>
             )}
           </For>
           <td>
-            <button type="button" onclick={(_) => props.control.removeControl(control())}>x</button>
+            <button type="button" onclick={(_) => props.control.removeControl(control())} title="Delete Row">
+              x
+            </button>
           </td>
         </tr>
       </Show>
@@ -216,7 +203,7 @@ export function TableInputField(props: TableInputFieldProps) {
           // Cannot mutate a Store directly
           // props.control.controls.splice(toIndex, 0, ...props.control.controls.splice(fromIndex, 1));
           updatedItems.forEach((_id, index) => {
-            const control = (props.control.controls  as ReadonlyArray<IFormGroup>).find((control) => control.controls._id.value === _id);
+            const control = (props.control.controls as ReadonlyArray<IFormGroup>).find((control) => control.controls._id.value === _id);
             control.controls.pos.setValue(index + 1);
           });
         });
