@@ -3,7 +3,7 @@
 // react: https://github.com/joeattardi/emoji-picker
 // svelte: https://github.com/joeattardi/svelte-emoji-selector
 import { JSX } from "solid-js";
-import { Label } from "./label";
+import { Label } from "./Label";
 
 interface Properties {
   disabled?: boolean;

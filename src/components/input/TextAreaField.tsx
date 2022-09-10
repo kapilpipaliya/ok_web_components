@@ -1,15 +1,15 @@
 import { For, JSX, Show, splitProps } from "solid-js";
 import { IFormControl } from "solid-forms";
 import { TextInput, TextInputProps } from "./core/text_input";
-import { Checkbox } from "./core/checkbox";
+import { Checkbox } from "./core/Checkbox";
+import { TextArea, TextAreaProps } from "./core/TextArea";
 
-export interface BooleanInputFieldProps extends TextInputProps, JSX.InputHTMLAttributes<HTMLInputElement> {
+export interface TextInputField extends TextAreaProps {
   control: IFormControl;
 }
 
-export function BooleanInputField(props: BooleanInputFieldProps) {
+export function TextAreaField(props: TextInputField) {
   const [p, customProps] = splitProps(props, ["control"]);
-
   return (
     <div
       classList={{
@@ -19,10 +19,10 @@ export function BooleanInputField(props: BooleanInputFieldProps) {
         "is-disabled": p.control.isDisabled,
       }}
     >
-      <Checkbox
-        checked={p.control.value}
+      <TextArea
+        value={p.control.value}
         oninput={(e) => {
-          p.control.setValue(e.currentTarget.checked);
+          p.control.setValue(e.currentTarget.value);
         }}
         onblur={() => p.control.markTouched(true)}
         required={p.control.isRequired}

@@ -5,7 +5,7 @@ import { BaseOptions, DateOption, Hook, Options } from "flatpickr/dist/types/opt
 import { createEffect, onCleanup } from "solid-js";
 import "flatpickr/dist/flatpickr.min.css";
 
-import { Label } from "./label";
+import { Label } from "./Label";
 
 type CallbackPropTypes = (instance: Instance) => void;
 

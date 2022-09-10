@@ -1,5 +1,5 @@
 export default { title: "Application/Select" };
-import { Select } from "../components/input/core/select";
+import { Select } from "../components/input/core/Select";
 
 export const SelectTest = () => {
   const args = {

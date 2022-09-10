@@ -8,7 +8,7 @@ options={{ clickable: true, acceptedFiles: 'text/javascript', maxFilesize: 256, 
 */
 import { JSX } from "solid-js";
 import Dropzone from "dropzone";
-import { Label } from "./label";
+import { Label } from "./Label";
 
 /*
 <style>

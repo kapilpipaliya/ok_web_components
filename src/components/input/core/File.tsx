@@ -5,7 +5,7 @@
  */
 import { createSignal, JSX, splitProps } from "solid-js";
 import { createStore } from "solid-js/store";
-import { Label } from "./label";
+import { Label } from "./Label";
 
 interface Properties extends Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "onchange"> {
   name?: string;

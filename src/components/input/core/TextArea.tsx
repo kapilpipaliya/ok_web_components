@@ -1,5 +1,5 @@
 import { createUniqueId, JSX, splitProps } from "solid-js";
-import { Field } from "./field";
+import { Field } from "./Field";
 import { css } from "solid-styled-components";
 
 export interface TextAreaProps extends JSX.InputHTMLAttributes<HTMLTextAreaElement> {

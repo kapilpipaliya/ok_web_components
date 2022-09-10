@@ -1,14 +1,14 @@
 import { JSX, batch, createEffect, createMemo, createSignal, createUniqueId, For, getOwner, runWithOwner, Show, splitProps, Switch, Match } from "solid-js";
 import { TextInput } from "./core/text_input";
-import { BooleanInputField } from "./boolean_input_field";
+import { BooleanInputField } from "./BooleanInputField";
 import { Button } from "../button";
-import { TextInputField } from "./text_input_field";
+import { TextInputField } from "./TextInputField";
 
 import { bindOwner, createFormArray, createFormControl, createFormGroup, IFormControl, IFormControlOptions, IFormGroup } from "solid-forms";
 import { closestCenter, createSortable, DragDropProvider, DragDropSensors, DragEventHandler, SortableProvider } from "@thisbeyond/solid-dnd";
 import { css } from "solid-styled-components";
 import { getDefaultValue } from "../../utils/form";
-import { SelectInputField } from "./select_input_field";
+import { SelectInputField } from "./SelectInputField";
 import {FieldAttribute, Id, SelectField, TableField, FormToIdMap, TableFieldAttributes} from "./Form";
 import { klona } from "klona";
 import { toTitle } from "case-switcher-js";

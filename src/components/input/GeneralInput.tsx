@@ -1,9 +1,9 @@
 import { Match, Switch } from "solid-js";
 import { IFormControl } from "solid-forms";
-import { TextInputField } from "./text_input_field";
-import { BooleanInputField } from "./boolean_input_field";
-import { TextAreaField } from "./text_area_field";
-import { JsonInput } from "./json_input";
+import { TextInputField } from "./TextInputField";
+import { BooleanInputField } from "./BooleanInputField";
+import { TextAreaField } from "./TextAreaField";
+import { JsonInput } from "./JsonInput";
 
 interface Properties {
   control: IFormControl;
