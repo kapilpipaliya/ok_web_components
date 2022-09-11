@@ -12,6 +12,7 @@ export { Table } from "./components/table";
 export { JsonInput } from "./components/input/JsonInput";
 export { Select } from "./components/input/core/Select";
 export { GeneralInput } from "./components/input/GeneralInput";
+export { ButtonGroup } from "./components/input/core/ButtonGroup";
 // utils
 export * from "./utils/enums";
 export * from "./utils/form";
