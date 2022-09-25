@@ -9,7 +9,11 @@ import {JSX} from "solid-js";
 // Id is used as string because its used as object keys.
 export type Id = string;
 
-export type FormToIdMap = Map<string, {id: string}>;
+export type FormResult = Map<string, {[key: string]: any}>;
+
+export interface InitialValues {
+  [formId: string]: {id: Id, start?: Id, end?: Id, properties: {[key: string]: any}}
+}
 
 interface BaseField {
   key: string;
@@ -17,49 +21,58 @@ interface BaseField {
   label?: string;
   hidden?: boolean;
   editable?: boolean;
-  default?: (formToIdMap: FormToIdMap, formValues: IFormGroup, control: ReturnType<typeof createFormGroup> | ReturnType<typeof createFormArray>, id?: Id) => any;
+  default?: (formValues: IFormGroup, control: ReturnType<typeof createFormGroup> | ReturnType<typeof createFormArray>, id?: Id) => any;
   options?: IFormControlOptions;
   onchange?: (form: IFormGroup, value: Id)=>void
 }
 
 export interface SelectField extends BaseField {
+  type: 'select';
   collection: string;
   valueKey: string;
-  fetchOptions: (formToIdMap: FormToIdMap, formValues: IFormGroup, formGroup: IFormGroup, inputValue: string) => Promise<any[]>;
+  fetchOptions: (formValues: IFormGroup, formGroup: IFormGroup, inputValue: string) => Promise<any[]>;
 }
 
 export interface TableFieldAttributeBase {
   noOverWrite?: boolean;
 }
 export type TableFieldAttributes = (BaseField & TableFieldAttributeBase) | (SelectField & TableFieldAttributeBase) | (TableField & TableFieldAttributeBase)
+
 export interface TableField extends BaseField {
+  type: "table" | "table_forms";
   collection?: string;
   edge?: string;
+  form?: string;
+  postSubmit?: (formValues: IFormGroup, formGroup: IFormGroup, tableItemFormGroup: IFormGroup, values: FormResult)=>void
   attributes: TableFieldAttributes[];
   defaultValue: "undefined" | 'default';
   data: {properties: {}}[]; // Edges[]
   defaultValueFn: (control: IFormGroup, key: string)=>string;
-  save: (results: FormToIdMap, tableData: any[]) => any;
+  save: (results: FormResult, tableData: any[]) => any;
 
 }
+// - if label is "save" and we don't pass a onclick function, it runs a default save function.
+// - the save button should be disabled until anything changed.
 export interface ButtonItem {
   design: "Default" | "Transparent" | "Positive" | "Negative" | "Attention" | "Emphasized";
   onclick: () => void;
   children?: JSX.Element;
 }
 export interface ButtonGroupField extends BaseField {
+  type: "buttongroup";
   buttons: ButtonItem[]
 }
-export type FieldAttribute = BaseField | SelectField | TableField
+export type FieldAttribute = BaseField | SelectField | TableField | ButtonGroupField
 
 export interface FormMetaData {
   id: Id;
   title: string;
   attributes: FieldAttribute[];
   save: ["vertex", string]
-      | ['edge', string, ((results: FormToIdMap, formValue: object)=> Id) | undefined, ((results: FormToIdMap, formValue: object)=> Id) | undefined]
+      // we can pass initialValues to start and end function when needed
+      | ['edge', string, ((results: FormResult, formValue: object)=> Id) | undefined, ((results: FormResult, formValue: object)=> Id) | undefined]
       // if start and end function are not provided than it will not save anything
       | ['edge', string]
-  data?: (idMap: FormToIdMap) => any
-  idFn?: (idMap: FormToIdMap)=>Id;
+  // when there is more than one forms we provide data fn for each form
+  data?: (id: string) => any
 }
