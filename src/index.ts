@@ -1,3 +1,4 @@
+
 export { Checkbox } from "./components/input/core/Checkbox";
 export { Field } from "./components/input/core/Field";
 export { Fieldset } from "./components/input/core/FieldSet";
@@ -13,6 +14,8 @@ export { JsonInput } from "./components/input/JsonInput";
 export { Select } from "./components/input/core/Select";
 export { GeneralInput } from "./components/input/GeneralInput";
 export { ButtonGroup } from "./components/input/core/ButtonGroup";
+export {GraphView} from "./components/GraphView";
+
 // utils
 export * from "./utils/enums";
 export * from "./utils/form";
@@ -20,5 +23,6 @@ export * from "./utils/url";
 export * from "./utils/exampleData";
 export { EventBus } from "./utils/event_bus";
 export { ServerEventsDispatcher } from "./utils/ws_events_dispatcher";
+
 // Types
 // export type { FormMetaData } from "./components/input/Form";

@@ -1,6 +1,6 @@
 // import { Orb } from '@memgraph/orb';
 
-import { createSignal, onCleanup, onMount } from "solid-js";
+import { createSignal, onCleanup } from "solid-js";
 
 interface GraphViewProps {
   nodes: any[];
@@ -41,15 +41,16 @@ export const GraphView = (props: GraphViewProps) => {
       console.log("Event: edge-click", event);
       setJson({ ...event.edge.data });
     });
-
-    onCleanup(() => {
-      container.replaceChildren();
-    });
   };
 
   return (
     <>
-      <div style="border: 1px solid #e0e0e0; width: 1200px; height: 600px;" ref={(el) => setTimeout(() => mount(el), 0)}></div>
+      <div style="border: 1px solid #e0e0e0; width: 1200px; height: 600px;" ref={(el) => {
+        setTimeout(() => mount(el), 0);
+        onCleanup(() => {
+          el.replaceChildren();
+        });
+      }}></div>
       <pre>{JSON.stringify(json())}</pre>
     </>
   );
