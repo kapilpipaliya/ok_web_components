@@ -9,6 +9,7 @@ import { closestCenter, createSortable, DragDropProvider, DragDropSensors, DragE
 import { css } from "solid-styled-components";
 import { getDefaultValue } from "../../utils/form";
 import { SelectInputField } from "./SelectInputField";
+import { A, D } from "@mobily/ts-belt";
 import {
   FieldAttribute,
   Id,
@@ -101,11 +102,13 @@ export function TableInputField(props: TableInputFieldProps) {
 
   const owner = getOwner();
 
-  function newRow(obj?: { [key: string]: any }, id?: string) {
-    const groupConstructor = p.attributes.reduce((acc, meta) => {
+  function newRow(attributes: FieldAttribute[], obj?: { [key: string]: any }, id?: string) {
+    const groupConstructor = attributes.reduce((acc, meta) => {
       runWithOwner(owner, () => {
         if (meta.type === "table") {
           acc[meta.key] = createFormArray([]);
+        } if (meta.type === "object") {
+          acc[meta.key] = newRow(meta.attributes, obj?.[meta.key], id);
         } else {
           if (meta.default) {
             acc[meta.key] = createFormControl(obj?.[meta.key] === undefined ? meta.default(p.formValues, p.control, id) : obj[meta.key], meta.options);
@@ -124,14 +127,17 @@ export function TableInputField(props: TableInputFieldProps) {
 
   const addNew = bindOwner(() => {
     batch(function () {
-      const groupControl = newRow();
+      const groupControl = newRow(p.attributes);
       props.control.push(groupControl);
       setSortedKeys((prev) => [...prev, groupControl.controls._id.value]);
     });
   });
 
   if (props.data) {
-    const clonedData = props.data.map((att) => newRow(klona(att.properties), att.id));
+    const clonedData = props.data.map((att) => {
+      const value = D.selectKeys(att, p.attributes.map(attr => attr.key));
+      return newRow(p.attributes, klona(value), att.id);
+    });
     // batch not work here:
     runWithOwner(owner, () => {
       clonedData.forEach((attribute) => {
@@ -147,71 +153,77 @@ export function TableInputField(props: TableInputFieldProps) {
 
     const control = createMemo(() => (props.control.controls as ReadonlyArray<IFormGroup>).find((control) => control.controls._id.value === p.metaId));
 
-    const setValue = (id: string, value: any) => {
-      control().controls[id].setValue(value);
-    };
-    const clearControl = (id: string) => {
-      control().controls[id].setValue(undefined);
-    };
-    const clearSelectControl = (id: string) => {
-      control().controls[id].setValue(null);
-    };
+    const DisplayProperties = (p: {attributes: FieldAttribute[], control: IFormGroup}) =>{
+      const setValue = (id: string, value: any) => {
+        p.control.controls[id].setValue(value);
+      };
+      const clearControl = (id: string) => {
+        p.control.controls[id].setValue(undefined);
+      };
+      const clearSelectControl = (id: string) => {
+        p.control.controls[id].setValue(null);
+      };
+      return <For each={p.attributes}>
+        {(meta) => (
+            <Switch>
+              <Match when={meta.hidden}>
+                <></>
+              </Match>
+              <Match when={meta.key === "properties"}>
+                <DisplayProperties attributes={meta.attributes} control={p.control.controls['properties'] as IFormGroup}/>
+              </Match>
+              <Match when={meta.type === "string"}>
+                <OverWriteableCell
+                    meta={meta}
+                    defaultValueFn={props.defaultValueFn}
+                    control={p.control}
+                    onClearOverWriteClick={() => clearControl(meta.key)}
+                    onOverwriteClick={() => setValue(meta.key, "")}
+                >
+                  <TextInputField label="" control={p.control.controls[meta.key] as IFormControl} type={"text"} />
+                </OverWriteableCell>
+              </Match>
+              <Match when={meta.type === "select"}>
+                <OverWriteableCell
+                    meta={meta}
+                    defaultValueFn={props.defaultValueFn}
+                    control={p.control}
+                    onClearOverWriteClick={() => clearControl(meta.key)}
+                    onOverwriteClick={() => clearSelectControl(meta.key)}
+                >
+                  <SelectInputField
+                      control={p.control.controls[meta.key] as IFormControl}
+                      valueKey={(meta as SelectField).valueKey}
+                      fetchOptions={async (inputValue: string) => (meta as SelectField).fetchOptions(props.formValues, p.control, inputValue)}
+                  />
+                </OverWriteableCell>
+              </Match>
+              <Match when={meta.type === "boolean"}>
+                <OverWriteableCell
+                    meta={meta}
+                    defaultValueFn={props.defaultValueFn}
+                    control={p.control}
+                    onClearOverWriteClick={() => clearControl(meta.key)}
+                    onOverwriteClick={() => setValue(meta.key, false)}
+                >
+                  <BooleanInputField label="" control={p.control.controls[meta.key] as IFormControl} />
+                </OverWriteableCell>
+              </Match>
+              <Match when={meta.type === "object"}>
+                <td>TODO</td>
+              </Match>
+
+            </Switch>
+        )}
+      </For>
+    }
 
     return (
       <Show when={control()}>
         {/* @ts-ignore */}
         <tr use:sortable class="" classList={{ "opacity-25": sortable.isActiveDraggable }}>
           <td>{/* <DynGlyph x="swap_vert" class="hidden group-hover:block" /> */}</td>
-
-          <For each={props.attributes}>
-            {(meta) => (
-              <Switch>
-                <Match when={meta.hidden}>
-                  <></>
-                </Match>
-                <Match when={meta.type === "string"}>
-                  <OverWriteableCell
-                    meta={meta}
-                    defaultValueFn={props.defaultValueFn}
-                    control={control()}
-                    onClearOverWriteClick={() => clearControl(meta.key)}
-                    onOverwriteClick={() => setValue(meta.key, "")}
-                  >
-                    <TextInputField label="" control={control().controls[meta.key] as IFormControl} type={"text"} />
-                  </OverWriteableCell>
-                </Match>
-                <Match when={meta.type === "select"}>
-                  <OverWriteableCell
-                    meta={meta}
-                    defaultValueFn={props.defaultValueFn}
-                    control={control()}
-                    onClearOverWriteClick={() => clearControl(meta.key)}
-                    onOverwriteClick={() => clearSelectControl(meta.key)}
-                  >
-                    <SelectInputField
-                      control={control().controls[meta.key] as IFormControl}
-                      valueKey={(meta as SelectField).valueKey}
-                      fetchOptions={async (inputValue: string) => (meta as SelectField).fetchOptions(props.formValues, control(), inputValue)}
-                    />
-                  </OverWriteableCell>
-                </Match>
-                <Match when={meta.type === "boolean"}>
-                  <OverWriteableCell
-                    meta={meta}
-                    defaultValueFn={props.defaultValueFn}
-                    control={control()}
-                    onClearOverWriteClick={() => clearControl(meta.key)}
-                    onOverwriteClick={() => setValue(meta.key, false)}
-                  >
-                    <BooleanInputField label="" control={control().controls[meta.key] as IFormControl} />
-                  </OverWriteableCell>
-                </Match>
-                <Match when={meta.type === "object"}>
-                  <td>TODO</td>
-                </Match>
-              </Switch>
-            )}
-          </For>
+          <DisplayProperties attributes={props.attributes} control={control()}/>
           <td>
             <button type="button" onclick={(_) => props.control.removeControl(control())} title="Delete Row">
               x
