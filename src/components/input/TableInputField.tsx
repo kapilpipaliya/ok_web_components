@@ -1,5 +1,5 @@
-import { JSX, batch, createEffect, createMemo, createSignal, createUniqueId, For, getOwner, runWithOwner, Show, splitProps, Switch, Match } from "solid-js";
-import { TextInput } from "./core/text_input";
+import { JSX, Component, batch, createEffect, createMemo, createSignal, createUniqueId, For, getOwner, runWithOwner, Show, splitProps, Switch, Match } from "solid-js";
+import { Dynamic } from 'solid-js/web';
 import { BooleanInputField } from "./BooleanInputField";
 import { Button } from "../button";
 import { TextInputField } from "./TextInputField";
@@ -9,7 +9,15 @@ import { closestCenter, createSortable, DragDropProvider, DragDropSensors, DragE
 import { css } from "solid-styled-components";
 import { getDefaultValue } from "../../utils/form";
 import { SelectInputField } from "./SelectInputField";
-import {FieldAttribute, Id, SelectField, TableField, FormToIdMap, TableFieldAttributes} from "./Form";
+import {
+  FieldAttribute,
+  Id,
+  SelectField,
+  TableField,
+  TableFieldAttributes,
+  FormMetaData,
+  FormResult
+} from "./Form";
 import { klona } from "klona";
 import { toTitle } from "case-switcher-js";
 
@@ -19,8 +27,11 @@ export interface TableInputFieldProps {
   defaultValue: "undefined" | "default";
   data: any[];
   defaultValueFn: (control: IFormGroup, key: string) => string;
+  type?: string;
+  component?: Component<any>;
+  forms?: FormMetaData[];
+  postSubmit?: (tableItemFormGroup: IFormGroup, values: FormResult)=>void
   // all forms options:
-  formToIdMap: FormToIdMap;
   formValues: IFormGroup;
 }
 
@@ -84,7 +95,7 @@ function OverWriteableCell(props: {
 }
 
 export function TableInputField(props: TableInputFieldProps) {
-  const [p, customProps] = splitProps(props, ["control", "attributes", "defaultValue", "formToIdMap", "formValues"]);
+  const [p, customProps] = splitProps(props, ["control", "attributes", "defaultValue",  "formValues"]);
 
   const [sortedIds, setSortedKeys] = createSignal([]);
 
@@ -97,7 +108,7 @@ export function TableInputField(props: TableInputFieldProps) {
           acc[meta.key] = createFormArray([]);
         } else {
           if (meta.default) {
-            acc[meta.key] = createFormControl(obj?.[meta.key] ?? meta.default(p.formToIdMap, p.formValues, p.control, id), meta.options);
+            acc[meta.key] = createFormControl(obj?.[meta.key] === undefined ? meta.default(p.formValues, p.control, id) : obj[meta.key], meta.options);
           } else if (p.defaultValue === "undefined") {
             acc[meta.key] = createFormControl(obj?.[meta.key], meta.options);
           } else if (p.defaultValue === "default") {
@@ -180,7 +191,7 @@ export function TableInputField(props: TableInputFieldProps) {
                     <SelectInputField
                       control={control().controls[meta.key] as IFormControl}
                       valueKey={(meta as SelectField).valueKey}
-                      fetchOptions={async (inputValue: string) => (meta as SelectField).fetchOptions(props.formToIdMap, props.formValues, control(), inputValue)}
+                      fetchOptions={async (inputValue: string) => (meta as SelectField).fetchOptions(props.formValues, control(), inputValue)}
                     />
                   </OverWriteableCell>
                 </Match>
@@ -207,6 +218,37 @@ export function TableInputField(props: TableInputFieldProps) {
             </button>
           </td>
         </tr>
+      </Show>
+    );
+  };
+  const SortableRowForm = (p: { metaId: string }) => {
+    const sortable = createSortable(p.metaId);
+
+    const control = createMemo(() => (props.control.controls as ReadonlyArray<IFormGroup>).find((control) => control.controls._id.value === p.metaId));
+
+    const setValue = (id: string, value: any) => {
+      control().controls[id].setValue(value);
+    };
+    const clearControl = (id: string) => {
+      control().controls[id].setValue(undefined);
+    };
+    const clearSelectControl = (id: string) => {
+      control().controls[id].setValue(null);
+    };
+
+    return (
+      <Show when={control()}>
+        {/* @ts-ignore */}
+        <div use:sortable class="border rounded-2 border-gray-300 p-2" classList={{ "opacity-25": sortable.isActiveDraggable }}>
+          <div>{(control().controls['ID'] as IFormControl).value}</div>
+          <div>{(control().controls['pos'] as IFormControl).value}</div>
+          <Dynamic component={props.component!} forms={props.forms!} postSubmit={(values: FormResult)=>props.postSubmit(control(), values)} id={(control().controls['id'] as IFormControl).value}/>
+          <div>
+            <button type="button" onclick={(_) => props.control.removeControl(control())} title="Delete Row">
+              x
+            </button>
+          </div>
+        </div>
       </Show>
     );
   };
@@ -239,6 +281,44 @@ export function TableInputField(props: TableInputFieldProps) {
     }
     setActiveDragItem(null);
   };
+
+  if(props.type === "form") {
+    return (
+      <div
+        classList={{
+          "is-invalid": !!p.control.errors,
+          "is-touched": p.control.isTouched,
+          "is-required": p.control.isRequired,
+          "is-disabled": p.control.isDisabled,
+        }}
+      >
+        <div>
+          <div>
+            <ui5-button design="Default" onclick={addNew} >Add New</ui5-button>
+          </div>
+          <div>
+            {/* @ts-ignore */}
+            <DragDropProvider onDragStart={onDragStart} onDragEnd={onDragEnd} collisionDetectionAlgorithm={closestCenter}>
+              <DragDropSensors />
+              {/* @ts-ignore */}
+              <SortableProvider ids={ids()}>
+                <div class="flex flex-col gap-2">
+                  <For each={sortedIds()} fallback={<div>No Attributes</div>}>
+                    {(_id) => <SortableRowForm metaId={_id} />}
+                  </For>
+                </div>
+              </SortableProvider>
+            </DragDropProvider>
+          </div>
+          {JSON.stringify(props.control.value)}
+        </div>
+
+        <Show when={p.control.isTouched && !p.control.isValid}>
+          <For each={Object.values(p.control.errors)}>{(errorMsg: string) => <small>{errorMsg}</small>}</For>
+        </Show>
+      </div>
+    );
+  }
 
   return (
     <div
