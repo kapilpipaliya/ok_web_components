@@ -1,5 +1,6 @@
 import { JSX, Component, batch, createEffect, createMemo, createSignal, createUniqueId, For, getOwner, runWithOwner, Show, splitProps, Switch, Match } from "solid-js";
 import { Dynamic } from 'solid-js/web';
+import { ulid } from 'ulid'
 import { BooleanInputField } from "./BooleanInputField";
 import { Button } from "../button";
 import { TextInputField } from "./TextInputField";
@@ -21,6 +22,7 @@ import {
 } from "./Form";
 import { klona } from "klona";
 import { toTitle } from "case-switcher-js";
+import {DEBUG} from "../../utils/config";
 
 export interface TableInputFieldProps {
   control: ReturnType<typeof createFormArray>;
@@ -94,7 +96,29 @@ function OverWriteableCell(props: {
     </Switch>
   );
 }
-
+// duplicate:
+const ServerFormAttributeType = {
+  String: "string",
+  Dynamic: "dynamic",
+  Boolean: "boolean",
+  Integer: "integer",
+  Decimal: "decimal",
+  Object: "object",
+};
+const tableAttributes = (attributes: FieldAttribute[]) => {
+  return [
+    // _id is important, used for sorting
+    { key: "_id", type: ServerFormAttributeType.String, default: (formValues, control, id: string)=>id || ulid(), hidden: true },
+    { key: "id", type: ServerFormAttributeType.String, default: (formValues, control, id: string)=>id, hidden: true },
+    { key: "start", type: ServerFormAttributeType.String, hidden: true },
+    { key: "end", type: ServerFormAttributeType.String, hidden: true },
+    { key: "label", type: ServerFormAttributeType.String, hidden: true },
+    { key: "properties",
+      type: ServerFormAttributeType.Object,
+      attributes
+    },
+  ]
+}
 export function TableInputField(props: TableInputFieldProps) {
   const [p, customProps] = splitProps(props, ["control", "attributes", "defaultValue",  "formValues"]);
 
@@ -107,7 +131,7 @@ export function TableInputField(props: TableInputFieldProps) {
       runWithOwner(owner, () => {
         if (meta.type === "table") {
           acc[meta.key] = createFormArray([]);
-        } if (meta.type === "object") {
+        } if (meta.key === "properties") {
           acc[meta.key] = newRow(meta.attributes, obj?.[meta.key], id);
         } else {
           if (meta.default) {
@@ -124,10 +148,10 @@ export function TableInputField(props: TableInputFieldProps) {
 
     return createFormGroup(groupConstructor);
   }
-
+  const attributes = tableAttributes(p.attributes);
   const addNew = bindOwner(() => {
     batch(function () {
-      const groupControl = newRow(p.attributes);
+      const groupControl = newRow(attributes);
       props.control.push(groupControl);
       setSortedKeys((prev) => [...prev, groupControl.controls._id.value]);
     });
@@ -135,8 +159,8 @@ export function TableInputField(props: TableInputFieldProps) {
 
   if (props.data) {
     const clonedData = props.data.map((att) => {
-      const value = D.selectKeys(att, p.attributes.map(attr => attr.key));
-      return newRow(p.attributes, klona(value), att.id);
+      const value = D.selectKeys(att, attributes.map(attr => attr.key));
+      return newRow(attributes, klona(value), att.id);
     });
     // batch not work here:
     runWithOwner(owner, () => {
@@ -223,7 +247,7 @@ export function TableInputField(props: TableInputFieldProps) {
         {/* @ts-ignore */}
         <tr use:sortable class="" classList={{ "opacity-25": sortable.isActiveDraggable }}>
           <td>{/* <DynGlyph x="swap_vert" class="hidden group-hover:block" /> */}</td>
-          <DisplayProperties attributes={props.attributes} control={control()}/>
+          <DisplayProperties attributes={attributes} control={control()}/>
           <td>
             <button type="button" onclick={(_) => props.control.removeControl(control())} title="Delete Row">
               x
@@ -252,9 +276,7 @@ export function TableInputField(props: TableInputFieldProps) {
       <Show when={control()}>
         {/* @ts-ignore */}
         <div use:sortable class="border rounded-2 border-gray-300 p-2" classList={{ "opacity-25": sortable.isActiveDraggable }}>
-          <div>{(control().controls['ID'] as IFormControl).value}</div>
-          <div>{(control().controls['pos'] as IFormControl).value}</div>
-          <Dynamic component={props.component!} forms={props.forms!} postSubmit={(values: FormResult)=>props.postSubmit(control(), values)} id={(control().controls['id'] as IFormControl).value}/>
+          <Dynamic component={props.component!} forms={props.forms!} postSubmit={(values: FormResult)=>props.postSubmit(control(), values)} id={(control().controls['end'] as IFormControl).value}/>
           <div>
             <button type="button" onclick={(_) => props.control.removeControl(control())} title="Delete Row">
               x
@@ -322,7 +344,7 @@ export function TableInputField(props: TableInputFieldProps) {
               </SortableProvider>
             </DragDropProvider>
           </div>
-          {JSON.stringify(props.control.value)}
+          {DEBUG && JSON.stringify(props.control.value)}
         </div>
 
         <Show when={p.control.isTouched && !p.control.isValid}>
@@ -386,7 +408,7 @@ export function TableInputField(props: TableInputFieldProps) {
             </tbody>
           </table>
         </div>
-        {JSON.stringify(props.control.value)}
+        {DEBUG && JSON.stringify(props.control.value)}
       </div>
 
       <Show when={p.control.isTouched && !p.control.isValid}>
