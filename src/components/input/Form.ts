@@ -4,7 +4,7 @@ import {
   IFormControlOptions,
   IFormGroup
 } from "solid-forms";
-import {JSX} from "solid-js";
+import {JSX, JSXElement} from "solid-js";
 
 // Id is used as string because its used as object keys.
 export type Id = string;
@@ -35,6 +35,7 @@ export interface SelectField extends BaseField {
 
 export interface TableFieldAttributeBase {
   noOverWrite?: boolean;
+  noInput?: boolean;
 }
 export type TableFieldAttributes = (BaseField & TableFieldAttributeBase) | (SelectField & TableFieldAttributeBase) | (TableField & TableFieldAttributeBase)
 
@@ -47,7 +48,7 @@ export interface TableField extends BaseField {
   attributes: TableFieldAttributes[];
   defaultValue: "undefined" | 'default';
   data: {properties: {}}[]; // Edges[]
-  defaultValueFn: (control: IFormGroup, key: string)=>string;
+  defaultValueFn: (control: IFormGroup, key: string)=>JSXElement;
   save: (results: FormResult, tableData: any[]) => any;
 
 }
