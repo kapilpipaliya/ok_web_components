@@ -326,7 +326,7 @@ export function TableInputField(props: TableInputFieldProps) {
                   defaultValueFn={props.defaultValueFn}
                   control={p.control}
                   onClearOverWriteClick={() => clearControl(meta.key)}
-                  onOverwriteClick={() => setValue(meta.key, false)}
+                  onOverwriteClick={() => setValue(meta.key, {})}
                 >
                   <ModalInput btnContent={<AiFillEdit />}>
                     <JsonInput control={p.control.controls[meta.key] as IFormControl}/>

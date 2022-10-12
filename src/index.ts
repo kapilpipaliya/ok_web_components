@@ -15,7 +15,7 @@ export { Select } from "./components/input/core/Select";
 export { GeneralInput } from "./components/input/GeneralInput";
 export { ButtonGroup } from "./components/input/core/ButtonGroup";
 export {GraphView} from "./components/GraphView";
-
+export {removeUndefinedProperties} from "./utils/functions";
 // utils
 export * from "./utils/enums";
 export * from "./utils/form";
