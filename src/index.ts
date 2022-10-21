@@ -9,7 +9,6 @@ export { TextInputField } from "./components/input/TextInputField";
 export { SelectInputField } from "./components/input/SelectInputField";
 export { TableInputField } from "./components/input/TableInputField";
 export { BooleanInputField } from "./components/input/BooleanInputField";
-export { Table } from "./components/table";
 export { JsonInput } from "./components/input/JsonInput";
 export { Select } from "./components/input/core/Select";
 export { GeneralInput } from "./components/input/GeneralInput";
@@ -20,7 +19,6 @@ export {removeUndefinedProperties} from "./utils/functions";
 export * from "./utils/enums";
 export * from "./utils/form";
 export * from "./utils/url";
-export * from "./utils/exampleData";
 export { EventBus } from "./utils/event_bus";
 export { ServerEventsDispatcher } from "./utils/ws_events_dispatcher";
 

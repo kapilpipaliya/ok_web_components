@@ -50,7 +50,7 @@ export interface TableField extends BaseField {
   data: {properties: {}}[]; // Edges[]
   defaultValueFn: (control: IFormGroup, key: string)=>JSXElement;
   save: (results: FormResult, tableData: any[]) => any;
-
+  noSort?: boolean;
 }
 // - if label is "save" and we don't pass a onclick function, it runs a default save function.
 // - the save button should be disabled until anything changed.

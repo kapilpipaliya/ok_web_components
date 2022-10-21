@@ -1,19 +1,18 @@
 // * This data is for testing purpose. Will be replaced by data coming from Web socket.
-import { clock, cog, creditCard, documentReport, home, questionMarkCircle, scale, shieldCheck, userGroup } from "@amoutonbrady/solid-heroicons/outline";
 
 export const primaryNavigation = [
-  { name: "Home", href: "#", icon: home, current: true },
-  { name: "History", href: "#", icon: clock, current: false },
-  { name: "Balances", href: "#", icon: scale, current: false },
-  { name: "Cards", href: "#", icon: creditCard, current: false },
-  { name: "Recipients", href: "#", icon: userGroup, current: false },
-  { name: "Reports", href: "#", icon: documentReport, current: false },
+  { name: "Home", href: "#", current: true },
+  { name: "History", href: "#", current: false },
+  { name: "Balances", href: "#", current: false },
+  { name: "Cards", href: "#", current: false },
+  { name: "Recipients", href: "#", current: false },
+  { name: "Reports", href: "#", current: false },
 ];
 
 export const secondaryNavigation = [
-  { name: "Settings", href: "#", icon: cog },
-  { name: "Help", href: "#", icon: questionMarkCircle },
-  { name: "Privacy", href: "#", icon: shieldCheck },
+  { name: "Settings", href: "#",  },
+  { name: "Help", href: "#",  },
+  { name: "Privacy", href: "#" },
 ];
 
 export const people = [

@@ -12,4 +12,12 @@ export default defineConfig({
   server: {
     host: "0.0.0.0",
   },
+  optimizeDeps: {
+    // Add both @codemirror/state and @codemirror/view to included deps for optimization
+    include: ["@codemirror/state", "@codemirror/view"],
+    extensions: ["jsx"],
+    exclude: [
+      "@iconify-icon/solid",
+    ],
+  },
 });

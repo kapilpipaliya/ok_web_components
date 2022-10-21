@@ -20,11 +20,14 @@ module.exports = {
   ],
 
   async viteFinal(config, {configType}){
-		config.plugins.unshift(
-			Solid({hot:false}),
-		)
-
-    return config
+    config.plugins.unshift(Solid({hot:false}),)
+    config.optimizeDeps.extensions = ["jsx"];
+    config.optimizeDeps.exclude = [...(config.optimizeDeps.exclude || []),
+      "solid-heroicons/solid-mini",
+      "solid-heroicons/solid",
+      "solid-heroicons/outline",
+      "@iconify-icon/solid",
+    ];
+    return config;
   },
-
 }

@@ -19,8 +19,7 @@ import {ulid} from 'ulid'
 import {BooleanInputField} from "./BooleanInputField";
 import {Button} from "../button";
 import {TextInputField} from "./TextInputField";
-import { IoInformationCircle } from 'solid-icons/io'
-import { AiFillEdit } from 'solid-icons/ai'
+import { Icon } from '@iconify-icon/solid';
 
 import {
   bindOwner,
@@ -54,8 +53,6 @@ import {
 } from "./Form";
 import {klona} from "klona";
 import {toTitle} from "case-switcher-js";
-import {AiOutlineCloseCircle} from 'solid-icons/ai'
-import {VsDebugStepOver} from 'solid-icons/vs'
 import {DEBUG} from "../../utils/config";
 import usePopper from "solid-popper";
 import {JsonInput} from "./JsonInput";
@@ -157,13 +154,13 @@ function OverWriteableCell(props: {
                 <>
                   {props.children}
                   <button type="button" onClick={props.onClearOverWriteClick}>
-                    <AiOutlineCloseCircle/>
+                    <Icon icon="mdi:close-circle-outline"/>
                   </button>
                 </>
               }
             >
               <button type="button" onClick={props.onOverwriteClick}>
-                <VsDebugStepOver/>
+                <Icon icon="mdi:debug-step-over"/>
               </button>
             </Show>
           </div>
@@ -328,7 +325,7 @@ export function TableInputField(props: TableInputFieldProps) {
                   onClearOverWriteClick={() => clearControl(meta.key)}
                   onOverwriteClick={() => setValue(meta.key, {})}
                 >
-                  <ModalInput btnContent={<AiFillEdit />}>
+                  <ModalInput btnContent={<Icon icon="material-symbols:edit-square-outline-sharp" />}>
                     <JsonInput control={p.control.controls[meta.key] as IFormControl}/>
                   </ModalInput>
                 </OverWriteableCell>
@@ -348,7 +345,7 @@ export function TableInputField(props: TableInputFieldProps) {
           <DisplayProperties attributes={attributes} control={control()}/>
           <td>
             <button type="button" onclick={(_) => props.control.removeControl(control())} title="Delete Row">
-              <AiOutlineCloseCircle/>
+              <Icon icon="ion:close-circle-outline"/>
             </button>
           </td>
         </tr>
@@ -373,14 +370,14 @@ export function TableInputField(props: TableInputFieldProps) {
     return (
       <Show when={control()}>
         {/* @ts-ignore */}
-        <div use:sortable class="border rounded-2 border-gray-300 p-2"
+        <div ref={el=>props.noSort ? undefined : sortable(el)} class="border rounded-2 border-gray-300 p-2"
              classList={{"opacity-25": sortable.isActiveDraggable}}>
           <Dynamic component={props.component!} forms={props.forms!}
                    postSubmit={(values: FormResult) => props.postSubmit(control(), values)}
                    id={(control().controls['end'] as IFormControl).value || "new"}/>
           <div>
             <button type="button" onclick={(_) => props.control.removeControl(control())} title="Delete Row">
-              <AiOutlineCloseCircle/>
+              <Icon icon="ion:close-circle-outline"/>
             </button>
           </div>
         </div>
@@ -408,7 +405,7 @@ export function TableInputField(props: TableInputFieldProps) {
           // props.control.controls.splice(toIndex, 0, ...props.control.controls.splice(fromIndex, 1));
           updatedItems.forEach((_id, index) => {
             const control = (props.control.controls as ReadonlyArray<IFormGroup>).find((control) => control.controls._id.value === _id);
-            control.controls.pos.setValue(index + 1);
+            (control.controls.properties as IFormGroup).controls.pos.setValue(index + 1);
           });
         });
         // });
@@ -434,7 +431,7 @@ export function TableInputField(props: TableInputFieldProps) {
           <div>
             {/* @ts-ignore */}
             <DragDropProvider onDragStart={onDragStart} onDragEnd={onDragEnd}
-                              collisionDetectionAlgorithm={closestCenter}>
+                              collisionDetector={closestCenter}>
               <DragDropSensors/>
               {/* @ts-ignore */}
               <SortableProvider ids={ids()}>
@@ -499,7 +496,7 @@ export function TableInputField(props: TableInputFieldProps) {
             <tbody>
             {/* @ts-ignore */}
             <DragDropProvider onDragStart={onDragStart} onDragEnd={onDragEnd}
-                              collisionDetectionAlgorithm={closestCenter}>
+                              collisionDetector={closestCenter}>
               <DragDropSensors/>
               {/* @ts-ignore */}
               <SortableProvider ids={ids()}>
