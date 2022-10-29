@@ -46,6 +46,7 @@
     "clsx": "^1.2.1",
     "jsoneditor": "^9.9.2",
     "klona": "^2.0.5",
+    "rambda": "^7.3.0",
     "solid-blocks": "^0.0.2",
     "solid-forms": "^0.4.6",
     "solid-js": "^1.6.0",

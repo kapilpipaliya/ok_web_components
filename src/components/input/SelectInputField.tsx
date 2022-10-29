@@ -3,6 +3,7 @@ import { createFormControl } from "solid-forms";
 import { createAsyncOptions, Select } from "@thisbeyond/solid-select";
 import "./select.css";
 import { Value } from "@thisbeyond/solid-select/dist/types/create-select";
+import {path} from 'rambda';
 
 interface Option {
   [key: string]: any;
@@ -71,10 +72,10 @@ export function SelectInputField(props: SelectInputFieldProps) {
         format={(optionOrValue, type) => {
           // value is displayed in the input; option is displayed in the list
           if (type === "option") {
-            return optionOrValue["properties"]["id"];
+            return path(p.valueKey, optionOrValue || {});
           } else {
             if (optionOrValue) {
-              return normalizedAttributeSelectOptions()[optionOrValue]?.["properties"]?.[p.valueKey];
+              return path(p.valueKey, normalizedAttributeSelectOptions()[optionOrValue] || {});
             } else {
               return optionOrValue;
             }

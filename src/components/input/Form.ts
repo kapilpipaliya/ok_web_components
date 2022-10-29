@@ -25,6 +25,7 @@ export enum ServerFormAttributeType {
   TableForm= "table_forms",
   Select= "select",
   ButtonGroup= "buttongroup",
+  JsCode= "jscode",
 }
 
 interface BaseField {
@@ -32,10 +33,13 @@ interface BaseField {
   type: ServerFormAttributeType;
   label?: string;
   hidden?: boolean;
-  editable?: boolean;
+  readonly ?: boolean;
+  required?: boolean;
+  disabled?: boolean;
   default?: (formValues: IFormGroup, control: ReturnType<typeof createFormGroup> | ReturnType<typeof createFormArray>, id?: Id) => any;
-  options?: IFormControlOptions;
+  fieldOptions?: IFormControlOptions;
   onchange?: (form: IFormGroup, value: Id)=>void
+  props?: {[key: string]: any}
 }
 
 export interface SelectField extends BaseField {

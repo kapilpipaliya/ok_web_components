@@ -27,7 +27,7 @@ export const TextArea = (props: TextAreaProps) => {
             //;
           `}
           rows={5}
-          cols={20}
+          cols={50}
           {...customProps}
         />
       </div>
