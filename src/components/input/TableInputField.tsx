@@ -78,18 +78,19 @@ export interface TableInputFieldProps {
   attributes: FieldAttribute[];
   defaultValue: "undefined" | "default";
   data: any[];
-  defaultValueFn: (control: IFormGroup, key: string) => string;
+  defaultValueFn: (control: IFormGroup, key: string) => JSXElement;
   type?: string;
   component?: Component<any>;
   forms?: FormMetaData[];
   postSubmit?: (tableItemFormGroup: IFormGroup, values: FormResult) => void
   // all forms options:
   formValues: IFormGroup;
+  noSort?: boolean;
 }
 
 function OverWriteableCell(props: {
   meta: TableFieldAttributes;
-  defaultValueFn: (control: IFormGroup, key: string) => string;
+  defaultValueFn: (control: IFormGroup, key: string) => JSXElement;
   control: IFormGroup;
   onClearOverWriteClick: () => void;
   onOverwriteClick: () => void;
