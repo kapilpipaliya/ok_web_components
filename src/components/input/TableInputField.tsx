@@ -1,19 +1,4 @@
-import {
-  JSX,
-  Component,
-  batch,
-  createEffect,
-  createMemo,
-  createSignal,
-  createUniqueId,
-  For,
-  getOwner,
-  runWithOwner,
-  Show,
-  splitProps,
-  Switch,
-  Match, JSXElement
-} from "solid-js";
+import { JSX, Component, batch, createMemo, createSignal, For, getOwner, runWithOwner, Show, splitProps, Switch, Match, JSXElement } from "solid-js";
 import {Dynamic} from 'solid-js/web';
 import {ulid} from 'ulid'
 import {BooleanInputField} from "./BooleanInputField";
@@ -21,36 +6,13 @@ import {Button} from "../button";
 import {TextInputField} from "./TextInputField";
 import { Icon } from '@iconify-icon/solid';
 
-import {
-  bindOwner,
-  createFormArray,
-  createFormControl,
-  createFormGroup,
-  IFormControl,
-  IFormControlOptions,
-  IFormGroup
-} from "solid-forms";
-import {
-  closestCenter,
-  createSortable,
-  DragDropProvider,
-  DragDropSensors,
-  DragEventHandler,
-  SortableProvider
-} from "@thisbeyond/solid-dnd";
+import { bindOwner, createFormArray, createFormControl, createFormGroup, IFormControl, IFormGroup } from "solid-forms";
+import { closestCenter, createSortable, DragDropProvider, DragDropSensors, DragEventHandler, SortableProvider } from "@thisbeyond/solid-dnd";
 import {css} from "solid-styled-components";
 import {getDefaultValue} from "../../utils/form";
 import {SelectInputField} from "./SelectInputField";
 import {A, D} from "@mobily/ts-belt";
-import {
-  FieldAttribute,
-  Id,
-  SelectField,
-  TableField,
-  TableFieldAttributes,
-  FormMetaData,
-  FormResult
-} from "./Form";
+import { FieldAttribute, Id, SelectField, TableField, TableFieldAttributes, FormMetaData, FormResult } from "./Form";
 import {klona} from "klona";
 import {toTitle} from "case-switcher-js";
 import {DEBUG} from "../../utils/config";

@@ -1,19 +1,6 @@
 import { createSignal, For } from "solid-js";
 import { css } from "solid-styled-components";
-import {
-  Column,
-  ColumnDef,
-  ColumnOrderState,
-  createSolidTable,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-  Table as SolidTable,
-  VisibilityState,
-} from "@tanstack/solid-table";
+import { Column, ColumnDef, ColumnOrderState, createSolidTable, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, Table as SolidTable, VisibilityState, } from "@tanstack/solid-table";
 import clsx from "clsx";
 import { PersonProps } from "../models/table";
 import { people } from "../utils/exampleData";
