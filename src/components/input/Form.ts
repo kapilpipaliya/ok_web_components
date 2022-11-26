@@ -29,7 +29,7 @@ export enum ServerFormAttributeType {
 }
 
 interface BaseField {
-  key: string;
+  id: string;
   type: ServerFormAttributeType;
   label?: string;
   hidden?: boolean;

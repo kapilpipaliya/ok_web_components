@@ -72,11 +72,11 @@ function OverWriteableCell(props: {
               display: flex;
             `}
           >
-            {props.defaultValueFn?.(props.control, props.meta.key)}
+            {props.defaultValueFn?.(props.control, props.meta.id)}
           </div>
         </td>
       </Match>
-      <Match when={props.meta.options?.disabled}>
+      <Match when={props.meta.fieldOptions?.disabled}>
         <td
           class={css`
             max-width: 100px;
@@ -88,7 +88,7 @@ function OverWriteableCell(props: {
               display: flex;
             `}
           >
-            {props.defaultValueFn?.(props.control, props.meta.key)}
+            {props.defaultValueFn?.(props.control, props.meta.id)}
             {props.children}
           </div>
         </td>
@@ -102,7 +102,7 @@ function OverWriteableCell(props: {
           {props.children}
         </td>
       </Match>
-      <Match when={props.meta.key}>
+      <Match when={props.meta.id}>
         <td>
           <div
             class={css`
@@ -110,9 +110,9 @@ function OverWriteableCell(props: {
               display: flex;
             `}
           >
-            {props.defaultValueFn?.(props.control, props.meta.key)}
+            {props.defaultValueFn?.(props.control, props.meta.id)}
             <Show
-              when={props.control.controls[props.meta.key].value === undefined}
+              when={props.control.controls[props.meta.id].value === undefined}
               fallback={
                 <>
                   {props.children}
@@ -133,31 +133,22 @@ function OverWriteableCell(props: {
   );
 }
 
-// duplicate:
-const ServerFormAttributeType = {
-  String: "string",
-  Dynamic: "dynamic",
-  Boolean: "boolean",
-  Integer: "integer",
-  Decimal: "decimal",
-  Object: "object",
-};
-const tableAttributes = (attributes: FieldAttribute[]) => {
+const tableAttributes = (attributes: FieldAttribute[]):FieldAttribute[]  => {
   return [
     // _id is important, used for sorting
     {
-      key: "_id",
+      id: "_id",
       type: ServerFormAttributeType.String,
       default: (formValues, control, id: string) => id || ulid(),
       hidden: true
     },
-    {key: "id", type: ServerFormAttributeType.String, default: (formValues, control, id: string) => id, hidden: true},
-    {key: "start", type: ServerFormAttributeType.String, hidden: true},
-    {key: "end", type: ServerFormAttributeType.String, hidden: true},
-    {key: "label", type: ServerFormAttributeType.String, hidden: true},
+    {id: "id", type: ServerFormAttributeType.String, default: (formValues, control, id: string) => id, hidden: true},
+    {id: "start", type: ServerFormAttributeType.String, hidden: true},
+    {id: "end", type: ServerFormAttributeType.String, hidden: true},
+    {id: "label", type: ServerFormAttributeType.String, hidden: true},
     {
-      key: "properties",
-      type: ServerFormAttributeType.Object,
+      id: "properties",
+      type: ServerFormAttributeType.Table,
       attributes
     },
   ]
@@ -174,22 +165,22 @@ export function TableInputField(props: TableInputFieldProps) {
     const groupConstructor = attributes.reduce((acc, meta) => {
       runWithOwner(owner, () => {
         if (meta.type === "table") {
-          acc[meta.key] = createFormArray([]);
+          acc[meta.id] = createFormArray([]);
         }
-        if (meta.key === "properties") {
-          acc[meta.key] = newRow(meta.attributes, obj?.[meta.key], id);
+        if (meta.id === "properties") {
+          acc[meta.id] = newRow((meta as TableField).attributes, obj?.[meta.id], id);
         } else {
           if (meta.default) {
-            acc[meta.key] = createFormControl(obj?.[meta.key] === undefined ? meta.default(p.formValues, p.control, id) : obj[meta.key], meta.options);
+            acc[meta.id] = createFormControl(obj?.[meta.id] === undefined ? meta.default(p.formValues, p.control, id) : obj[meta.id], meta.fieldOptions);
           } else if (p.defaultValue === "undefined") {
-            acc[meta.key] = createFormControl(obj?.[meta.key], meta.options);
+            acc[meta.id] = createFormControl(obj?.[meta.id], meta.fieldOptions);
           } else if (p.defaultValue === "default") {
-            acc[meta.key] = createFormControl(getDefaultValue(meta.type), meta.options);
+            acc[meta.id] = createFormControl(getDefaultValue(meta.type), meta.fieldOptions);
           }
         }
       });
       return acc;
-    }, {} as { [key: string]: IFormControl | ReturnType<typeof createFormArray> });
+    }, {} as { [key: string]: IFormControl | ReturnType<typeof createFormArray> | IFormGroup });
 
     return createFormGroup(groupConstructor);
   }
@@ -205,7 +196,7 @@ export function TableInputField(props: TableInputFieldProps) {
 
   if (props.data) {
     const clonedData = props.data.map((att) => {
-      const value = D.selectKeys(att, attributes.map(attr => attr.key));
+      const value = D.selectKeys(att, attributes.map(attrMeta => attrMeta.id));
       return newRow(attributes, klona(value), att.id);
     });
     // batch not work here:
@@ -239,18 +230,18 @@ export function TableInputField(props: TableInputFieldProps) {
             <Match when={meta.hidden}>
               <></>
             </Match>
-            <Match when={meta.key === "properties"}>
-              <DisplayProperties attributes={meta.attributes} control={p.control.controls['properties'] as IFormGroup}/>
+            <Match when={meta.id === "properties"}>
+              <DisplayProperties attributes={(meta as TableField).attributes} control={p.control.controls['properties'] as IFormGroup}/>
             </Match>
             <Match when={meta.type === "string"}>
               <OverWriteableCell
                 meta={meta}
                 defaultValueFn={props.defaultValueFn}
                 control={p.control}
-                onClearOverWriteClick={() => clearControl(meta.key)}
-                onOverwriteClick={() => setValue(meta.key, "")}
+                onClearOverWriteClick={() => clearControl(meta.id)}
+                onOverwriteClick={() => setValue(meta.id, "")}
               >
-                <TextInputField label="" control={p.control.controls[meta.key] as IFormControl} type={"text"}/>
+                <TextInputField label="" control={p.control.controls[meta.id] as IFormControl} type={"text"}/>
               </OverWriteableCell>
             </Match>
             <Match when={meta.type === "select"}>
@@ -258,11 +249,11 @@ export function TableInputField(props: TableInputFieldProps) {
                 meta={meta}
                 defaultValueFn={props.defaultValueFn}
                 control={p.control}
-                onClearOverWriteClick={() => clearControl(meta.key)}
-                onOverwriteClick={() => clearSelectControl(meta.key)}
+                onClearOverWriteClick={() => clearControl(meta.id)}
+                onOverwriteClick={() => clearSelectControl(meta.id)}
               >
                 <SelectInputField
-                  control={p.control.controls[meta.key] as IFormControl}
+                  control={p.control.controls[meta.id] as IFormControl}
                   valueKey={(meta as SelectField).valueKey}
                   fetchOptions={async (inputValue: string) => (meta as SelectField).fetchOptions(props.formValues, p.control, inputValue)}
                 />
@@ -273,10 +264,10 @@ export function TableInputField(props: TableInputFieldProps) {
                 meta={meta}
                 defaultValueFn={props.defaultValueFn}
                 control={p.control}
-                onClearOverWriteClick={() => clearControl(meta.key)}
-                onOverwriteClick={() => setValue(meta.key, false)}
+                onClearOverWriteClick={() => clearControl(meta.id)}
+                onOverwriteClick={() => setValue(meta.id, false)}
               >
-                <BooleanInputField label="" control={p.control.controls[meta.key] as IFormControl}/>
+                <BooleanInputField label="" control={p.control.controls[meta.id] as IFormControl}/>
               </OverWriteableCell>
             </Match>
             <Match when={meta.type === "object"}>
@@ -285,11 +276,11 @@ export function TableInputField(props: TableInputFieldProps) {
                   meta={meta}
                   defaultValueFn={props.defaultValueFn}
                   control={p.control}
-                  onClearOverWriteClick={() => clearControl(meta.key)}
-                  onOverwriteClick={() => setValue(meta.key, {})}
+                  onClearOverWriteClick={() => clearControl(meta.id)}
+                  onOverwriteClick={() => setValue(meta.id, {})}
                 >
                   <ModalInput btnContent={<Icon icon="material-symbols:edit-square-outline-sharp" />}>
-                    <JsonInput control={p.control.controls[meta.key] as IFormControl}/>
+                    <JsonInput control={p.control.controls[meta.id] as IFormControl}/>
                   </ModalInput>
                 </OverWriteableCell>
               </td>
@@ -449,7 +440,7 @@ export function TableInputField(props: TableInputFieldProps) {
               <For each={props.attributes}>
                 {(attribute) => (
                   <Show when={!attribute.hidden}>
-                    <th>{toTitle(attribute.label || attribute.key)}</th>
+                    <th>{toTitle(attribute.label || attribute.id)}</th>
                   </Show>
                 )}
               </For>
