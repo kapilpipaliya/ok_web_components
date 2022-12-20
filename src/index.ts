@@ -4,7 +4,6 @@ export { Field } from "./components/input/core/Field";
 export { Fieldset } from "./components/input/core/FieldSet";
 export { TextArea } from "./components/input/core/TextArea";
 export { TextInput } from "./components/input/core/text_input";
-export { Button } from "./components/button";
 export { TextInputField } from "./components/input/TextInputField";
 export {TextAreaField} from "./components/input/TextAreaField";
 export { SelectInputField } from "./components/input/SelectInputField";

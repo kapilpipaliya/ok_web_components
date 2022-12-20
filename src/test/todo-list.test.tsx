@@ -1,12 +1,16 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, it } from 'vitest';
 
 import { render, fireEvent } from 'solid-testing-library';
 
 import { TodoList } from './todo-list';
 
 describe('<TodoList />', () => {
+  it('', () => {
+
+  })
   test('it will render an text input and a button', () => {
     const { getByPlaceholderText, getByText } = render(() => <TodoList />);
+
     expect(getByPlaceholderText('new todo here')).toBeInTheDocument();
     expect(getByText('Add Todo')).toBeInTheDocument();
   });

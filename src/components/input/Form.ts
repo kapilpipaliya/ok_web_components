@@ -65,7 +65,7 @@ export interface TableField extends BaseField {
   defaultValue: "undefined" | 'default';
   data: {properties: {}}[]; // Edges[]
   defaultValueFn: (control: IFormGroup, key: string)=>JSXElement;
-  save: (results: FormResult, tableData: any[]) => any;
+  save: (txnId: number, results: FormResult, tableData: any[]) => any;
   noSort?: boolean;
 }
 // - if label is "save" and we don't pass a onclick function, it runs a default save function.
@@ -110,7 +110,7 @@ export interface Vertex {
 export interface Edge {
   id: Id;
   properties: {[key: string]: any},
-  label: string;
+  type: string;
   start: Id;
   end: Id;
 }

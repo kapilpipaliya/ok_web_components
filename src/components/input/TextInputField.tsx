@@ -28,8 +28,8 @@ export function TextInputField(props: TextInputFieldProps) {
         {...customProps}
       />
 
-      <Show when={p.control.isTouched && !p.control.isValid}>
-        <For each={Object.values(p.control.errors)}>{(errorMsg: string) => <small>{errorMsg}</small>}</For>
+      <Show when={p.control.isTouched && !p.control.isValid && p.control.errors}>
+        <For each={Object.values(p.control.errors!)}>{(errorMsg: string) => <small>{errorMsg}</small>}</For>
       </Show>
     </div>
   );
